@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_margin">10dp</dimen>
+    <dimen name="margin_fifteen">15dp</dimen>
+    <dimen name="padding_twenty">20dp</dimen>
+    <dimen name="five">5dp</dimen>
+    <dimen name="text_title">14sp</dimen>
+    <dimen name="contact_txt">14sp</dimen>
+    <dimen name="txt_details">12sp</dimen>
+    <dimen name="toolbar_title">16sp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="batting_number_txt">20sp</dimen>
+    <dimen name="fields_txt">14sp</dimen>
+    <dimen name="chart">10dp</dimen>
+    <dimen name="marginTopTen">10dp</dimen>
+    <dimen name="wallet_menu">14sp</dimen>
+    <dimen name="time">12sp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="text_pin">18sp</dimen>
+    <dimen name="txt_info">18sp</dimen>
+    <dimen name="height_view">30dp</dimen>
+    <dimen name="text_size">8dp</dimen>
+    <dimen name="textSize25">22sp</dimen>
+</resources>

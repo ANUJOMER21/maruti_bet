@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".GameActivity.SingleDigitActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/toolbar"
+        android:elevation="4dp"
+        android:background="@color/toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:id="@+id/back_btn"/>
+            <TextView
+                android:layout_toRightOf="@id/back_btn"
+                android:id="@+id/toolbarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:text="Half Sangam"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_alignParentEnd="true"
+                android:id="@+id/wallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:padding="5dp">
+
+
+
+
+
+                <ImageView
+                    android:id="@+id/wallet_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/wallet"
+                    app:tint="@color/white" />
+                <ImageView
+                    android:layout_toRightOf="@id/wallet_balanceToolbar"
+                    android:id="@+id/refresh"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/outline_loop_24"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:id="@+id/wallet_balanceToolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_toRightOf="@+id/wallet_icon"
+                    android:text="10000"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/contact_txt"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:text="Sunday, 17 Dec 2023"
+            android:textAlignment="center"
+            android:padding="5dp"
+            android:background="@drawable/fields_background"
+            android:id="@+id/current_date"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose Session"
+            android:textColor="@color/text_color"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"/>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fields_background"
+            android:orientation="horizontal"
+            android:id="@+id/radiogroup"
+            android:layout_marginBottom="5dp"
+            android:weightSum="2"
+
+            >
+
+
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="open"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:id="@+id/open_rb"/>
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="close"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:id="@+id/close_rb"/>
+        </RadioGroup>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open Panna"
+            android:id="@+id/open"
+            android:textColor="@color/text_color"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"/>
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fields_background"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:inputType="number"
+            android:hint="Enter Digits"
+            android:maxLength="3"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/open_panna"
+            />
+        <TextView
+            android:id="@+id/close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Open Digit"
+            android:textColor="@color/text_color"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fields_background"
+            android:padding="10dp"
+            android:inputType="number"
+            android:textSize="18sp"
+            android:hint="Enter Digits"
+            android:maxLength="1"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/close_panna"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="points"
+            android:textColor="@color/text_color"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fields_background"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:hint="Enter Points"
+android:inputType="number"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/points"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+         android:weightSum="2"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_bet"
+                android:layout_width="match_parent"
+ android:layout_marginEnd="5dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="@color/teal_200"
+                android:text="ADD" />
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/betrv"
+            android:layout_margin="5dp"/>
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/teal_200"
+            android:text="Submit"
+            android:textAllCaps="true"
+            android:id="@+id/submit"/>
+
+    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "45227718353",
+    "project_id": "maruti-bet",
+    "storage_bucket": "maruti-bet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:45227718353:android:897286d86cf6f4261f77f0",
+        "android_client_info": {
+          "package_name": "com.example.betapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyDChPUracU4DEdRCmix28iaGTcXIqyV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_margin="10dp"
+    android:backgroundTint="@color/teal_200"
+    android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="horizontal"
+    android:layout_margin="10dp"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Game Name: "
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:id="@+id/game_name"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1000"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:id="@+id/game_multiply"/>
+
+</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

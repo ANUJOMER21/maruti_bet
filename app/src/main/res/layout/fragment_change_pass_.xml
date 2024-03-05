@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:id="@+id/layout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:id="@+id/forgetll"
+        android:padding="@dimen/activity_margin">
+
+        <EditText
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"
+            android:id="@+id/edt_OldPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/fields_background"
+            android:hint="Old Password"
+            android:inputType="number"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/hint_color"   />
+
+        <EditText
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"
+            android:id="@+id/edt_NewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/fields_background"
+            android:hint="New Password"
+            android:inputType="number"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/hint_color"  />
+        <EditText
+            android:cursorVisible="true"
+            android:textCursorDrawable="@null"
+            android:id="@+id/edt_ConfirmNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/fields_background"
+            android:hint="Confirm Password"
+            android:inputType="number"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/hint_color"   />
+
+
+        <TextView
+            android:id="@+id/btnAddPoints"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/button_gradient"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:text="Send Otp"
+            android:textColor="@color/button_txt" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_margin="10dp"
+        android:id="@+id/otpll"
+
+        android:visibility="gone"
+        android:padding="@dimen/padding_twenty"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter OTP"
+            android:textSize="22sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/black"
+            android:textAlignment="center"/>
+        <com.chaos.view.PinView
+            android:id="@+id/edtPin"
+            style="@style/PinWidget.PinView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:cursorVisible="true"
+            android:inputType="numberDecimal"
+            android:layout_marginTop="20dp"
+            android:maxLength="4"
+            android:minLines="1"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:cursorColor="@color/black"
+            app:cursorWidth="1dp"
+            app:hideLineWhenFilled="false"
+            app:itemCount="4"
+            app:itemRadius="24dp"
+            app:itemSpacing="5dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/sendprofile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtForgotPassword"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="@dimen/padding_twenty"
+            android:background="@drawable/button_gradient"
+            android:text="Submit"
+            android:textColor="@color/button_txt" />
+    </LinearLayout>
+</RelativeLayout>

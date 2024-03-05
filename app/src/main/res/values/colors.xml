@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="teal_200">#1AA7EC</color>
+    //for statusbar color
+
+    <color name="navigation_color">#333c45</color>
+    <color name="toolbar">#1AA7EC</color>
+    <color name="bcg">#AB1AA7EC</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#F44336</color>
+    <color name="green_color">#56DE00</color>
+    <color name="blue">#118ab2</color>
+
+    <color name="text_color">#003954</color>
+    <color name="text_color_other">#FFFFFF</color>
+    <color name="hint_color">#A5ADAE</color>
+
+    <color name="txt_color_other">#333c45</color>
+
+    <color name="betting_txt">#FF000000</color>
+    <color name="betting_hint">#757171</color>
+
+    <color name="pin_txt">#003F5D</color>
+    <color name="background">#000000</color>
+
+
+    <color name="login_field">#FFFFFF</color>
+    <color name="login_txt">#FFFFFF</color>
+    <color name="login_hint">#FFFFFF</color>
+
+
+    <color name="button_color">#b7862f</color>
+    <color name="button_txt">#FFFFFF</color>
+    <color name="text">#F44336</color>
+
+
+
+    <color name="btn">#f5b642</color>
+
+</resources>

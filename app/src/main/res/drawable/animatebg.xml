@@ -1,0 +1,15 @@
+<!-- res/drawable/animated_stroke.xml -->
+<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="1000"
+    android:interpolator="@android:anim/linear_interpolator"
+    android:repeatCount="infinite">
+
+    <shape
+        android:shape="rectangle">
+        <solid android:color="@android:color/transparent" />
+        <stroke
+            android:id="@+id/animatedStroke"
+            android:width="4dp"
+            android:color="@color/teal_200" />
+    </shape>
+</animated-rotate>

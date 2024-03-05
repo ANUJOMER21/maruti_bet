@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="@dimen/margin_fifteen"
+
+    android:id="@+id/addMoneytopLayout"
+    >
+    <androidx.cardview.widget.CardView
+        android:id="@+id/successAddmoneyCard"
+        android:layout_width="match_parent"
+        android:layout_height="270sp"
+        app:cardCornerRadius="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            >
+            <ImageView
+                android:id="@+id/successIconWithdraw"
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/double_pana"
+                android:layout_centerHorizontal="true" />
+            <TextView
+                android:id="@+id/successWithdrawLable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Money"
+                android:layout_below="@+id/successIconWithdraw"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp" />
+            <TextView
+                android:id="@+id/succesWithdrawDiscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Money  Successfully "
+                android:layout_below="@id/successWithdrawLable"
+                android:gravity="center"
+                android:textSize="@dimen/txt_details"
+                android:textColor="@color/green_color" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/successAddMoneyBtn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/succesWithdrawDiscription"
+                android:text="Done"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/green_color"
+                android:background="@drawable/success_btn" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/layout_addFunds"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+<com.google.android.material.card.MaterialCardView
+    android:layout_width="150dp"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/activity_margin"
+    app:cardCornerRadius="1000dp"
+    app:strokeWidth="2dp"
+    app:strokeColor="@color/teal_200"
+    android:layout_height="wrap_content">
+
+
+
+        <LinearLayout
+
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+
+
+
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_twenty">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/wallet"
+                app:tint="@color/teal_200" />
+
+            <TextView
+                android:id="@+id/txtWalletBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_twenty"
+                android:layout_marginTop="@dimen/padding_twenty"
+                android:layout_marginRight="@dimen/padding_twenty"
+                android:text="1000"
+                android:textColor="@color/black"
+                android:textSize="@dimen/wallet_menu" />
+
+
+        </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+
+        <EditText
+            android:id="@+id/wallet_amount_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/padding_twenty"
+            android:background="@drawable/fields_background"
+            android:cursorVisible="true"
+            android:hint="Enter Points"
+            android:inputType="number"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:padding="@dimen/margin_fifteen"
+            android:paddingLeft="@dimen/activity_margin"
+            android:singleLine="true"
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/hint_color"
+            android:textCursorDrawable="@null" />
+
+        <TextView
+            android:layout_below="@+id/wallet_amount_add"
+            android:id="@+id/txt_minamount"
+            android:textColor="@color/text_color"
+            android:textSize="15dp"
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+
+    >
+    <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/margin_fifteen"
+        app:cardCornerRadius="@dimen/five"
+        android:id="@+id/layoutPhonepe2"
+        app:cardElevation="@dimen/five"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+
+            android:padding="@dimen/activity_margin"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+
+                android:layout_gravity="center"
+                android:src="@drawable/phonepe2" />
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone Pe"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"/> />
+
+                <TextView
+                    android:id="@+id/txt_phonenote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/time" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/margin_fifteen"
+        app:cardCornerRadius="@dimen/five"
+        android:id="@+id/layoutPhonepe"
+        app:cardElevation="@dimen/five"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+
+            android:padding="@dimen/activity_margin"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/bhimupi"
+                android:layout_gravity="center"
+                />
+
+
+            <LinearLayout
+            android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bhim UPI"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/txt_phonepenote"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="@dimen/time"
+                    android:textColor="@color/black"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            >
+
+            <androidx.cardview.widget.CardView
+                android:layout_margin="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/margin_fifteen"
+                app:cardCornerRadius="@dimen/five"
+                android:id="@+id/layoutPaytm"
+                app:cardElevation="@dimen/five"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+
+                    android:padding="@dimen/activity_margin"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+
+                        android:layout_gravity="center"
+                        android:src="@drawable/paytm_icon"
+                        />
+
+
+                    <LinearLayout
+                android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Paytm"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/txt_paytmnote"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="@dimen/time"
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_margin="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/margin_fifteen"
+                app:cardCornerRadius="@dimen/five"
+                android:id="@+id/layoutOther"
+                app:cardElevation="@dimen/five"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+
+                    android:padding="@dimen/activity_margin"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+
+                        android:layout_gravity="center"
+                        android:src="@drawable/googlepay" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                   android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Google Pay"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"/> />
+
+                        <TextView
+                            android:id="@+id/txt_othernote"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/time" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            >
+            <androidx.cardview.widget.CardView
+                android:layout_margin="@dimen/activity_margin"
+                android:layout_marginTop="@dimen/margin_fifteen"
+                app:cardCornerRadius="@dimen/five"
+                android:id="@+id/layoutGoogle"
+                app:cardElevation="@dimen/five"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+
+
+                <LinearLayout
+
+                    android:padding="@dimen/activity_margin"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:src="@drawable/amazonpay"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+
+                        android:layout_gravity="center"
+                        />
+
+                    <LinearLayout
+
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Amazon Pay"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/txt_googlepaynote"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:textAlignment="center"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textSize="@dimen/time"
+                            android:textColor="@color/black"/>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+    </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

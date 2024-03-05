@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".fragment.profileFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.google.android.material.card.MaterialCardView
+    android:layout_width="match_parent"
+    android:layout_margin="15dp"
+    app:strokeWidth="2dp"
+    app:strokeColor="@color/black"
+    android:backgroundTint="@color/teal_200"
+    android:layout_height="100dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
+            android:textColor="@color/white"
+            android:id="@+id/profile_name"
+            android:textAlignment="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+911234567890"
+            android:layout_margin="5dp"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:textColor="@color/white"
+            android:id="@+id/profile_number"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+android:text="Edit Profile"
+    android:textAlignment="center"
+    android:textColor="@color/black"
+    android:textSize="20sp"
+    android:textStyle="bold"/>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:backgroundTint="@color/text_color"
+        android:layout_margin="10dp"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp"
+        >
+        <LinearLayout
+            android:visibility="visible"
+            android:id="@+id/layoutInformation"
+            android:layout_below="@+id/titleRegistratio"
+            android:layout_margin="@dimen/margin_fifteen"
+            android:padding="@dimen/padding_twenty"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/activity_margin"
+                android:background="@drawable/login_fields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:padding="@dimen/activity_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_user"
+                    app:tint="@color/white" />
+
+                <EditText
+                    android:cursorVisible="true"
+                    android:textCursorDrawable="@null"
+                    android:singleLine="true"
+                    android:id="@+id/emailRegistration"
+                    android:layout_below="@+id/edit_mobile"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Username"
+                    android:background="@null"
+                    android:textColor="@color/login_txt"
+                    android:textColorHint="@color/login_hint"
+                    />
+            </LinearLayout>
+
+
+
+
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/activity_margin"
+                android:background="@drawable/login_fields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_bank"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    />
+
+                <EditText
+                    android:cursorVisible="true"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/login_txt"
+                    android:textColorHint="@color/login_hint"
+                    android:maxLength="10"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:id="@+id/phone_pe_no"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone pe Number"
+                    android:background="@null"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="@dimen/activity_margin"
+                android:background="@drawable/login_fields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_bank"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    />
+
+                <EditText
+                    android:cursorVisible="true"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/login_txt"
+                    android:textColorHint="@color/login_hint"
+                    android:maxLength="10"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:inputType="number"
+                    android:id="@+id/google_pay"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Google Pay Number"
+                    android:background="@null"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="@dimen/activity_margin"
+                android:background="@drawable/login_fields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_bank"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    />
+
+                <EditText
+                    android:cursorVisible="true"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/login_txt"
+                    android:textColorHint="@color/login_hint"
+
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:inputType="text"
+
+                    android:id="@+id/upi_id"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Upi Id"
+                    android:background="@null"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="@dimen/activity_margin"
+                android:background="@drawable/login_fields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_bank"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    />
+
+                <EditText
+                    android:cursorVisible="true"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/login_txt"
+                    android:textColorHint="@color/login_hint"
+
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:inputType="number"
+
+                    android:id="@+id/bank_account"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Bank Account No."
+                    android:background="@null"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="@dimen/activity_margin"
+                android:background="@drawable/login_fields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_bank"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    />
+
+                <EditText
+                    android:cursorVisible="true"
+                    android:textCursorDrawable="@null"
+                    android:textColor="@color/login_txt"
+                    android:textColorHint="@color/login_hint"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:id="@+id/Ifsc"
+                    android:layout_centerVertical="true"
+                    android:padding="@dimen/activity_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="IFSC Code"
+                    android:background="@null"/>
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/sendOtpRegistration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtForgotPassword"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="@dimen/padding_twenty"
+                android:background="@drawable/button_gradient"
+                android:text="Send Otp"
+                android:textColor="@color/button_txt" />
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_below="@+id/titleRegistratio"
+            android:layout_margin="10dp"
+            android:id="@+id/otpll"
+            android:visibility="gone"
+            android:padding="@dimen/padding_twenty"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter OTP"
+                android:textSize="22sp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
+                android:textAlignment="center"/>
+            <com.chaos.view.PinView
+                android:id="@+id/edtPin"
+                style="@style/PinWidget.PinView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:cursorVisible="true"
+                android:inputType="numberDecimal"
+                android:layout_marginTop="20dp"
+                android:maxLength="4"
+                android:minLines="1"
+                android:textColor="@color/text_color_other"
+                android:textSize="18sp"
+                app:cursorColor="@color/text_color_other"
+                app:cursorWidth="1dp"
+                app:hideLineWhenFilled="false"
+                app:itemCount="4"
+                app:itemRadius="24dp"
+                app:itemSpacing="5dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/sendprofile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtForgotPassword"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="@dimen/padding_twenty"
+                android:background="@drawable/button_gradient"
+                android:text="Update  Profile"
+                android:textColor="@color/button_txt" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>
+
+</ScrollView>

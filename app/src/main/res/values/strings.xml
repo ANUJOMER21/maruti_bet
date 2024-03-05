@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Marutibets</string>
+    <string name="app">Welcome To betting SM</string>
+    <string name="notification">Notifications</string>
+    <string name="gali_bid">Gali Deshawar Bid History</string>
+
+    <string name="gali_winning">Gali Deshawar Winning History</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="game">Game Categories</string>
+    <string name="google_pay_tx">Enter Google Pay Number</string>
+    <string name="paytm_txt">Enter Paytm Number</string>
+    <string name="googlepay">Google Pay</string>
+    <string name="gali">Gali Deshawar</string>
+    <string name="star">Star Line Winning History</string>
+    <string name="star_game_rate">Star Line Game Rate</string>
+    <string name="star_game_rate_history">Star Line Trasaction History</string>
+
+    <string name="wheel">Roulette Winning History</string>
+    <string name="wheel_his">Roulette Transaction</string>
+    <string name="paytm">Paytm</string>
+    <string name="forgate_tex">Forget Password?</string>
+    <string name="phonepe">Phone Pe</string>
+    <string name="howtoplay">Simply download our application from Google Play Store.
+                             Register with your Mobile Number, User Name, Email Id.
+                             Login with the application using Mobile number Password and PIN code.
+                             Select Game type, select number and start game.
+                             Get a chance to win Points</string>
+
+    <string name="hintPhoneNumber">Enter Phone Number</string>
+
+    <string name="user">New User? <font fgcolor="#000000">  SIGN UP</font></string>
+
+    <string name="menu_home">Home</string>
+    <string name="string_marquee"></string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+
+</resources>
