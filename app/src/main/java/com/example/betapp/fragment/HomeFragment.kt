@@ -18,10 +18,19 @@ import com.example.betapp.Adapter.MarketAdapter
 import com.example.betapp.Adapter.SliderAdapter
 import com.example.betapp.R
 import com.example.betapp.api.ApiCall
+import com.example.betapp.misc.NtpTimeTask
 import com.example.betapp.misc.ToolbarChangeListener
+import com.example.betapp.misc.getCurrentTime
 import com.example.betapp.model.market
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.smarteist.autoimageslider.SliderView
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import org.json.JSONObject
+import java.io.IOException
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -122,7 +131,7 @@ private  lateinit var ApiCall:ApiCall
         layoutManager.orientation = LinearLayoutManager.VERTICAL
 
         rv.layoutManager = layoutManager
- getmarket()
+        getmarket()
         val Whatsapp:FloatingActionButton=view.findViewById(R.id.whatsapp_number)
         var whats=""
         val youtube:FloatingActionButton=view.findViewById(R.id.youtube)
@@ -238,21 +247,108 @@ val swipeRefreshLayout:SwipeRefreshLayout=view.findViewById(R.id.swipeRefresh)
         }
         return view;
     }
-    private fun getmarket(){
-        ApiCall.getMarkets( object :ApiCall.MarketCallback{
+    fun parseTimeFromJson(json: String?): String {
+        if (json.isNullOrEmpty()) return "Unknown"
 
-            override fun onMarketsReceived(markets: List<market>) {
-                val mainMarkerAdapter= MarketAdapter(activity!!,markets)
-                rv.adapter=mainMarkerAdapter
-                mainMarkerAdapter.notifyDataSetChanged()
-            }
-
-            override fun onFailure(error: Throwable) {
-                Toast.makeText(activity,error.toString(),Toast.LENGTH_SHORT).show()
-            }
-
-        })
+        val jsonObject = JSONObject(json)
+        return jsonObject.getString("datetime")
     }
+
+/*    private fun getmarket(){
+        val client = OkHttpClient()
+
+        val request = Request.Builder()
+            .url("http://worldtimeapi.org/api/timezone/Asia/Kolkata")
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+                if (!response.isSuccessful) {
+                    println("Unexpected code $response")
+                    return
+                }
+
+                val body = response.body?.string()
+                val currentTime = parseTimeFromJson(body)
+                ApiCall.getMarkets( object :ApiCall.MarketCallback{
+
+                    override fun onMarketsReceived(markets: List<market>) {
+                        val mainMarkerAdapter= MarketAdapter(currentTime,activity!!,markets)
+                        rv.adapter=mainMarkerAdapter
+                        mainMarkerAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onFailure(error: Throwable) {
+                        Toast.makeText(activity,error.toString(),Toast.LENGTH_SHORT).show()
+                    }
+
+                })
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+        })
+
+        // For simplicity, return a placeholder time
+
+
+    }*/
+private fun getmarket() {
+
+    ApiCall.getMarkets(object : ApiCall.MarketCallback {
+        override fun onMarketsReceived(markets: List<market>) {
+            val mainMarkerAdapter = MarketAdapter( getCurrentTime(), activity!!, markets)
+            rv.adapter = mainMarkerAdapter
+            mainMarkerAdapter.notifyDataSetChanged()
+        }
+
+        override fun onFailure(error: Throwable) {
+            Toast.makeText(activity, error.toString(), Toast.LENGTH_SHORT).show()
+        }
+    })
+}
+
+/*    private fun getmarket() {
+    val client = OkHttpClient()
+
+    val request = Request.Builder()
+        .url("http://worldtimeapi.org/api/timezone/Asia/Kolkata")
+        .build()
+
+    client.newCall(request).enqueue(object : Callback {
+        override fun onResponse(call: Call, response: Response) {
+            if (!response.isSuccessful) {
+                println("Unexpected code $response")
+                return
+            }
+
+            val body = response.body
+            if (body != null) {
+                val responseBody = body.string()
+                val currentTime = parseTimeFromJson(responseBody)
+                ApiCall.getMarkets(object : ApiCall.MarketCallback {
+                    override fun onMarketsReceived(markets: List<market>) {
+                        val mainMarkerAdapter = MarketAdapter(currentTime, activity!!, markets)
+                        rv.adapter = mainMarkerAdapter
+                        mainMarkerAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onFailure(error: Throwable) {
+                        Toast.makeText(activity, error.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                })
+            } else {
+                // Handle the case when response body is null
+            }
+        }
+
+        override fun onFailure(call: Call, e: IOException) {
+            e.printStackTrace()
+        }
+    })
+}*/
+
     private fun sendMessageToWhatsApp(phoneNumber: String, message: String?) {
         val i = Intent(Intent.ACTION_VIEW)
         try {
