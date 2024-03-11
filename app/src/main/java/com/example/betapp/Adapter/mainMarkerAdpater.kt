@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
-import android.icu.util.Calendar
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -22,17 +21,30 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.example.betapp.GameActivity.GameGrid
 import com.example.betapp.R
+
 import com.example.betapp.model.market
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import org.json.JSONObject
+import java.io.IOException
+import java.util.Date
 import java.util.Locale
 
 
-class MarketAdapter(private val context: Context, private val marketList: List<market>) :
+class MarketAdapter(
+    private val currentTime: String,
+    private val context: Context,
+    private val marketList: List<market>
+) :
     RecyclerView.Adapter<MarketAdapter.MarketViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarketViewHolder {
         val view =
             LayoutInflater.from(context).inflate(R.layout.game_list_row, parent, false)
-        return MarketViewHolder(view)
+        return MarketViewHolder(view,currentTime)
     }
 
     override fun onBindViewHolder(holder: MarketViewHolder, position: Int) {
@@ -55,7 +67,7 @@ val result=market.marketTodayOpenNumber.split("-")
         return marketList.size
     }
 
-    class MarketViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MarketViewHolder(itemView: View,private val currentTime: String) : RecyclerView.ViewHolder(itemView) {
         val marketName: TextView = itemView.findViewById(R.id.market_name)
         val centermarketWinningNumber: TextView = itemView.findViewById(R.id.center_market_winning_number)
         val leftmarketWinningNumber: TextView = itemView.findViewById(R.id.left_market_winning_number)
@@ -98,9 +110,9 @@ val result=market.marketTodayOpenNumber.split("-")
             closeSessionOpenTime: String,
             closeSessionCloseTime: String
         ) {
-            val currentTime = getCurrentTime()
-            Log.d("time","${isTimeBetween(currentTime, openTime, closeTime)}")
-             if (isTimeBetween(currentTime, openTime, closeTime)) {
+
+            Log.d("time","${isTimeBetween(openTime, closeTime)}")
+             if (isTimeBetween( openTime, closeTime)) {
 
                 val intent = Intent(itemView.context, GameGrid::class.java)
                 intent.putExtra("marketId",item.marketId)
@@ -111,7 +123,7 @@ val result=market.marketTodayOpenNumber.split("-")
                 itemView.context.startActivity(intent)
 
             }
-            else if(isTimeBetween(currentTime,closeSessionOpenTime,closeSessionCloseTime)){
+            else if(isTimeBetween(closeSessionOpenTime,closeSessionCloseTime)){
                  val intent = Intent(itemView.context, GameGrid::class.java)
                  intent.putExtra("marketId",item.marketId)
                  intent.putExtra("markerName",item.marketName)
@@ -153,13 +165,13 @@ val result=market.marketTodayOpenNumber.split("-")
             closeSessionOpenTime: String,
             closeSessionCloseTime: String
         ) {
-            val currentTime = getCurrentTime()
+
 
             itemView.post {
-                if (isTimeBetween(currentTime, openTime, closeTime)) {
+                if (isTimeBetween( openTime, closeTime)) {
                     setStatus(item, "Betting open", R.color.green_color)
                 }else
-                    if(isTimeBetween(currentTime,closeSessionOpenTime,closeSessionCloseTime)){
+                    if(isTimeBetween(closeSessionOpenTime,closeSessionCloseTime)){
                         setStatus(item, "Betting open in Close Time", R.color.green_color)
                     }
                 else {
@@ -174,25 +186,58 @@ val result=market.marketTodayOpenNumber.split("-")
             // You may want to update other views in your item layout based on the status.
         }
 
-        private fun getCurrentTime(): String {
-            val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            return dateFormat.format(Calendar.getInstance().time)
-        }
 
-        private fun isTimeBetween(currentTime: String, openTime: String, closeTime: String): Boolean {
+
+
+        private fun isTimeBetween(openTime: String, closeTime: String): Boolean {
             try {
                 val parser = SimpleDateFormat("hh:mm a", Locale.getDefault())
-                val currentTimeDate = parser.parse(currentTime)
+                val parser1 = SimpleDateFormat("hh:mm a", Locale.getDefault())
+
+                val currentTimeString = currentTime
+               // val currentTimeString =getCurrentTimeFromInternet()
+                val currentTimeDate = parser1.parse(currentTimeString)
+
                 val openTimeDate = parser.parse(openTime)
                 val closeTimeDate = parser.parse(closeTime)
-                Log.d("time","$openTime , $closeTime ,$currentTime")
+                Log.d("time","$openTime | $closeTime | $currentTime")
                 return currentTimeDate in openTimeDate..closeTimeDate
-            }
-            catch (e:Exception){
+            } catch (e: Exception) {
+                e.printStackTrace()
                 return false
             }
-
         }
+
+
+//       private fun isTimeBetween(openTime: String, closeTime: String): Boolean {
+//           try {
+//               val ntpTimeTask = NtpTimeTask()
+//               ntpTimeTask.start()
+//               ntpTimeTask.join() // Wait for NTP time retrieval
+//
+//               val ntpTime = ntpTimeTask.getResult()
+//               if (ntpTime != null) {
+//                   val parser = java.text.SimpleDateFormat("hh:mm a", Locale.getDefault())
+//                   val istTimeZone = TimeZone.getTimeZone("Asia/Kolkata")
+//                   parser.timeZone = istTimeZone
+//                   val currentTimeDate = parser.format(ntpTime)
+//                   val currentTimeDateParsed = parser.parse(currentTimeDate)
+//                   val openTimeDate = parser.parse(openTime)
+//                   val closeTimeDate = parser.parse(closeTime)
+//                   Log.d("time", "$openTime , $closeTime ,$currentTimeDate")
+//
+//                   // Check if current time is between open and close times
+//                   return currentTimeDateParsed.after(openTimeDate) && currentTimeDateParsed.before(closeTimeDate)
+//               } else {
+//                   Log.e("time", "Error fetching time")
+//                   return false
+//               }
+//           } catch (e: Exception) {
+//               e.printStackTrace()
+//               return false
+//           }
+//       }
+
     }
 
     }
