@@ -57,7 +57,7 @@ class TransactiondetailFragment : Fragment() {
                 RecyclerView.visibility=View.VISIBLE
                 textview.visibility=View.GONE
                 val TransactionAdapter=TransactionAdapter(
-                    activity as Context,
+                  requireActivity(),
                     games
                 )
                 RecyclerView.adapter=TransactionAdapter

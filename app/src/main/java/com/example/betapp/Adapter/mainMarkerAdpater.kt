@@ -111,7 +111,7 @@ val result=market.marketTodayOpenNumber.split("-")
             closeSessionCloseTime: String
         ) {
 
-            Log.d("time","${isTimeBetween(openTime, closeTime)}")
+          //  Log.d("time","${isTimeBetween(openTime, closeTime)}")
              if (isTimeBetween( openTime, closeTime)) {
 
                 val intent = Intent(itemView.context, GameGrid::class.java)
@@ -200,7 +200,7 @@ val result=market.marketTodayOpenNumber.split("-")
 
                 val openTimeDate = parser.parse(openTime)
                 val closeTimeDate = parser.parse(closeTime)
-                Log.d("time","$openTime | $closeTime | $currentTime")
+              //  Log.d("time","$openTime | $closeTime | $currentTime")
                 return currentTimeDate in openTimeDate..closeTimeDate
             } catch (e: Exception) {
                 e.printStackTrace()

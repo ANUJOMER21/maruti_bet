@@ -416,7 +416,12 @@ callback.onFailure("failed")
             override fun onResponse(call: Call<List<market>>, response: Response<List<market>>) {
                 if (response.isSuccessful) {
                     val markets = response.body() ?: emptyList()
-                    callback.onMarketsReceived(markets)
+                    if(markets!=null){
+                        callback.onMarketsReceived(markets)
+                    }
+                    else{
+                        callback.onFailure(Throwable("Request failed with code ${response.code()}"))
+                    }
                 } else {
                     callback.onFailure(Throwable("Request failed with code ${response.code()}"))
                 }
@@ -557,6 +562,7 @@ callback.onFailure("failed")
 
         override fun onFailure(call: Call<JsonObject>, t: Throwable) {
          callback.onFailure(t.toString())
+            Log.d("Failed_game",t.toString())
         }
 
     })

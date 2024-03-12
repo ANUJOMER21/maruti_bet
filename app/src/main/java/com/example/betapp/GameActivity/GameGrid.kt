@@ -16,6 +16,7 @@ import com.example.betapp.R
 import com.example.betapp.api.ApiCall
 import com.example.betapp.api.ApiResponse
 import com.example.betapp.misc.CommonSharedPrefernces
+import com.example.betapp.misc.getCurrentTimeFromInternet
 import com.example.betapp.model.user
 import com.google.android.material.card.MaterialCardView
 import com.google.gson.JsonObject
@@ -47,6 +48,7 @@ class GameGrid : AppCompatActivity() {
     private var session:String=""
     private var opentime:String=""
     private var closetime:String=""
+    private var currentTime:String=""
     private lateinit var user: user
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +65,8 @@ class GameGrid : AppCompatActivity() {
         Log.d("Session",session)
         gameclick()
         reload_wallet()
-
+        getCurrentTimeFromInternet { time -> currentTime=time
+        }
 
         val toolbartittle:TextView=findViewById(R.id.toolbarTitle)
         toolbartittle.text= (marketname).toString()
@@ -219,19 +222,23 @@ class GameGrid : AppCompatActivity() {
         super.onResume()
 setwallet()
     }
-    private fun isTimeBetween(currentTime: String, openTime: String, closeTime: String): Boolean {
+    private fun isTimeBetween(openTime: String, closeTime: String): Boolean {
         try {
             val parser = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            val currentTimeDate = parser.parse(currentTime)
+            val parser1 = SimpleDateFormat("hh:mm a", Locale.getDefault())
+
+            val currentTimeString = currentTime
+            // val currentTimeString =getCurrentTimeFromInternet()
+            val currentTimeDate = parser1.parse(currentTimeString)
+
             val openTimeDate = parser.parse(openTime)
             val closeTimeDate = parser.parse(closeTime)
-            Log.d("time","$openTime , $closeTime ,$currentTime")
+            Log.d("time","$openTime | $closeTime | $currentTime")
             return currentTimeDate in openTimeDate..closeTimeDate
-        }
-        catch (e:Exception){
+        } catch (e: Exception) {
+            e.printStackTrace()
             return false
         }
-
     }
     private fun getCurrentTime(): String {
         val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
@@ -242,7 +249,7 @@ setwallet()
             if(marketid.equals("0")){
                 showToast("Error")
             }
-            else if(!isTimeBetween(getCurrentTime(),opentime,closetime)){
+            else if(!isTimeBetween(opentime,closetime)){
                 showToast("Game is closed")
             }
             else {
