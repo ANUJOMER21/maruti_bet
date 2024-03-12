@@ -1,12 +1,25 @@
 package com.example.betapp.misc
 
+import android.util.Log
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
 
-class NtpTimeTask : Thread() {
+import kotlinx.coroutines.Dispatchers
+
+import kotlinx.coroutines.launch
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+
+import java.util.*
+/*class NtpTimeTask : Thread() {
     private val NTP_PACKET_SIZE = 48
     private val NTP_PORT = 123
     private val NTP_TIMEOUT_MS = 3000
@@ -56,22 +69,58 @@ class NtpTimeTask : Thread() {
         }
         return value
     }
-}
+}*/
 
-fun getCurrentTime(): String {
-    val ntpTimeTask = NtpTimeTask()
-    ntpTimeTask.start()
-    ntpTimeTask.join() // Wait for NTP time retrieval
 
-    val ntpTime = ntpTimeTask.getResult()
-    if (ntpTime != null) {
-        val parser = SimpleDateFormat("hh:mm a", Locale.getDefault())
+fun getCurrentTimeFromInternet(callback: (String) -> Unit) {
+    GlobalScope.launch(Dispatchers.IO) {
+        try {
+            val url = URL("https://worldtimeapi.org/api/ip")
+            val connection = url.openConnection() as HttpURLConnection
+            connection.requestMethod = "GET"
 
-        return parser.format(ntpTime)
-    } else {
-        return ""
+            val inputStream = connection.inputStream
+            val reader = BufferedReader(InputStreamReader(inputStream))
+            val response = StringBuilder()
+
+            var line: String?
+            while (reader.readLine().also { line = it } != null) {
+                response.append(line)
+            }
+
+            reader.close()
+            connection.disconnect()
+
+            // Parse JSON response to extract time
+            val currentTime = parseTimeFromApiResponse(response.toString())
+
+            // Invoke callback with current time
+            callback(currentTime)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            callback("") // If an error occurs, return empty string
+        }
     }
 }
+
+fun parseTimeFromApiResponse(response: String): String {
+    // Sample JSON response: {"datetime":"2024-03-12T14:31:23.905202+05:30","timezone":"Asia/Kolkata","utc_offset":"+05:30"}
+    val jsonObject = JSONObject(response)
+    val dateTimeString = jsonObject.optString("datetime")
+
+    // Parse datetime string
+    val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+    val date = parser.parse(dateTimeString)
+
+    // Convert date to desired format
+    val outputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+    return outputFormat.format(date)
+}
+
+// Usage example
+
+
+
 
 
 

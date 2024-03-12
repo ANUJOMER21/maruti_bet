@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +19,11 @@ import com.example.betapp.Adapter.MarketAdapter
 import com.example.betapp.Adapter.SliderAdapter
 import com.example.betapp.R
 import com.example.betapp.api.ApiCall
-import com.example.betapp.misc.NtpTimeTask
+
 import com.example.betapp.misc.ToolbarChangeListener
-import com.example.betapp.misc.getCurrentTime
+
+import com.example.betapp.misc.getCurrentTimeFromInternet
+
 import com.example.betapp.model.market
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.smarteist.autoimageslider.SliderView
@@ -295,10 +298,13 @@ val swipeRefreshLayout:SwipeRefreshLayout=view.findViewById(R.id.swipeRefresh)
 
     }*/
 private fun getmarket() {
-
+getCurrentTimeFromInternet { time->
     ApiCall.getMarkets(object : ApiCall.MarketCallback {
         override fun onMarketsReceived(markets: List<market>) {
-            val mainMarkerAdapter = MarketAdapter( getCurrentTime(), activity!!, markets)
+
+
+            Log.d("time_ntp", time)
+            val mainMarkerAdapter = MarketAdapter( time, activity!!, markets)
             rv.adapter = mainMarkerAdapter
             mainMarkerAdapter.notifyDataSetChanged()
         }
@@ -307,6 +313,9 @@ private fun getmarket() {
             Toast.makeText(activity, error.toString(), Toast.LENGTH_SHORT).show()
         }
     })
+}
+
+
 }
 
 /*    private fun getmarket() {
