@@ -58,7 +58,7 @@ class DepositHistoryFragment : Fragment() {
                 RecyclerView.visibility=View.VISIBLE
                 textview.visibility=View.GONE
                 val TransactionAdapter= TransactionAdapter(
-                    activity as Context,
+                    requireActivity() as Context,
                     games
                 )
                 RecyclerView.adapter=TransactionAdapter

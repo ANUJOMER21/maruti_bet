@@ -225,6 +225,7 @@ class FamilyPannel : AppCompatActivity() {
                         else{
                             Toast.makeText(this@FamilyPannel,jsonObject.get("message").toString(),
                                 Toast.LENGTH_SHORT).show()
+                            Log.d("failed",jsonObject.get("message").toString())
                         }
                     }
                     else{
@@ -233,7 +234,8 @@ class FamilyPannel : AppCompatActivity() {
                 }
 
                 override fun onFailure(failure: String) {
-                    Toast.makeText(this@FamilyPannel,failure, Toast.LENGTH_SHORT).show()
+                    Log.d("failed",failure)
+                    Toast.makeText(this@FamilyPannel,"failure", Toast.LENGTH_SHORT).show()
                 }
 
             }

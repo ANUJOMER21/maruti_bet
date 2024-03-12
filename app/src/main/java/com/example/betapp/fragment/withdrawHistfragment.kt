@@ -49,14 +49,14 @@ class withdrawHistfragment : Fragment() {
         val textview: ProgressBar =view.findViewById(R.id.txt);
         RecyclerView.layoutManager= LinearLayoutManager(activity)
         val ApiCall = ApiCall()
-        val commonSharedPrefernces= CommonSharedPrefernces(activity as Context)
+        val commonSharedPrefernces= CommonSharedPrefernces(requireActivity())
         val userid=commonSharedPrefernces.getuser()!!.id
         ApiCall.withhist(userid,object : transaction {
             override fun onSuccess(games: List<Transaction>) {
                 RecyclerView.visibility=View.VISIBLE
                 textview.visibility=View.GONE
                 val TransactionAdapter= TransactionAdapter(
-                    activity as Context,
+                    requireActivity() ,
                     games
                 )
                 RecyclerView.adapter=TransactionAdapter
