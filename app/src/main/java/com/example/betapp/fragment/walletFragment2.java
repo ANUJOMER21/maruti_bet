@@ -211,10 +211,12 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
 
     private String amt = "0";
     private PaymentApp pt;
+    private String time="0";
 
     private void payment(PaymentApp paymenttype, String amount) {
         amt = amount;
         pt = paymenttype;
+        time=String.valueOf(System.nanoTime());
         if (Integer.parseInt(amount) < min_Deposit) {
             Toast.makeText(getActivity(), "Minimum Deposit is " + min_Deposit, Toast.LENGTH_SHORT).show();
         } else {
@@ -226,10 +228,10 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
                         .with(paymenttype)
                         .setPayeeVpa(upi)
                         .setPayeeName(getResources().getString(R.string.app_name))
-                        .setTransactionId(String.valueOf(System.nanoTime()))
+                        .setTransactionId(time)
                         .setTransactionRefId(random10DigitNumber)
                         .setPayeeMerchantCode("5200")
-                        .setDescription(String.valueOf(System.nanoTime()))
+                        .setDescription(time)
                         .setAmount(String.valueOf(amt));
                 EasyUpiPayment easyUpiPayment = eupi.build();
                 easyUpiPayment.setPaymentStatusListener(this);
@@ -243,7 +245,7 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
     @SuppressLint("SuspiciousIndentation")
     private void addmoney(String amount, PaymentApp paymenttype, String transactionId) {
         Random random = new Random();
-        String random10DigitNumber = userId + "_" + System.nanoTime();
+        String random10DigitNumber = time;
 
         ApiCall.depositApi(userId.getId(), amount, paymenttype.name(), random10DigitNumber, new ApiResponse() {
             @Override

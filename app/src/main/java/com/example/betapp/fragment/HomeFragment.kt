@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -49,7 +50,7 @@ class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+private lateinit var progressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -86,8 +87,9 @@ private  lateinit var ApiCall:ApiCall
         rv =view.findViewById(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(activity)
         val sliderView:SliderView=view.findViewById(R.id.slider)
-
-
+       progressBar=view.findViewById(R.id.progress)
+      rv.visibility=View.GONE
+        progressBar.visibility=View.VISIBLE
         ApiCall.Sliderlist(object : ApiCall.SLiderCallback {
             override fun onSlierReceived(sliders: List<String>) {
                 val sliderImage: List<String> =sliders
@@ -301,7 +303,8 @@ private fun getmarket() {
 getCurrentTimeFromInternet { time->
     ApiCall.getMarkets(object : ApiCall.MarketCallback {
         override fun onMarketsReceived(markets: List<market>) {
-
+            rv.visibility=View.VISIBLE
+            progressBar.visibility=View.GONE
 
             Log.d("time_ntp", time)
             val mainMarkerAdapter = MarketAdapter( time, activity!!, markets)
@@ -310,6 +313,8 @@ getCurrentTimeFromInternet { time->
         }
 
         override fun onFailure(error: Throwable) {
+            rv.visibility=View.GONE
+            progressBar.visibility=View.VISIBLE
             Toast.makeText(activity, error.toString(), Toast.LENGTH_SHORT).show()
         }
     })
