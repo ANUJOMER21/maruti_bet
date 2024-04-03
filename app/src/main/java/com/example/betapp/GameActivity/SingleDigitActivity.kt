@@ -87,7 +87,7 @@ class SingleDigitActivity : AppCompatActivity() {
             }
 
             override fun onFailure(error: String) {
-                TODO("Not yet implemented")
+//
             }
 
         })

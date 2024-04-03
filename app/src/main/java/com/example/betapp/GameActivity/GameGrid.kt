@@ -144,7 +144,7 @@ class GameGrid : AppCompatActivity() {
             }
 
             singlePattiCardView.setOnClickListener {
-                startCardActivity("SinglePatti")
+                startCardActivity("SinglePatti2")
             }
 
             doublePattiCardView.setOnClickListener {

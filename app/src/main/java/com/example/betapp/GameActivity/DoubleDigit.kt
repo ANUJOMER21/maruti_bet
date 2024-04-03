@@ -217,7 +217,7 @@ total_amt=0
                         {
                             Toast.makeText(this@DoubleDigit,"Bet submitted", Toast.LENGTH_SHORT).show()
                             list.clear()
-setwallet()
+                               setwallet()
                             digitsEditText.setText("");
                             pointsEditText.setText("")
                             betAdapter.notifyDataSetChanged()

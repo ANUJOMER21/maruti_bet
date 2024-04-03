@@ -156,6 +156,7 @@ class GameData {
     fun cyclepattiList(jodi: String): List<Int> {
         return cyclePatti.get(jodi)!!
     }
+
     fun cyclepattiitem():ArrayList<String>{
         val list:ArrayList<String> =ArrayList()
         for((key,value) in cyclePatti){
