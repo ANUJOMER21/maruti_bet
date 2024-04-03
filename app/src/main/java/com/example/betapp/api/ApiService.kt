@@ -4,6 +4,7 @@ import com.example.betapp.model.BidHistory
 import com.example.betapp.model.SliderItem
 import com.example.betapp.model.TransactionHistory
 import com.example.betapp.model.WebsiteSettingsResponse
+import com.example.betapp.model.appversion
 import com.example.betapp.model.game_amt
 import com.example.betapp.model.market
 import com.example.betapp.model.message
@@ -13,6 +14,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -26,6 +28,8 @@ interface ApiService {
     fun changepass(@Body jsonObject: HashMap<String, String>):Call<JsonObject>
     @POST("MarketApi.php")
     fun marketApi():Call<List<market>>
+    @GET("app_version.php")
+    fun app_version():Call<appversion>
 @POST("WalletApi.php")
 @FormUrlEncoded
 fun walletApi(@Field("userId") userId:String):Call<JsonObject>
