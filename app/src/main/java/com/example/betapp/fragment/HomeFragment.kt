@@ -307,7 +307,7 @@ getCurrentTimeFromInternet { time->
             progressBar.visibility=View.GONE
 
             Log.d("time_ntp", time)
-            val mainMarkerAdapter = MarketAdapter( time, activity!!, markets)
+            val mainMarkerAdapter = MarketAdapter( time, requireActivity()!!, markets)
             rv.adapter = mainMarkerAdapter
             mainMarkerAdapter.notifyDataSetChanged()
         }

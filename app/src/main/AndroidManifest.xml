@@ -17,6 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Betapp"
         tools:targetApi="31">
+        <activity android:name=".Activity.Appversioncheck"
+            android:exported="false"/>
+        <activity
+            android:name=".GameActivity.DoublePatti2"
+            android:exported="false" />
         <activity
             android:name=".GameActivity.SinglePatti2"
             android:exported="false" />

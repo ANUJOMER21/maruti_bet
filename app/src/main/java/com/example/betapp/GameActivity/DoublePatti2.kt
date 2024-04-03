@@ -1,27 +1,18 @@
 package com.example.betapp.GameActivity
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModelProvider
 import com.example.betapp.GameActivity.Gridfragment.GridFragment
-import com.example.betapp.GameActivity.Gridfragment.ViewmodelGrid1
+import com.example.betapp.GameActivity.Gridfragment.GridFragment2
 import com.example.betapp.R
-import com.example.betapp.model.BetItem
-import com.google.android.material.tabs.TabLayout
 
-class SinglePatti2 : AppCompatActivity() {
-
+class DoublePatti2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_single_patti2)
-
-
-
-        val fragment = GridFragment() // Replace with your child fragment
+        setContentView(R.layout.activity_double_patti2)
+        val fragment = GridFragment2() // Replace with your child fragment
         replaceFragment(fragment)
 
     }

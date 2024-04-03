@@ -1,7 +1,6 @@
 package com.example.betapp.GameActivity.Gridfragment
 
 import android.animation.ObjectAnimator
-import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -15,10 +14,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.betapp.Adapter.BetAdapter
 import com.example.betapp.Adapter.GridAdapter
 import com.example.betapp.R
 import com.example.betapp.api.ApiCall
@@ -39,22 +36,19 @@ import java.util.Locale
 
 /**
  * A simple [Fragment] subclass.
- * Use the [GridFragment.newInstance] factory method to
+ * Use the [GridFragment2.newInstance] factory method to
  * create an instance of this fragment.
  */
-class GridFragment() : Fragment(), BetItemListener  {
+class GridFragment2 : Fragment() , BetItemListener{
     // TODO: Rename and change types of parameters
     private var mParam1: String? = null
     private var mParam2: String? = null
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
             mParam1 = arguments!!.getString(ARG_PARAM1)
             mParam2 = arguments!!.getString(ARG_PARAM2)
         }
-        viewModel = ViewModelProvider(this).get(ViewmodelGrid1::class.java)
     }
     lateinit var adapter: GridAdapter
     private lateinit var backBtn: ImageView
@@ -100,7 +94,7 @@ class GridFragment() : Fragment(), BetItemListener  {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-         view= inflater.inflate(R.layout.fragment_grid, container, false)
+        val view= inflater.inflate(R.layout.fragment_grid2, container, false)
         val rv=view.findViewById<RecyclerView>(R.id.rv)
         initview()
         rv.layoutManager=(GridLayoutManager(requireContext(),2))
@@ -109,18 +103,18 @@ class GridFragment() : Fragment(), BetItemListener  {
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 // Update ViewModel from/to values based on the selected tab
-              /*    when(tab!!.id){
-                      R.id.zero->viewModel.updateFrom_to(0,9)
-                      R.id.one->viewModel.updateFrom_to(10,19)
-                      R.id.two->viewModel.updateFrom_to(20,29)
-                      R.id.three->viewModel.updateFrom_to(30,39)
-                      R.id.four->viewModel.updateFrom_to(40,49)
-                      R.id.five->viewModel.updateFrom_to(50,59)
-                      R.id.six->viewModel.updateFrom_to(60,69)
-                      R.id.seven->viewModel.updateFrom_to(70,79)
-                      R.id.eight->viewModel.updateFrom_to(80,89)
-                      R.id.nine->viewModel.updateFrom_to(90,99)
-                  }*/
+                /*    when(tab!!.id){
+                        R.id.zero->viewModel.updateFrom_to(0,9)
+                        R.id.one->viewModel.updateFrom_to(10,19)
+                        R.id.two->viewModel.updateFrom_to(20,29)
+                        R.id.three->viewModel.updateFrom_to(30,39)
+                        R.id.four->viewModel.updateFrom_to(40,49)
+                        R.id.five->viewModel.updateFrom_to(50,59)
+                        R.id.six->viewModel.updateFrom_to(60,69)
+                        R.id.seven->viewModel.updateFrom_to(70,79)
+                        R.id.eight->viewModel.updateFrom_to(80,89)
+                        R.id.nine->viewModel.updateFrom_to(90,99)
+                    }*/
                 Log.d("position",tab!!.position.toString())
                 viewModel.updateFrom_to(tab!!.position * 10, (tab.position + 1) * 10 - 1)
 
@@ -169,7 +163,7 @@ class GridFragment() : Fragment(), BetItemListener  {
         setwallet()
         setupRotateAnimation()
         backBtn.setOnClickListener {
-           requireActivity(). finish()
+            requireActivity(). finish()
         }
         refresh.setOnClickListener {
             if (rotateAnimator?.isRunning == true) {
@@ -184,29 +178,28 @@ class GridFragment() : Fragment(), BetItemListener  {
 
             submitdata()
         }
-
-        return  view;
+     return  view
     }
     var total_amt=0
     private lateinit var list:ArrayList<BetItem>
     private fun submitdata() {
-      //  Toast.makeText(requireActivity(),"$sessionType",Toast.LENGTH_SHORT).show()
+        //  Toast.makeText(requireActivity(),"$sessionType",Toast.LENGTH_SHORT).show()
         list= viewModel.betList.value!!
         if((sessionType.equals("open"))) {
-               var check=true
+            var check=true
             list.forEach { if(it.amount!=0) check=false }
             if (check) {
                 Toast.makeText(requireActivity(), "Please make some bet", Toast.LENGTH_SHORT).show()
             }
             else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                Toast.makeText(requireActivity(),"Game is closed",Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(),"Game is closed", Toast.LENGTH_SHORT).show()
             }else {
                 list.forEach { betItem ->
                     total_amt = total_amt + betItem.amount as Int
                 }
                 val balance_after = wallet - total_amt;
                 val dialogdata = dialogdata(
-                    "Single Patti v2",
+                    "Double Patti v2",
                     "$total_amt",
                     "$wallet",
                     "$balance_after"
@@ -236,14 +229,15 @@ class GridFragment() : Fragment(), BetItemListener  {
             }
         }
         else
-        {Toast.makeText(requireActivity(),"Betting is closed",Toast.LENGTH_SHORT).show()
-                 }
+        {
+            Toast.makeText(requireActivity(),"Betting is closed", Toast.LENGTH_SHORT).show()
+        }
 
     }
     private fun callapi(total_amt: Int) {
         val gameDatas= GameDatas(
             marketId =marketid.toInt(),
-            gameId = 48,
+            gameId = 49,
             userId = user.id!!.toInt(),
             gameData = convertListToJson(list),
             totalAmount = total_amt.toDouble(),
@@ -260,24 +254,26 @@ class GridFragment() : Fragment(), BetItemListener  {
                 override fun onSuccess(jsonObject: JsonObject) {
                     if(!jsonObject.isJsonNull){
                         if(jsonObject.get("status").toString().equals("\"success\""))
-                        {Toast.makeText(requireActivity(),"Bet submitted",Toast.LENGTH_SHORT).show()
-                           viewModel.populateBetList()
+                        {
+                            Toast.makeText(requireActivity(),"Bet submitted", Toast.LENGTH_SHORT).show()
+                            viewModel.populateBetList()
                             adapter.notifyDataSetChanged()
-                          //  pointsEditText.setText("")
+                            //  pointsEditText.setText("")
                             setwallet()
 
                         }
                         else{
-                            Toast.makeText(requireActivity(),jsonObject.get("message").toString(),Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireActivity(),jsonObject.get("message").toString(),
+                                Toast.LENGTH_SHORT).show()
                         }
                     }
                     else{
-                        Toast.makeText(requireActivity(),"Failed",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireActivity(),"Failed", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(failure: String) {
-                    Toast.makeText(requireActivity(),failure,Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(),failure, Toast.LENGTH_SHORT).show()
                 }
 
             }
@@ -322,32 +318,6 @@ class GridFragment() : Fragment(), BetItemListener  {
     private fun stopRotateAnimation() {
         rotateAnimator?.cancel()
     }
-
-    companion object {
-        // TODO: Rename parameter arguments, choose names that match
-        // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-        private const val ARG_PARAM1 = "param1"
-        private const val ARG_PARAM2 = "param2"
-
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GridFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        fun newInstance(param1: String?, param2: String?): GridFragment {
-            val fragment = GridFragment()
-            val args = Bundle()
-            args.putString(ARG_PARAM1, param1)
-            args.putString(ARG_PARAM2, param2)
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
     override fun onUpdateBetItem(position: Int, newValue: BetItem) {
         viewModel.updateBetItemAtPosition(position, newValue)
     }
@@ -362,8 +332,29 @@ class GridFragment() : Fragment(), BetItemListener  {
 
 
     }
-}
-interface BetItemListener {
-    fun onUpdateBetItem(position: Int, newValue: BetItem)
 
+    companion object {
+        // TODO: Rename parameter arguments, choose names that match
+        // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+        private const val ARG_PARAM1 = "param1"
+        private const val ARG_PARAM2 = "param2"
+
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment GridFragment2.
+         */
+        // TODO: Rename and change types and number of parameters
+        fun newInstance(param1: String?, param2: String?): GridFragment2 {
+            val fragment = GridFragment2()
+            val args = Bundle()
+            args.putString(ARG_PARAM1, param1)
+            args.putString(ARG_PARAM2, param2)
+            fragment.arguments = args
+            return fragment
+        }
+    }
 }
