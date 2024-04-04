@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.betapp.Adapter.GridAdapter
@@ -48,10 +49,12 @@ class GridFragment2 : Fragment() , BetItemListener{
         if (arguments != null) {
             mParam1 = arguments!!.getString(ARG_PARAM1)
             mParam2 = arguments!!.getString(ARG_PARAM2)
+
         }
+        viewModel = ViewModelProvider(this).get(ViewmodelGrid2::class.java)
     }
     lateinit var adapter: GridAdapter
-    private lateinit var backBtn: ImageView
+   private lateinit var backBtn: ImageView
     private lateinit var toolbarTitle: TextView
     private lateinit var walletIcon: ImageView
     private lateinit var refresh: ImageView
@@ -87,19 +90,19 @@ class GridFragment2 : Fragment() , BetItemListener{
     private lateinit var user: user
     private var min_bet:Int=Int.MIN_VALUE
     private var max_bet:Int=Int.MAX_VALUE
-    private lateinit var viewModel: ViewmodelGrid1
+    private lateinit var viewModel: ViewmodelGrid2
     private lateinit var view:View;
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view= inflater.inflate(R.layout.fragment_grid2, container, false)
+         view= inflater.inflate(R.layout.fragment_grid2, container, false)
         val rv=view.findViewById<RecyclerView>(R.id.rv)
         initview()
         rv.layoutManager=(GridLayoutManager(requireContext(),2))
         val tabLayout = view.findViewById<TabLayout>(R.id.tablayout)
-        viewModel.updateFrom_to(0,9)
+        viewModel.updateFrom_to(1,9)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 // Update ViewModel from/to values based on the selected tab
@@ -116,7 +119,8 @@ class GridFragment2 : Fragment() , BetItemListener{
                         R.id.nine->viewModel.updateFrom_to(90,99)
                     }*/
                 Log.d("position",tab!!.position.toString())
-                viewModel.updateFrom_to(tab!!.position * 10, (tab.position + 1) * 10 - 1)
+                val t=tab.text.toString().toInt()
+                viewModel.updateFrom_to(t , (tab.position + 1) * 10 - 1)
 
 
             }
@@ -134,8 +138,13 @@ class GridFragment2 : Fragment() , BetItemListener{
             val from=pair.first
             Log.d("fromvalue_fr","$from || $to")
             val betList:ArrayList<BetItem> =ArrayList()
-            for(num in from ..to!!){
-                betList.add(list!!.get(num))
+            for(num in list!!){
+                val f=num.number.get(0).toInt()-'0'.toInt();
+
+                Log.d("first_num",f.toString())
+                if(f.equals(from)){
+                    betList.add(num)
+                }
             }
             Log.d("fromvalue_fr",betList.size.toString())
             adapter=GridAdapter(betList,requireActivity(),this)
@@ -187,9 +196,19 @@ class GridFragment2 : Fragment() , BetItemListener{
         list= viewModel.betList.value!!
         if((sessionType.equals("open"))) {
             var check=true
+            var checkmin=viewModel.checkmin(min_bet)
+            var checkmax=viewModel.checkmax(max_bet)
             list.forEach { if(it.amount!=0) check=false }
             if (check) {
                 Toast.makeText(requireActivity(), "Please make some bet", Toast.LENGTH_SHORT).show()
+            }
+            else if(checkmin.isNotEmpty()){
+                Toast.makeText(requireActivity(), "$checkmin", Toast.LENGTH_SHORT).show()
+
+            }
+            else if(checkmax.isNotEmpty()){
+                Toast.makeText(requireActivity(), "$checkmax", Toast.LENGTH_SHORT).show()
+
             }
             else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
                 Toast.makeText(requireActivity(),"Game is closed", Toast.LENGTH_SHORT).show()
@@ -280,8 +299,15 @@ class GridFragment2 : Fragment() , BetItemListener{
         )
     }
     fun convertListToJson(betItems: List<BetItem>): String {
+
         val gson = Gson()
-        return gson.toJson(betItems)
+        val list2:ArrayList<BetItem> =ArrayList()
+        for(item in betItems){
+            if(!item.amount.equals(0)){
+                list2.add(item)
+            }
+        }
+        return gson.toJson(list2)
     }
     private fun setupRotateAnimation() {
         // Create an ObjectAnimator to rotate the ImageView
@@ -323,7 +349,7 @@ class GridFragment2 : Fragment() , BetItemListener{
     }
     private fun initview() {
 
-        backBtn = view.findViewById(R.id.back_btn)
+       backBtn = view.findViewById(R.id.back_btn)
         toolbarTitle = view.findViewById(R.id.toolbarTitle)
         walletIcon = view.findViewById(R.id.wallet_icon)
         refresh = view.findViewById(R.id.refresh)

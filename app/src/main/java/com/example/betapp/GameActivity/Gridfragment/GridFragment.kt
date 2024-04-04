@@ -88,7 +88,6 @@ class GridFragment() : Fragment(), BetItemListener  {
     private var sessionType:String="";
     private lateinit var commonSharedPrefernces: CommonSharedPrefernces
     private var rotateAnimator: ObjectAnimator? = null
-
     private val rotationDuration = 500L
     private lateinit var user: user
     private var min_bet:Int=Int.MIN_VALUE
@@ -105,7 +104,7 @@ class GridFragment() : Fragment(), BetItemListener  {
         initview()
         rv.layoutManager=(GridLayoutManager(requireContext(),2))
         val tabLayout = view.findViewById<TabLayout>(R.id.tablayout)
-        viewModel.updateFrom_to(0,9)
+        viewModel.updateFrom_to(1,9)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 // Update ViewModel from/to values based on the selected tab
@@ -122,7 +121,8 @@ class GridFragment() : Fragment(), BetItemListener  {
                       R.id.nine->viewModel.updateFrom_to(90,99)
                   }*/
                 Log.d("position",tab!!.position.toString())
-                viewModel.updateFrom_to(tab!!.position * 10, (tab.position + 1) * 10 - 1)
+                val t=tab.text.toString().toInt()
+                viewModel.updateFrom_to(t , (tab.position + 1) * 10 - 1)
 
 
             }
@@ -140,8 +140,13 @@ class GridFragment() : Fragment(), BetItemListener  {
             val from=pair.first
             Log.d("fromvalue_fr","$from || $to")
             val betList:ArrayList<BetItem> =ArrayList()
-            for(num in from ..to!!){
-                betList.add(list!!.get(num))
+            for(num in list!!){
+               val f=num.number.get(0).toInt()-'0'.toInt();
+
+                Log.d("first_num",f.toString())
+                if(f.equals(from)){
+                    betList.add(num)
+                }
             }
             Log.d("fromvalue_fr",betList.size.toString())
             adapter=GridAdapter(betList,requireActivity(),this)
@@ -192,6 +197,8 @@ class GridFragment() : Fragment(), BetItemListener  {
     private fun submitdata() {
       //  Toast.makeText(requireActivity(),"$sessionType",Toast.LENGTH_SHORT).show()
         list= viewModel.betList.value!!
+        var checkmin=viewModel.checkmin(min_bet)
+        var checkmax=viewModel.checkmax(max_bet)
         if((sessionType.equals("open"))) {
                var check=true
             list.forEach { if(it.amount!=0) check=false }
@@ -200,7 +207,17 @@ class GridFragment() : Fragment(), BetItemListener  {
             }
             else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
                 Toast.makeText(requireActivity(),"Game is closed",Toast.LENGTH_SHORT).show()
-            }else {
+            }
+            else if(checkmin.isNotEmpty()){
+                Toast.makeText(requireActivity(), "$checkmin", Toast.LENGTH_SHORT).show()
+
+            }
+            else if(checkmax.isNotEmpty()){
+                Toast.makeText(requireActivity(), "$checkmax", Toast.LENGTH_SHORT).show()
+
+            }
+
+            else {
                 list.forEach { betItem ->
                     total_amt = total_amt + betItem.amount as Int
                 }
@@ -284,8 +301,16 @@ class GridFragment() : Fragment(), BetItemListener  {
         )
     }
     fun convertListToJson(betItems: List<BetItem>): String {
+
         val gson = Gson()
-        return gson.toJson(betItems)
+        val list2:ArrayList<BetItem> =ArrayList()
+        for(item in betItems){
+            if(!item.amount.equals(0)){
+                list2.add(item)
+            }
+        }
+        Log.d("size,","${betItems.size} | ${list2.size}")
+        return gson.toJson(list2)
     }
     private fun setupRotateAnimation() {
         // Create an ObjectAnimator to rotate the ImageView

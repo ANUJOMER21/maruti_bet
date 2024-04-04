@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/back_jantari_edit"
             android:gravity="center"
-            android:maxLength="2"
+
 android:inputType="number"
             android:layout_weight="1"
 
