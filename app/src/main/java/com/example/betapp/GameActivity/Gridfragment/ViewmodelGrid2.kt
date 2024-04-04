@@ -7,22 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.example.betapp.misc.GameData
 import com.example.betapp.model.BetItem
 
-class ViewmodelGrid1 :ViewModel(){
+class ViewmodelGrid2 : ViewModel(){
     private val _betList = MutableLiveData<ArrayList<BetItem>>()
     val betList: LiveData<ArrayList<BetItem>>
         get() = _betList
-    fun checkmax(maxBet: Int): String {
-        var mes=""
-        Log.d("checkmax",maxBet.toString())
-        val currentList = _betList.value
-        for(item in currentList!!){
-            if(item.amount!=0&&item.amount.toInt()>maxBet){
-                mes="Please enter amount less than $maxBet in ${item.number}"
-                break
-            }
-        }
-        return  mes
-    }
     fun checkmin(min:Int):String
     {   var mes=""
         val currentList = _betList.value
@@ -36,11 +24,10 @@ class ViewmodelGrid1 :ViewModel(){
     }
     fun updateBetItemAtPosition(position: Int, newValue: BetItem) {
         val currentList = _betList.value ?: return
-//        for(item in currentList){
-//            if(item.number.equals(position.toString())){
-//
-//            }
-//        }
+/*        if (position in 0 until currentList.size) {
+            currentList[position] = newValue
+            _betList.value = currentList
+        }*/
         for(i in 0..currentList.size-1){
             val item=currentList[i]
             if(item.number.equals(position.toString()))
@@ -48,14 +35,9 @@ class ViewmodelGrid1 :ViewModel(){
                 currentList[i]=newValue
             }
         }
-       /* if (position in 0 until currentList.size) {
-            currentList[position] = newValue
-            _betList.value = currentList
-        }*/
-
     }
     private val _fromtopair = MutableLiveData<Pair<Int,Int>>()
-    val fromtopair:LiveData<Pair<Int,Int>>
+    val fromtopair: LiveData<Pair<Int, Int>>
         get() = _fromtopair
 
 
@@ -67,33 +49,46 @@ class ViewmodelGrid1 :ViewModel(){
 
 
 
-/*    fun getBetListInRange(): List<BetItem> {
-        val fromValue = _from.value ?: 0
-        val toValue = _to.value ?: 0
-        Log.d("vm_from_to",fromValue.toString())
-        val currentBetList = _betList.value ?: emptyList()
-        if (fromValue >= 0 && toValue < currentBetList.size && fromValue <= toValue) {
-            return currentBetList.subList(fromValue, toValue + 1)
-        }
-        return emptyList()
-    }*/
+    /*    fun getBetListInRange(): List<BetItem> {
+            val fromValue = _from.value ?: 0
+            val toValue = _to.value ?: 0
+            Log.d("vm_from_to",fromValue.toString())
+            val currentBetList = _betList.value ?: emptyList()
+            if (fromValue >= 0 && toValue < currentBetList.size && fromValue <= toValue) {
+                return currentBetList.subList(fromValue, toValue + 1)
+            }
+            return emptyList()
+        }*/
 
 
     init {
         populateBetList()
     }
-      fun total():String{
-          var total=0
+    fun total():String{
+        var total=0
         _betList.value!!.forEach { total += it.amount.toInt() }
-          return total.toString()
+        return total.toString()
     }
-     fun populateBetList() {
+    fun populateBetList() {
         val demoData = ArrayList<BetItem>()
-         val data=GameData().SingleList()
+        val data= GameData().DoubleList()
         for (i in data) {
             demoData.add(BetItem(0, i.toString()))
         }
         _betList.value = demoData
+    }
+
+    fun checkmax(maxBet: Int): String {
+        var mes=""
+        Log.d("checkmax",maxBet.toString())
+        val currentList = _betList.value
+        for(item in currentList!!){
+            if(item.amount!=0&&item.amount.toInt()>maxBet){
+                mes="Please enter amount less than $maxBet in ${item.number}"
+                break
+            }
+        }
+        return  mes
     }
 
     // Function to update the betList
