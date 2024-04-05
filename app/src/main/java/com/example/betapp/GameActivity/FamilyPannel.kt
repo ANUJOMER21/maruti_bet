@@ -138,8 +138,6 @@ class FamilyPannel : AppCompatActivity() {
             } else if (valueList.isEmpty()) {
                 Toast.makeText(this, "Please select bet", Toast.LENGTH_SHORT).show()
 
-            } else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
             }
             else {
                 total_amt = valueList.size * (pointsEditText.text.toString().toInt())
@@ -169,6 +167,9 @@ class FamilyPannel : AppCompatActivity() {
                         }   else if(pointsEditText.text.toString().toInt()>=max_bet){
                             Toast.makeText(applicationContext,"Maximum Bet amount is $max_bet",Toast.LENGTH_SHORT).show()
 
+                        }
+                        else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
+                            Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
                         }
                         else if(pointsEditText.text.toString().toInt()<=min_bet){
                             Toast.makeText(applicationContext,"Minimum Bet amount is $min_bet",Toast.LENGTH_SHORT).show()

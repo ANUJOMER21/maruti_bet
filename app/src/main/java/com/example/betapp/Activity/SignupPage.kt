@@ -42,6 +42,9 @@ class SignupPage : AppCompatActivity() {
             else if(mobile.text!!.isEmpty()){
                 toast("Please enter Mobile No.")
              }
+            else if(mobile.text!!.length<10){
+                toast("Please enter correct mobile No.")
+             }
             else if(email.text!!.isEmpty()){
                 toast("Please enter Email")
              }

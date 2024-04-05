@@ -106,11 +106,11 @@
         app:tabSelectedTextColor="@color/teal_200"
 
         android:layout_height="wrap_content">
-      <!--  <com.google.android.material.tabs.TabItem
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:id="@+id/zero"/>-->
+            android:id="@+id/zero"/>
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -157,20 +157,63 @@
             android:text="9"
             android:id="@+id/nine"/>
     </com.google.android.material.tabs.TabLayout>
+      <LinearLayout
+          android:layout_below="@id/tablayout"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/l1"
+          android:layout_margin="10dp"
+          android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose Session"
+            android:textColor="@color/text_color"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="18sp"/>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fields_background"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp"
+            android:weightSum="2"
+            >
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="open"
+
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:id="@+id/open_rb"/>
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="close"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:id="@+id/close_rb"/>
+        </RadioGroup>
+      </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@id/submit"
+            android:layout_below="@id/l1"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="0dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:text="@string/hello_blank_fragment"
- android:layout_above="@id/submit"
-            android:layout_below="@id/tablayout"
             tools:layout_editor_absoluteX="10dp" />
 
         <com.google.android.material.button.MaterialButton
