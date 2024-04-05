@@ -137,9 +137,7 @@ class redfamilyJodi : AppCompatActivity() {
                 Toast.makeText(this, "Please select bet", Toast.LENGTH_SHORT).show()
 
             }
-            else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
-            }else {
+           else {
                 total_amt = valueList.size * (pointsEditText.text.toString().toInt())
                 for (value in valueList) {
                     list.add(BetItem(pointsEditText.text.toString().toInt(), value.toString()))
@@ -171,6 +169,8 @@ class redfamilyJodi : AppCompatActivity() {
                         else if(pointsEditText.text.toString().toInt()<=min_bet){
                             Toast.makeText(applicationContext,"Minimum Bet amount is $min_bet",Toast.LENGTH_SHORT).show()
 
+                        } else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
+                            Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
                         }else {
                             callapi(total_amt)
                         }

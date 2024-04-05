@@ -7,10 +7,12 @@ import android.icu.util.Calendar
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -63,6 +65,8 @@ class GridFragment() : Fragment(), BetItemListener  {
     private lateinit var refresh: ImageView
     private lateinit var walletBalanceToolbar: TextView
     private lateinit var submitButton: MaterialButton
+    private lateinit var openRadioButton: RadioButton
+    private lateinit var closeRadioButton: RadioButton
     private  var wallet:Double=0.0
     private var opentime:String=""
     private var closetimw:String=""
@@ -94,6 +98,34 @@ class GridFragment() : Fragment(), BetItemListener  {
     private var max_bet:Int=Int.MAX_VALUE
     private lateinit var viewModel: ViewmodelGrid1
     private lateinit var view:View;
+    private var currenttab=0
+    private var startX: Float = 0f
+    private var currentSectionPosition: Int = 0
+    private val totalSections: Int = 3 // Example total number of sections
+    private val SWIPE_THRESHOLD: Float = 50f
+    private fun handleSwipe(startX: Float, endX: Float) {
+        val deltaX = endX - startX
+        if (Math.abs(deltaX) > SWIPE_THRESHOLD) {
+            if (deltaX > 0) {
+                // Right swipe
+               // Toast.makeText(requireActivity(),"$currenttab",Toast.LENGTH_SHORT).show()
+              if(currenttab<=9&&currenttab>0){
+                  currenttab--
+                  tabLayout.getTabAt(currenttab )?.select()
+
+              }
+            } else {
+                // Left swipe
+               // Toast.makeText(requireActivity(),"$currenttab",Toast.LENGTH_SHORT).show()
+                if(currenttab>=0 &&currenttab<9) {
+                    currenttab++
+                    tabLayout.getTabAt(currenttab )?.select()
+
+                }
+            }
+        }
+    }
+    private lateinit var tabLayout:TabLayout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,25 +135,15 @@ class GridFragment() : Fragment(), BetItemListener  {
         val rv=view.findViewById<RecyclerView>(R.id.rv)
         initview()
         rv.layoutManager=(GridLayoutManager(requireContext(),2))
-        val tabLayout = view.findViewById<TabLayout>(R.id.tablayout)
-        viewModel.updateFrom_to(1,9)
+
+        tabLayout = view.findViewById<TabLayout>(R.id.tablayout)
+        viewModel.updateFrom_to(currenttab,9)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                // Update ViewModel from/to values based on the selected tab
-              /*    when(tab!!.id){
-                      R.id.zero->viewModel.updateFrom_to(0,9)
-                      R.id.one->viewModel.updateFrom_to(10,19)
-                      R.id.two->viewModel.updateFrom_to(20,29)
-                      R.id.three->viewModel.updateFrom_to(30,39)
-                      R.id.four->viewModel.updateFrom_to(40,49)
-                      R.id.five->viewModel.updateFrom_to(50,59)
-                      R.id.six->viewModel.updateFrom_to(60,69)
-                      R.id.seven->viewModel.updateFrom_to(70,79)
-                      R.id.eight->viewModel.updateFrom_to(80,89)
-                      R.id.nine->viewModel.updateFrom_to(90,99)
-                  }*/
+
                 Log.d("position",tab!!.position.toString())
                 val t=tab.text.toString().toInt()
+                currenttab=t;
                 viewModel.updateFrom_to(t , (tab.position + 1) * 10 - 1)
 
 
@@ -140,12 +162,21 @@ class GridFragment() : Fragment(), BetItemListener  {
             val from=pair.first
             Log.d("fromvalue_fr","$from || $to")
             val betList:ArrayList<BetItem> =ArrayList()
-            for(num in list!!){
+
+        /*    for(num in list!!)
+            {
                val f=num.number.get(0).toInt()-'0'.toInt();
 
                 Log.d("first_num",f.toString())
                 if(f.equals(from)){
                     betList.add(num)
+                }
+            }*/
+            for ( i in 0..list!!.size-1){
+                val f=list[i]
+                val num=sumOfDigits(f.number.toInt())%10
+                if(num==from){
+                    betList.add(f)
                 }
             }
             Log.d("fromvalue_fr",betList.size.toString())
@@ -153,11 +184,25 @@ class GridFragment() : Fragment(), BetItemListener  {
             rv.adapter=adapter
             adapter.notifyDataSetChanged()
         })
+        rv.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    startX = event.x
+                    false
+                }
+                MotionEvent.ACTION_UP -> {
+                    val endX = event.x
+                    handleSwipe(startX, endX)
+                    false
+                }
+                else -> false
+            }
+        }
         commonSharedPrefernces= CommonSharedPrefernces(requireActivity())
         user=commonSharedPrefernces.getuser()!!
         marketid= requireActivity().intent.getStringExtra("marketId").toString()
         sessionType=requireActivity().intent.getStringExtra("session").toString()
-
+        openRadioButton.isChecked=true;
         opentime=requireActivity().intent.getStringExtra("starttime").toString()
         closetimw=requireActivity().intent.getStringExtra("endtime").toString()
         ApiCall().apiconfig(object : ApiCall.WebseiteSettingInterface{
@@ -171,6 +216,10 @@ class GridFragment() : Fragment(), BetItemListener  {
             }
 
         })
+        if(sessionType.equals("close")){
+            closeRadioButton.isChecked=true;
+            openRadioButton.visibility=View.GONE;
+        }
         setwallet()
         setupRotateAnimation()
         backBtn.setOnClickListener {
@@ -192,6 +241,15 @@ class GridFragment() : Fragment(), BetItemListener  {
 
         return  view;
     }
+    private fun sumOfDigits(i: Int): Int {
+        var num = i
+        var sum = 0
+        while (num != 0) {
+            sum += num % 10
+            num /= 10
+        }
+        return sum
+    }
     var total_amt=0
     private lateinit var list:ArrayList<BetItem>
     private fun submitdata() {
@@ -199,15 +257,13 @@ class GridFragment() : Fragment(), BetItemListener  {
         list= viewModel.betList.value!!
         var checkmin=viewModel.checkmin(min_bet)
         var checkmax=viewModel.checkmax(max_bet)
-        if((sessionType.equals("open"))) {
+        if((sessionType.equals("open"))||(closeRadioButton.isChecked&&sessionType.equals("close"))) {
                var check=true
             list.forEach { if(it.amount!=0) check=false }
             if (check) {
                 Toast.makeText(requireActivity(), "Please make some bet", Toast.LENGTH_SHORT).show()
             }
-            else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                Toast.makeText(requireActivity(),"Game is closed",Toast.LENGTH_SHORT).show()
-            }
+
             else if(checkmin.isNotEmpty()){
                 Toast.makeText(requireActivity(), "$checkmin", Toast.LENGTH_SHORT).show()
 
@@ -240,6 +296,8 @@ class GridFragment() : Fragment(), BetItemListener  {
                                 "Insufficient Balance",
                                 Toast.LENGTH_SHORT
                             ).show()
+                        } else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
+                            Toast.makeText(requireActivity(),"Game is closed",Toast.LENGTH_SHORT).show()
                         }
                         else {
                             callapi(total_amt)
@@ -253,8 +311,9 @@ class GridFragment() : Fragment(), BetItemListener  {
             }
         }
         else
-        {Toast.makeText(requireActivity(),"Betting is closed",Toast.LENGTH_SHORT).show()
-                 }
+        {   val message=if(openRadioButton.isChecked) "Game run in close session" else "Game run in open session"
+            Toast.makeText(requireActivity(),message,Toast.LENGTH_SHORT).show()
+        }
 
     }
     private fun callapi(total_amt: Int) {
@@ -266,7 +325,8 @@ class GridFragment() : Fragment(), BetItemListener  {
             totalAmount = total_amt.toDouble(),
             transactionType = "debit",
             transactionNarration = "Game Played",
-            session = "open"
+            session = if(openRadioButton.isChecked) "open" else if(closeRadioButton.isChecked)"close" else ""
+
 
 
         )
@@ -383,7 +443,8 @@ class GridFragment() : Fragment(), BetItemListener  {
         walletIcon = view.findViewById(R.id.wallet_icon)
         refresh = view.findViewById(R.id.refresh)
         walletBalanceToolbar = view.findViewById(R.id.wallet_balanceToolbar)
-
+        openRadioButton = view.findViewById(R.id.open_rb)
+        closeRadioButton = view.findViewById(R.id.close_rb)
 
 
     }

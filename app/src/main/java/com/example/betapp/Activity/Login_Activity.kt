@@ -48,6 +48,9 @@ val intent=Intent(this,MainActivity::class.java)
             if(mobile.text!!.isEmpty()){
                 Toast.makeText(this@Login_Activity,"Please enter Mobile Number",Toast.LENGTH_SHORT).show()
             }
+            else if(mobile.text.toString().length>10){
+                Toast.makeText(this@Login_Activity,"Please Enter Correct No.",Toast.LENGTH_SHORT).show()
+            }
             else if (password.text!!.isEmpty()){
                 Toast.makeText(this@Login_Activity,"Please enter Password",Toast.LENGTH_SHORT).show()
             }

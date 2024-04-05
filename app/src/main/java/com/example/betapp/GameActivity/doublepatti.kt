@@ -145,9 +145,7 @@ openRadioButton.isChecked=true
             if (list.isEmpty()) {
                 Toast.makeText(this, "Please make some bet", Toast.LENGTH_SHORT).show()
             }
-            else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
-            }
+
             else {
                 list.forEach { betItem ->
                     total_amt = total_amt + betItem.amount as Int
@@ -174,7 +172,9 @@ openRadioButton.isChecked=true
                         }
 
 
-
+                        else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
+                            Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
+                        }
                         else {
                             callapi(total_amt)
                         }
