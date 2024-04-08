@@ -27,6 +27,7 @@ private lateinit var ApiCall:ApiCall
         val  mobile:String?=intent.getStringExtra("mobile")
         val pass:String?=intent.getStringExtra("pass")
         val sessionId:String?=intent.getStringExtra("sessionId")
+        Log.d("sessionId",sessionId.toString())
         button.setOnClickListener{
             if(pinView.text.toString().isEmpty()){
                 Toast.makeText(this@PinActivity,"Please enter Otp",Toast.LENGTH_SHORT).show()
@@ -38,7 +39,7 @@ private lateinit var ApiCall:ApiCall
                    pinView.text.toString(),
                    object :ApiCall.otpresponse{
                        override fun onSiuccess(sessionId: String) {
-                           Toast.makeText(applicationContext,sessionId,Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext,sessionId,Toast.LENGTH_SHORT).show()
                            login(mobile!!,pass!!)
                        }
 

@@ -24,6 +24,7 @@ import com.example.betapp.misc.CustomDialogListener
 import com.example.betapp.misc.GameData
 import com.example.betapp.misc.customDialog
 import com.example.betapp.misc.dialogdata
+import com.example.betapp.misc.getCurrentTimeFromInternet
 import com.example.betapp.model.BetItem
 import com.example.betapp.model.GameDatas
 import com.example.betapp.model.WebsiteSettings
@@ -68,8 +69,11 @@ class redfamilyJodi : AppCompatActivity() {
 
     }
     private fun getCurrentTime(): String {
+        var currentTime:String=""
+        getCurrentTimeFromInternet { time -> currentTime=time
+        }
         val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        return dateFormat.format(Calendar.getInstance().time)
+        return dateFormat.format(currentTime)
     }
     private lateinit var commonSharedPrefernces: CommonSharedPrefernces
     private var rotateAnimator: ObjectAnimator? = null
@@ -122,71 +126,94 @@ class redfamilyJodi : AppCompatActivity() {
         currentDate.setText(cd)
         setupspinner()
         submitButton.setOnClickListener {
+
+            submitButton.visibility=View.GONE
             submitdata()
+
         }
     }
     var total_amt=0
     private lateinit var list:MutableList<BetItem>
+    var submitclick=0
     private fun submitdata() {
-        if((sessionType.equals("open"))||(closeRadioButton.isSelected&&sessionType.equals("close"))) {
 
-            list = ArrayList()
-            if (pointsEditText.text.toString().isEmpty()) {
-                Toast.makeText(this, "Please Enter points", Toast.LENGTH_SHORT).show()
-            } else if (valueList.isEmpty()) {
-                Toast.makeText(this, "Please select bet", Toast.LENGTH_SHORT).show()
+            if ((sessionType.equals("open")) || (closeRadioButton.isSelected && sessionType.equals("close"))) {
 
-            }
-           else {
-                total_amt = valueList.size * (pointsEditText.text.toString().toInt())
-                for (value in valueList) {
-                    list.add(BetItem(pointsEditText.text.toString().toInt(), value.toString()))
+
+                list = ArrayList()
+                if (pointsEditText.text.toString().isEmpty()) {
+                    submitButton.visibility=View.VISIBLE
+                    Toast.makeText(this, "Please Enter points", Toast.LENGTH_SHORT).show()
+                } else if (valueList.isEmpty()) {
+                    submitButton.visibility=View.VISIBLE
+                    Toast.makeText(this, "Please select bet", Toast.LENGTH_SHORT).show()
+
+                } else {
+                    total_amt = valueList.size * (pointsEditText.text.toString().toInt())
+                    for (value in valueList) {
+                        list.add(BetItem(pointsEditText.text.toString().toInt(), value.toString()))
+
+                    }
+                    val balance_after = wallet - total_amt;
+                    val dialogdata = dialogdata(
+                        "Red Family Jodi",
+                        "$total_amt",
+                        "$wallet",
+                        "$balance_after"
+                    )
+                    val customDialog =
+                        customDialog(this, dialogdata, object : CustomDialogListener {
+                            override fun onCancelClicked() {
+                                total_amt = 0
+                                submitButton.visibility=View.VISIBLE
+                            }
+
+                            override fun onConfirmClicked() {
+                                if (balance_after < 0) {
+                                    Toast.makeText(
+                                        this@redfamilyJodi,
+                                        "Insufficient Balance",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else if (pointsEditText.text.toString().toInt() >= max_bet) {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Maximum Bet amount is $max_bet",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                } else if (pointsEditText.text.toString().toInt() <= min_bet) {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Minimum Bet amount is $min_bet",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                } else if (!isTimeBetween(getCurrentTime(), opentime, closetimw)) {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Game is closed",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    callapi(total_amt)
+                                }
+                                total_amt = 0
+                                submitButton.visibility=View.VISIBLE
+                            }
+
+                        })
+                    customDialog.show()
 
                 }
-                val balance_after = wallet - total_amt;
-                val dialogdata = dialogdata(
-                    "Red Family Jodi",
-                    "$total_amt",
-                    "$wallet",
-                    "$balance_after"
-                )
-                val customDialog = customDialog(this, dialogdata, object : CustomDialogListener {
-                    override fun onCancelClicked() {
-                        total_amt = 0
-                    }
+            } else {
 
-                    override fun onConfirmClicked() {
-                        if (balance_after < 0) {
-                            Toast.makeText(
-                                this@redfamilyJodi,
-                                "Insufficient Balance",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else if(pointsEditText.text.toString().toInt()>=max_bet){
-                            Toast.makeText(applicationContext,"Maximum Bet amount is $max_bet",Toast.LENGTH_SHORT).show()
-
-                        }
-                        else if(pointsEditText.text.toString().toInt()<=min_bet){
-                            Toast.makeText(applicationContext,"Minimum Bet amount is $min_bet",Toast.LENGTH_SHORT).show()
-
-                        } else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                            Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
-                        }else {
-                            callapi(total_amt)
-                        }
-                        total_amt = 0
-                    }
-
-                })
-                customDialog.show()
-
+                submitButton.visibility=View.VISIBLE
+                val message =
+                    if (openRadioButton.isSelected) "Game run in close session" else "Game run in open session"
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
             }
-        }
-        else
-        {
-            val message=if(openRadioButton.isSelected) "Game run in close session" else "Game run in open session"
-            Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
-        }
+
 
 
 

@@ -164,7 +164,7 @@
         android:layout_margin="5dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:id="@+id/single_patti_cv">
+        android:id="@+id/single_patti_cv2">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -182,11 +182,12 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:layout_margin="5dp"
-                android:text="Single Patti"
+                android:text="Single Patti v2"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
+
 </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -194,13 +195,13 @@
             android:orientation="horizontal"
             android:weightSum="3">
             <com.google.android.material.card.MaterialCardView
-        app:strokeWidth="2dp"
-        app:strokeColor="@color/teal_200"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/teal_200"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
                 android:layout_margin="5dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/double_patti_cv">
+                android:id="@+id/double_digit_cv2">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -218,7 +219,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:layout_margin="5dp"
-                        android:text="Double Patti"
+                        android:text="Double Patti v2"
                         android:textStyle="bold"
                         android:layout_gravity="center"/>
                 </LinearLayout>
@@ -231,6 +232,7 @@
                 android:layout_margin="5dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/triplePatti_cv">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -549,7 +551,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:id="@+id/single_patti_cv2">
+                android:id="@+id/single_patti_cv">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -567,7 +569,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:layout_margin="5dp"
-                        android:text="Single Patti v2"
+                        android:text="Single Patti"
                         android:textStyle="bold"
                         android:layout_gravity="center"/>
                 </LinearLayout>
@@ -579,6 +581,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="3">
+
             <com.google.android.material.card.MaterialCardView
                 app:strokeWidth="2dp"
                 app:strokeColor="@color/teal_200"
@@ -586,7 +589,7 @@
                 android:layout_weight="1"
                 android:layout_margin="5dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/double_digit_cv2">
+                android:id="@+id/double_patti_cv">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -604,7 +607,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:layout_margin="5dp"
-                        android:text="Double Patti v2"
+                        android:text="Double Patti"
                         android:textStyle="bold"
                         android:layout_gravity="center"/>
                 </LinearLayout>
@@ -613,8 +616,8 @@
                 app:strokeWidth="2dp"
                 app:strokeColor="@color/teal_200"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:layout_margin="5dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
              >
 

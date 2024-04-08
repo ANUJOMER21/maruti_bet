@@ -53,7 +53,7 @@ class TransactionAdapter(val context: Context,val list:List<Transaction>):
               "$gname (${Transaction.gameSubmission.session})"
             )
 
-            holder.ll4.setOnClickListener{
+            holder.ll1.setOnClickListener{
                 if(Transaction.gameSubmission.marketId!=null){
                     val intent:Intent= Intent(context,TransactionBetHistory::class.java)
                     val gson:Gson=Gson()
