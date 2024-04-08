@@ -2,7 +2,6 @@ package com.example.betapp.Adapter
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,18 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.betapp.Activity.bettingdata
 import com.example.betapp.R
-import com.example.betapp.api.bid
 import com.example.betapp.model.BetItem
-import com.example.betapp.model.UserGameSubmission
-import com.example.betapp.model.user
 import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.io.Serializable
-import java.text.NumberFormat
-import java.util.Locale
 
-class bidHistoryAdapter(private val context: Context,private  val bidList: List<UserGameSubmission>): RecyclerView.Adapter<bidHistoryAdapter.Vh>() {
+class bidHistoryAdapter(private val context: Context,private  val bidList: List<com.example.betapp.model.UserGameSubmission>): RecyclerView.Adapter<bidHistoryAdapter.Vh>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): bidHistoryAdapter.Vh {
         val view =

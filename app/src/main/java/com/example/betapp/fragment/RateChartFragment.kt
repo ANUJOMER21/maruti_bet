@@ -13,12 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.betapp.Adapter.rate_chartAdapter
 import com.example.betapp.R
 import com.example.betapp.api.ApiCall
-import com.example.betapp.api.ApiResponse
 import com.example.betapp.api.game
-import com.example.betapp.model.Game
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.reflect.TypeToken
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,7 +50,7 @@ class RateChartFragment : Fragment() {
         game_chart.layoutManager=LinearLayoutManager(activity)
         val apiCall:ApiCall= ApiCall()
   apiCall.showgame(object :game{
-      override fun onSuccess(games: List<Game>) {
+      override fun onSuccess(games: List<com.example.betapp.model.Game>) {
           if(games!=null) {
               val rateChartadapter: rate_chartAdapter = rate_chartAdapter(
                   activity as Context,

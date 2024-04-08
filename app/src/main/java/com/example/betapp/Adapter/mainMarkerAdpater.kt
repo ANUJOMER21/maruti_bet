@@ -10,7 +10,6 @@ import android.os.Handler
 import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,22 +21,13 @@ import androidx.annotation.RequiresApi
 import com.example.betapp.GameActivity.GameGrid
 import com.example.betapp.R
 
-import com.example.betapp.model.market
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import org.json.JSONObject
-import java.io.IOException
-import java.util.Date
 import java.util.Locale
 
 
 class MarketAdapter(
     private val currentTime: String,
     private val context: Context,
-    private val marketList: List<market>
+    private val marketList: List<com.example.betapp.model.market>
 ) :
     RecyclerView.Adapter<MarketAdapter.MarketViewHolder>() {
 
@@ -81,7 +71,7 @@ val result=market.marketTodayOpenNumber.split("-")
         private val delay = 10000L // 1 second delay
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(
-            item: market,
+            item: com.example.betapp.model.market,
             openTime: String,
             closeTime: String,
             closeSessionOpenTime: String,
@@ -104,7 +94,7 @@ val result=market.marketTodayOpenNumber.split("-")
         }
         @RequiresApi(Build.VERSION_CODES.O)
         private fun handleButtonClick(
-            item: market,
+            item: com.example.betapp.model.market,
             openTime: String,
             closeTime: String,
             closeSessionOpenTime: String,
@@ -159,7 +149,7 @@ val result=market.marketTodayOpenNumber.split("-")
         }
 
         private fun updateStatus(
-            item: market,
+            item: com.example.betapp.model.market,
             openTime: String,
             closeTime: String,
             closeSessionOpenTime: String,
@@ -180,7 +170,7 @@ val result=market.marketTodayOpenNumber.split("-")
             }
         }
 
-        private fun setStatus(item: market, message: String, colorResId: Int) {
+        private fun setStatus(item: com.example.betapp.model.market, message: String, colorResId: Int) {
             marketBettingStatus.text = message
             marketBettingStatus.setTextColor(marketBettingStatus.context.resources.getColor(colorResId))
             // You may want to update other views in your item layout based on the status.

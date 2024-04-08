@@ -1,7 +1,5 @@
 package com.example.betapp.misc
 
-import com.example.betapp.GameActivity.TriplePatti
-
 class GameData {
    private val spPanas = hashMapOf(
         1 to intArrayOf(128, 137, 146, 290, 236, 245, 380, 470, 489, 560, 678, 579),

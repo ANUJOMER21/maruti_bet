@@ -14,7 +14,6 @@ import com.example.betapp.misc.CommonSharedPrefernces
 import com.example.betapp.model.bankdetail
 import com.example.betapp.model.user
 import com.google.gson.JsonObject
-import kotlin.math.log
 
 class PinActivity : AppCompatActivity() {
 private lateinit var ApiCall:ApiCall

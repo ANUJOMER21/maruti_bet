@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.betapp.R
-import com.example.betapp.model.Transaction
 
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,12 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat
 import com.example.betapp.Activity.TransactionBetHistory
-import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson
 import java.util.Locale
 
 
-class TransactionAdapter(val context: Context,val list:List<Transaction>):
+class TransactionAdapter(val context: Context,val list:List<com.example.betapp.model.Transaction>):
     RecyclerView.Adapter<TransactionAdapter.Vh>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionAdapter.Vh {
         val view =

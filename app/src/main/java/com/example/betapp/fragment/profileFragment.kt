@@ -19,7 +19,6 @@ import com.example.betapp.api.ApiResponse
 import com.example.betapp.misc.CommonSharedPrefernces
 import com.example.betapp.misc.ToolbarChangeListener
 import com.example.betapp.model.bankdetail
-import com.google.android.material.button.MaterialButton
 import com.google.gson.JsonObject
 
 // TODO: Rename parameter arguments, choose names that match

@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.betapp.Adapter.MarketAdapter
-import com.example.betapp.Adapter.SliderAdapter
 import com.example.betapp.R
 import com.example.betapp.api.ApiCall
 
@@ -25,16 +24,9 @@ import com.example.betapp.misc.ToolbarChangeListener
 
 import com.example.betapp.misc.getCurrentTimeFromInternet
 
-import com.example.betapp.model.market
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.smarteist.autoimageslider.SliderView
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
 import org.json.JSONObject
-import java.io.IOException
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -94,7 +86,7 @@ private  lateinit var ApiCall:ApiCall
             override fun onSlierReceived(sliders: List<String>) {
                 val sliderImage: List<String> =sliders
                 if (sliderImage.size > 0) {
-                    val adapter = SliderAdapter(sliderImage)
+                    val adapter = com.example.betapp.Adapter.SliderAdapter(sliderImage)
 
                     // below method is used to set auto cycle direction in left to
                     // right direction you can change according to requirement.
@@ -231,7 +223,7 @@ ApiCall.autodeposit(object :ApiCall.WebseiteSetting{
 })
 Deposit.setOnClickListener {
     if(auto) {
-        replaceFragment(walletFragment2())
+        replaceFragment(com.example.betapp.fragment.walletFragment2())
     }
     else{
         sendMessageToWhatsApp(whats,"I want to deposit/withdraw manually")
@@ -302,7 +294,7 @@ val swipeRefreshLayout:SwipeRefreshLayout=view.findViewById(R.id.swipeRefresh)
 private fun getmarket() {
 getCurrentTimeFromInternet { time->
     ApiCall.getMarkets(object : ApiCall.MarketCallback {
-        override fun onMarketsReceived(markets: List<market>) {
+        override fun onMarketsReceived(markets: List<com.example.betapp.model.market>) {
             rv.visibility=View.VISIBLE
             progressBar.visibility=View.GONE
 

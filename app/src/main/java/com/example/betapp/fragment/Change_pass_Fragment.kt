@@ -1,7 +1,6 @@
 package com.example.betapp.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,8 +15,6 @@ import com.example.betapp.R
 import com.example.betapp.api.ApiCall
 import com.example.betapp.api.ApiResponse
 import com.example.betapp.misc.CommonSharedPrefernces
-import com.example.betapp.model.bankdetail
-import com.google.android.material.button.MaterialButton
 import com.google.gson.JsonObject
 
 // TODO: Rename parameter arguments, choose names that match

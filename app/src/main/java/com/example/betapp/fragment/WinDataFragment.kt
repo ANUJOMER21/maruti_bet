@@ -15,7 +15,6 @@ import com.example.betapp.R
 import com.example.betapp.api.ApiCall
 import com.example.betapp.api.transaction
 import com.example.betapp.misc.CommonSharedPrefernces
-import com.example.betapp.model.Transaction
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,7 +52,7 @@ class WinDataFragment : Fragment() {
         val commonSharedPrefernces= CommonSharedPrefernces(activity as Context)
         val userid=commonSharedPrefernces.getuser()!!.id
         ApiCall.winhisthist(userid,object : transaction {
-            override fun onSuccess(games: List<Transaction>) {
+            override fun onSuccess(games: List<com.example.betapp.model.Transaction>) {
                 RecyclerView.visibility=View.VISIBLE
                 textview.visibility=View.GONE
                 val TransactionAdapter= TransactionAdapter(

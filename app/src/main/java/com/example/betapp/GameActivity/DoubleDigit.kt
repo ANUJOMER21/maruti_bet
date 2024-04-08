@@ -13,7 +13,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.betapp.Adapter.BetAdapter
 import com.example.betapp.R
@@ -23,7 +22,6 @@ import com.example.betapp.misc.CommonSharedPrefernces
 import com.example.betapp.misc.CustomDialogListener
 import com.example.betapp.misc.customDialog
 import com.example.betapp.misc.dialogdata
-import com.example.betapp.misc.getCurrentTimeFromInternet
 import com.example.betapp.model.BetItem
 import com.example.betapp.model.GameDatas
 import com.example.betapp.model.WebsiteSettings
@@ -31,6 +29,7 @@ import com.example.betapp.model.user
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import java.util.Date
 import java.util.Locale
 
 class DoubleDigit : AppCompatActivity() {
@@ -59,10 +58,17 @@ class DoubleDigit : AppCompatActivity() {
     private fun isTimeBetween(currentTime: String, openTime: String, closeTime: String): Boolean {
         try {
             val parser = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            val currentTimeDate = parser.parse(currentTime)
+            val currentTime = Date()
+
+            // Format the current time using the SimpleDateFormat object
+
+            // Format the current time using the SimpleDateFormat object
+            val formattedTime = parser.format(currentTime)
+            val currentTimeDate = parser.parse(formattedTime)
+            Log.d("currentTimeDate",currentTimeDate.toString())
             val openTimeDate = parser.parse(openTime)
             val closeTimeDate = parser.parse(closeTime)
-            Log.d("time","$openTime , $closeTime ,$currentTime")
+            Log.d("time","$openTime , $closeTime ,$currentTimeDate")
             return currentTimeDate in openTimeDate..closeTimeDate
         }
         catch (e:Exception){
@@ -71,11 +77,7 @@ class DoubleDigit : AppCompatActivity() {
 
     }
     private fun getCurrentTime(): String {
-        var currentTime:String=""
-        getCurrentTimeFromInternet { time -> currentTime=time
-        }
-        val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        return dateFormat.format(currentTime)
+        return ""
     }
     private fun initializeViews() {
         // Toolbar

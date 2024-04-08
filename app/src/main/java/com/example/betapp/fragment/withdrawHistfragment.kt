@@ -1,6 +1,5 @@
 package com.example.betapp.fragment
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import com.example.betapp.R
 import com.example.betapp.api.ApiCall
 import com.example.betapp.api.transaction
 import com.example.betapp.misc.CommonSharedPrefernces
-import com.example.betapp.model.Transaction
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,7 +50,7 @@ class withdrawHistfragment : Fragment() {
         val commonSharedPrefernces= CommonSharedPrefernces(requireActivity())
         val userid=commonSharedPrefernces.getuser()!!.id
         ApiCall.withhist(userid,object : transaction {
-            override fun onSuccess(games: List<Transaction>) {
+            override fun onSuccess(games: List<com.example.betapp.model.Transaction>) {
                 RecyclerView.visibility=View.VISIBLE
                 textview.visibility=View.GONE
                 val TransactionAdapter= TransactionAdapter(

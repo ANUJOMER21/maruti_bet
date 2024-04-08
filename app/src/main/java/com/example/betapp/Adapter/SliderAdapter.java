@@ -1,5 +1,6 @@
 package com.example.betapp.Adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class SliderAdapter extends SliderViewAdapter<SliderAdapter.vh> {
     public void onBindViewHolder(vh viewHolder, int position) {
 
         final String sliderItem = mSliderItems.get(position);
-
+        Log.d("url",sliderItem);
         // Glide is use to load image
         // from url in your imageview.
         Glide.with(viewHolder.itemView)

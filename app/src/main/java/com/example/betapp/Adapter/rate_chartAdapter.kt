@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.betapp.R
-import com.example.betapp.model.Game
-import com.example.betapp.model.market
 
-class rate_chartAdapter(private val context: Context, private val game_amt: List<Game>):
+class rate_chartAdapter(private val context: Context, private val game_amt: List<com.example.betapp.model.Game>):
 RecyclerView.Adapter<rate_chartAdapter.VH>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): rate_chartAdapter.VH {
