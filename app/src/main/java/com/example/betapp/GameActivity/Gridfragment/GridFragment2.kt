@@ -27,6 +27,7 @@ import com.example.betapp.misc.CommonSharedPrefernces
 import com.example.betapp.misc.CustomDialogListener
 import com.example.betapp.misc.customDialog
 import com.example.betapp.misc.dialogdata
+import com.example.betapp.misc.getCurrentTimeFromInternet
 import com.example.betapp.model.BetItem
 import com.example.betapp.model.GameDatas
 import com.example.betapp.model.WebsiteSettings
@@ -81,10 +82,7 @@ class GridFragment2 : Fragment() , BetItemListener{
         }
 
     }
-    private fun getCurrentTime(): String {
-        val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        return dateFormat.format(Calendar.getInstance().time)
-    }
+
     private var marketid:String=""
     private var sessionType:String="";
     private lateinit var commonSharedPrefernces: CommonSharedPrefernces
@@ -124,6 +122,7 @@ class GridFragment2 : Fragment() , BetItemListener{
         }
     }
     lateinit var tabLayout:TabLayout
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -241,11 +240,20 @@ class GridFragment2 : Fragment() , BetItemListener{
             setwallet()
         }
         submitButton=view.findViewById<MaterialButton>(R.id.submit)
+
         submitButton.setOnClickListener {
+          submitButton.visibility=View.GONE
 
             submitdata()
         }
      return  view
+    }
+    private fun getCurrentTime(): String {
+        var currentTime:String=""
+        getCurrentTimeFromInternet { time -> currentTime=time
+        }
+        val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        return dateFormat.format(currentTime)
     }
     var total_amt=0
     private fun sumOfDigits(i: Int): Int {
@@ -260,72 +268,80 @@ class GridFragment2 : Fragment() , BetItemListener{
     private lateinit var list:ArrayList<BetItem>
     private fun submitdata() {
         //  Toast.makeText(requireActivity(),"$sessionType",Toast.LENGTH_SHORT).show()
-        list= viewModel.betList.value!!
-        if((sessionType.equals("open"))||(closeRadioButton.isChecked&&sessionType.equals("close"))) {
 
-            var check=true
-            var checkmin=viewModel.checkmin(min_bet)
-            var checkmax=viewModel.checkmax(max_bet)
-            list.forEach { if(it.amount!=0) check=false }
-            if (check) {
-                Toast.makeText(requireActivity(), "Please make some bet", Toast.LENGTH_SHORT).show()
-            }
-            else if(checkmin.isNotEmpty()){
-                Toast.makeText(requireActivity(), "$checkmin", Toast.LENGTH_SHORT).show()
+            list = viewModel.betList.value!!
+            if ((sessionType.equals("open")) || (closeRadioButton.isChecked && sessionType.equals("close"))) {
 
-            }
-            else if(checkmax.isNotEmpty()){
-                Toast.makeText(requireActivity(), "$checkmax", Toast.LENGTH_SHORT).show()
+                var check = true
+                var checkmin = viewModel.checkmin(min_bet)
+                var checkmax = viewModel.checkmax(max_bet)
+                list.forEach { if (it.amount != 0) check = false }
+                if (check) {
+                    submitButton.visibility=View.VISIBLE
+                    Toast.makeText(requireActivity(), "Please make some bet", Toast.LENGTH_SHORT)
+                        .show()
+                } else if (checkmin.isNotEmpty()) {
+                    submitButton.visibility=View.VISIBLE
+                    Toast.makeText(requireActivity(), "$checkmin", Toast.LENGTH_SHORT).show()
 
-            }
-           else {
-                list.forEach { betItem ->
-                    total_amt = total_amt + betItem.amount as Int
+                } else if (checkmax.isNotEmpty()) {
+                    submitButton.visibility=View.VISIBLE
+                    Toast.makeText(requireActivity(), "$checkmax", Toast.LENGTH_SHORT).show()
+
+                } else {
+                    list.forEach { betItem ->
+                        total_amt = total_amt + betItem.amount as Int
+                    }
+                    val balance_after = wallet - total_amt;
+                    val dialogdata = dialogdata(
+                        "Double Patti v2",
+                        "$total_amt",
+                        "$wallet",
+                        "$balance_after"
+                    )
+                    val customDialog =
+                        customDialog(requireActivity(), dialogdata, object : CustomDialogListener {
+                            override fun onCancelClicked() {
+                                total_amt = 0
+                                submitButton.visibility=View.VISIBLE
+                            }
+
+                            override fun onConfirmClicked() {
+                                if (balance_after < 0) {
+                                    Toast.makeText(
+                                        requireActivity(),
+                                        "Insufficient Balance",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else if (!isTimeBetween(getCurrentTime(), opentime, closetimw)) {
+                                    Toast.makeText(
+                                        requireActivity(),
+                                        "Game is closed",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    callapi(total_amt)
+                                }
+                                total_amt = 0
+                                submitButton.visibility=View.VISIBLE
+                            }
+
+                        })
+                    customDialog.show()
+
                 }
-                val balance_after = wallet - total_amt;
-                val dialogdata = dialogdata(
-                    "Double Patti v2",
-                    "$total_amt",
-                    "$wallet",
-                    "$balance_after"
-                )
-                val customDialog = customDialog(requireActivity(), dialogdata, object : CustomDialogListener {
-                    override fun onCancelClicked() {
-                        total_amt = 0
-                    }
-
-                    override fun onConfirmClicked() {
-                        if (balance_after < 0) {
-                            Toast.makeText(
-                                requireActivity(),
-                                "Insufficient Balance",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                            Toast.makeText(requireActivity(),"Game is closed", Toast.LENGTH_SHORT).show()
-                        }
-                        else {
-                            callapi(total_amt)
-                        }
-                        total_amt = 0
-                    }
-
-                })
-                customDialog.show()
-
+            } else {
+                submitButton.visibility=View.VISIBLE
+                val message =
+                    if (openRadioButton.isChecked) "Game run in close session" else "Game run in open session"
+                Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
             }
-        }
-        else
-        {
-            val message=if(openRadioButton.isChecked) "Game run in close session" else "Game run in open session"
-            Toast.makeText(requireActivity(),message,Toast.LENGTH_SHORT).show()
-        }
 
     }
     private fun callapi(total_amt: Int) {
         val gameDatas= GameDatas(
             marketId =marketid.toInt(),
-            gameId = 49,
+            gameId = 21,
             userId = user.id!!.toInt(),
             gameData = convertListToJson(list),
             totalAmount = total_amt.toDouble(),

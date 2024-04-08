@@ -38,7 +38,7 @@ class ApiCall {
                 response: Response<List<SliderItem>>
             ) {
                 if(response.isSuccessful&& response.body()!!.size>0) {
-                  val url= "https://works.diginspire.in/jannat/admin/sliders/"
+                  val url= RetrofitInstance.Base_url
                     val listslider: ArrayList<String> = ArrayList()
                     for (slider: SliderItem in response.body()!!) {
                         listslider.add(url+slider.sliderImage)

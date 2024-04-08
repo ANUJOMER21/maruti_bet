@@ -24,6 +24,7 @@ import com.example.betapp.misc.CustomDialogListener
 import com.example.betapp.misc.GameData
 import com.example.betapp.misc.customDialog
 import com.example.betapp.misc.dialogdata
+import com.example.betapp.misc.getCurrentTimeFromInternet
 import com.example.betapp.model.BetItem
 import com.example.betapp.model.GameDatas
 import com.example.betapp.model.WebsiteSettings
@@ -64,8 +65,11 @@ class SPgame : AppCompatActivity() {
 
     }
     private fun getCurrentTime(): String {
+        var currentTime:String=""
+        getCurrentTimeFromInternet { time -> currentTime=time
+        }
         val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        return dateFormat.format(Calendar.getInstance().time)
+        return dateFormat.format(currentTime)
     }
     private var marketid:String=""
     private var sessionType:String="";
@@ -121,17 +125,26 @@ class SPgame : AppCompatActivity() {
         currentDate.setText(cd)
         setupspinner()
         submitButton.setOnClickListener {
+
+            submitButton.visibility=View.GONE
             submitdata()
+
         }
     }
     var total_amt=0
     private lateinit var list:MutableList<BetItem>
+
     private fun submitdata() {
+
         if((sessionType.equals("open"))||(closeRadioButton.isChecked&&sessionType.equals("close"))) {
             list = ArrayList()
+
+
             if (pointsEditText.text.toString().isEmpty()) {
+                submitButton.visibility=View.VISIBLE
                 Toast.makeText(this, "Please Enter points", Toast.LENGTH_SHORT).show()
             } else if (valueList.isEmpty()) {
+                submitButton.visibility=View.VISIBLE
                 Toast.makeText(this, "Please select bet", Toast.LENGTH_SHORT).show()
 
             }
@@ -151,6 +164,7 @@ class SPgame : AppCompatActivity() {
                 val customDialog = customDialog(this, dialogdata, object : CustomDialogListener {
                     override fun onCancelClicked() {
                         total_amt = 0
+                        submitButton.visibility=View.VISIBLE
                     }
 
                     override fun onConfirmClicked() {
@@ -174,6 +188,7 @@ class SPgame : AppCompatActivity() {
                             callapi(total_amt)
                         }
                         total_amt = 0
+                        submitButton.visibility=View.VISIBLE
                     }
 
                 })
@@ -184,9 +199,11 @@ class SPgame : AppCompatActivity() {
         }
         else
         {
+            submitButton.visibility=View.VISIBLE
             val message=if(openRadioButton.isChecked) "Game run in close session" else "Game run in open session"
             Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
         }
+
 
 
     }
