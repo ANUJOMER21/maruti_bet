@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.example.betapp.GameActivity.Gridfragment.GridFragment
 import com.example.betapp.GameActivity.Gridfragment.GridFragment2
 import com.example.betapp.R
 

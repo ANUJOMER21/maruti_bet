@@ -1,16 +1,11 @@
 package com.example.betapp.GameActivity
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModelProvider
 import com.example.betapp.GameActivity.Gridfragment.GridFragment
-import com.example.betapp.GameActivity.Gridfragment.ViewmodelGrid1
 import com.example.betapp.R
-import com.example.betapp.model.BetItem
-import com.google.android.material.tabs.TabLayout
 
 class SinglePatti2 : AppCompatActivity() {
 

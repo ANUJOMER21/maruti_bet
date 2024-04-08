@@ -1,24 +1,18 @@
 package com.example.betapp.misc
 
-import android.util.Log
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
-import java.net.DatagramPacket
-import java.net.DatagramSocket
-import java.net.InetAddress
 
 import kotlinx.coroutines.Dispatchers
 
-import kotlinx.coroutines.launch
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
-import java.util.*
 /*class NtpTimeTask : Thread() {
     private val NTP_PACKET_SIZE = 48
     private val NTP_PORT = 123

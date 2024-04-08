@@ -48,14 +48,11 @@ import com.example.betapp.fragment.WinDataFragment
 import com.example.betapp.fragment.WithdrawRequestFragment
 import com.example.betapp.fragment.bid_historyFragment
 import com.example.betapp.fragment.profileFragment
-import com.example.betapp.fragment.walletFragment
-import com.example.betapp.fragment.walletFragment2
 import com.example.betapp.fragment.withdrawHistfragment
 import com.example.betapp.misc.CommonSharedPrefernces
 import com.example.betapp.misc.ToolbarChangeListener
 import com.example.betapp.model.appversion
 import com.example.betapp.model.user
-import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
@@ -101,7 +98,8 @@ private  var whartsapp:String=""
             val version = pInfo.versionName
             if(response.isSuccessful){
                 if(!response.body()!!.version.equals(version)){
-                    startActivity(Intent(this@MainActivity,Appversioncheck::class.java))
+                    startActivity(Intent(this@MainActivity,
+                        com.example.betapp.Activity.Appversioncheck::class.java))
                     finish()
                 }
             }
@@ -339,7 +337,7 @@ private  var whartsapp:String=""
     R.id.my_profile->supportFragmentManager.beginTransaction().replace(R.id.fragment_container,profileFragment()).commit()
     R.id.nav_wallet_history-> {if(autodeposit){
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
-            walletFragment2()
+            com.example.betapp.fragment.walletFragment2()
         ).commit()}
     else{
         sendtowhatsapp()

@@ -2,15 +2,11 @@ package com.example.betapp.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.betapp.Adapter.biddingListAdapter
-import com.example.betapp.GameActivity.HalfSangam
 import com.example.betapp.R
 import com.example.betapp.model.BetItem
-import com.example.betapp.model.Transaction
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -20,7 +16,8 @@ class TransactionBetHistory : AppCompatActivity() {
         setContentView(R.layout.activity_transaction_bet_history)
         val data=intent.getStringExtra("data")
         val gname=intent.getStringExtra("gname")
-        val Transaction:Transaction =Gson().fromJson(data,Transaction::class.java)
+        val Transaction: com.example.betapp.model.Transaction =Gson().fromJson(data,
+            com.example.betapp.model.Transaction::class.java)
         val list:List<BetItem> =parseJsonToBetList(
             Transaction.gameSubmission.gameData
         )

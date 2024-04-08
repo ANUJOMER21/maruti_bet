@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.betapp.Adapter.TransactionAdapter
@@ -15,7 +14,6 @@ import com.example.betapp.R
 import com.example.betapp.api.ApiCall
 import com.example.betapp.api.transaction
 import com.example.betapp.misc.CommonSharedPrefernces
-import com.example.betapp.model.Transaction
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,7 +51,7 @@ class TransactiondetailFragment : Fragment() {
         val commonSharedPrefernces=CommonSharedPrefernces(activity as Context)
         val userid=commonSharedPrefernces.getuser()!!.id
         ApiCall.transhist(userid,object :transaction{
-            override fun onSuccess(games: List<Transaction>) {
+            override fun onSuccess(games: List<com.example.betapp.model.Transaction>) {
                 RecyclerView.visibility=View.VISIBLE
                 textview.visibility=View.GONE
                 val TransactionAdapter=TransactionAdapter(

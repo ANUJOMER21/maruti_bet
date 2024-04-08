@@ -3,18 +3,16 @@ package com.example.betapp.GameActivity
 import android.animation.ObjectAnimator
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
-import com.example.betapp.R
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.betapp.Adapter.BetAdapter
 import com.example.betapp.Adapter.BetAdapter2
+import com.example.betapp.R
 import com.example.betapp.api.ApiCall
 import com.example.betapp.api.ApiResponse
 import com.example.betapp.misc.CommonSharedPrefernces
@@ -29,6 +27,11 @@ import com.example.betapp.model.user
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Date
 import java.util.Locale
 
 class SingleDigitActivity : AppCompatActivity() {
@@ -51,13 +54,20 @@ class SingleDigitActivity : AppCompatActivity() {
     private  var wallet:Double=0.0
     private var opentime:String=""
     private var closetimw:String=""
-    private fun isTimeBetween(currentTime: String, openTime: String, closeTime: String): Boolean {
+    private fun isTimeBetween( openTime: String, closeTime: String): Boolean {
         try {
             val parser = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            val currentTimeDate = parser.parse(currentTime)
+            val currentTime = Date()
+
+            // Format the current time using the SimpleDateFormat object
+
+            // Format the current time using the SimpleDateFormat object
+            val formattedTime = parser.format(currentTime)
+            val currentTimeDate = parser.parse(formattedTime)
+            Log.d("currentTimeDate",currentTimeDate.toString())
             val openTimeDate = parser.parse(openTime)
             val closeTimeDate = parser.parse(closeTime)
-            Log.d("time","$openTime , $closeTime ,$currentTime")
+            Log.d("time","$openTime , $closeTime ,$currentTimeDate")
             return currentTimeDate in openTimeDate..closeTimeDate
         }
         catch (e:Exception){
@@ -67,13 +77,28 @@ class SingleDigitActivity : AppCompatActivity() {
     }
     private var min_bet:Int=Int.MIN_VALUE
     private var max_bet:Int=Int.MAX_VALUE
-    private fun getCurrentTime(): String {
-        var currentTime:String=""
-        getCurrentTimeFromInternet { time -> currentTime=time
-        }
+    private suspend fun getCurrentTime(): String {
+       /* var currentTime: String = ""
+        // Assuming getCurrentTimeFromInternet is a suspend function
+        getCurrentTimeFromInternet { currentTime=it }
+
+        Log.d("current_time",currentTime)
         val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        return dateFormat.format(currentTime)
+        return dateFormat.format(currentTime)*/
+        return withContext(Dispatchers.IO){
+            try {
+                var currentTime: String = ""
+               getCurrentTimeFromInternet { currentTime=it }
+                val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                 dateFormat.format(currentTime)
+            }
+            catch (e:Exception){
+                ""
+            }
+        }
     }
+
+
     private var marketid:String=""
     private var sessionType:String="";
     private lateinit var commonSharedPrefernces: CommonSharedPrefernces
@@ -166,21 +191,28 @@ class SingleDigitActivity : AppCompatActivity() {
                     }
 
                     override fun onConfirmClicked() {
-                        if (balance_after < 0) {
-                            Toast.makeText(
-                                this@SingleDigitActivity,
-                                "Insufficient Balance",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        GlobalScope.launch(Dispatchers.Main) {
+
+                            // Use currentTime as needed
+
+                            if (balance_after < 0) {
+                                Toast.makeText(
+                                    this@SingleDigitActivity,
+                                    "Insufficient Balance",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else if (!isTimeBetween( opentime, closetimw)) {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Game is closed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                callapi(total_amt)
+                            }
+                            total_amt = 0
+                            submitButton.visibility = View.VISIBLE
                         }
-                        else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                            Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
-                        }
-                        else {
-                            callapi(total_amt)
-                        }
-                        total_amt = 0
-                        submitButton.visibility=View.VISIBLE
                     }
 
                 })

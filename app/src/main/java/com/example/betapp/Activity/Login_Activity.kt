@@ -76,7 +76,7 @@ val intent=Intent(this,MainActivity::class.java)
 
         }
         forget.setOnClickListener {
-            startActivity(Intent(this, Forget_password::class.java))
+            startActivity(Intent(this, com.example.betapp.Activity.Forget_password::class.java))
         }
     }
     private fun sendMessageToWhatsApp(phoneNumber: String, message: String?) {

@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Betapp"
         tools:targetApi="31">
-        <activity android:name=".Activity.Appversioncheck"
+        <activity android:name="com.example.betapp.Activity.Appversioncheck"
             android:exported="false"/>
         <activity
             android:name=".GameActivity.DoublePatti2"
@@ -30,7 +30,7 @@
             android:name=".Activity.TransactionBetHistory"
             android:exported="false" />
         <activity
-            android:name=".Activity.Forget_password"
+            android:name="com.example.betapp.Activity.Forget_password"
             android:exported="false" />
         <activity
             android:name=".Activity.bettingdata"
@@ -100,7 +100,7 @@
             android:exported="false" />
 
         <service
-            android:name=".misc.PushNotificationService"
+            android:name="com.example.betapp.misc.PushNotificationService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

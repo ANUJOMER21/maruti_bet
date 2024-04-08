@@ -7,18 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.betapp.Adapter.bidHistoryAdapter
 import com.example.betapp.R
 import com.example.betapp.api.ApiCall
 import com.example.betapp.api.bid
 import com.example.betapp.misc.CommonSharedPrefernces
-import com.example.betapp.model.UserGameSubmission
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,7 +52,7 @@ private lateinit var notrans:ProgressBar
         val apiCall=ApiCall()
         val uid=commonsharedPref.getuser()!!.id
         apiCall.bidHist(uid,object :bid{
-            override fun onSuccess(games: List<UserGameSubmission>) {
+            override fun onSuccess(games: List<com.example.betapp.model.UserGameSubmission>) {
                  notrans.visibility=View.GONE
                 recyclerView.visibility=View.VISIBLE
                 val bidHistoryAdapter=bidHistoryAdapter(activity as Context, games)

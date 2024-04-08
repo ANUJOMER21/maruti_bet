@@ -19,12 +19,12 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.example.betapp.R;
 import com.example.betapp.api.ApiCall;
 import com.example.betapp.api.ApiResponse;
 import com.example.betapp.misc.CommonSharedPrefernces;
 import com.example.betapp.model.WebsiteSettings;
 import com.example.betapp.model.user;
+import com.example.betapp.R;
 import com.google.gson.JsonObject;
 import com.shreyaspatil.easyupipayment.EasyUpiPayment;
 import com.shreyaspatil.easyupipayment.listener.PaymentStatusListener;
@@ -61,7 +61,7 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
     private CardView layoutOther;
     private TextView txtOtherNote;
 
-    private ApiCall ApiCall;
+    private com.example.betapp.api.ApiCall ApiCall;
     private user userId;
     private int min_Deposit = Integer.MIN_VALUE;
     private String upi = "";
