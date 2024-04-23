@@ -90,7 +90,12 @@ android:layout_gravity="center"
                 />
         </LinearLayout>
 
-
+<androidx.recyclerview.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:id="@+id/rv_amt"
+    />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

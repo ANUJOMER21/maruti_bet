@@ -104,7 +104,7 @@ class GameData {
     private val familyPannel = hashMapOf(
         "111" to listOf(111, 116, 166, 666),
         "112" to listOf(112, 117, 126, 167, 266, 667),
-        "113" to listOf(113,118,145,168,465,668),
+        "113" to listOf(113,118,136,168,366,668),
         "114" to listOf(114, 119, 146, 169, 466, 669),
         "115" to listOf(110, 115, 156, 160, 566, 660),
         "122" to listOf(122, 127, 177, 226, 267, 677),
