@@ -5,7 +5,6 @@ import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
@@ -168,15 +167,6 @@ class GridFragment() : Fragment(), BetItemListener  {
             Log.d("fromvalue_fr","$from || $to")
             val betList:ArrayList<BetItem> =ArrayList()
 
-        /*    for(num in list!!)
-            {
-               val f=num.number.get(0).toInt()-'0'.toInt();
-
-                Log.d("first_num",f.toString())
-                if(f.equals(from)){
-                    betList.add(num)
-                }
-            }*/
             for ( i in 0..list!!.size-1){
                 val f=list[i]
                 val num=sumOfDigits(f.number.toInt())%10
@@ -184,12 +174,15 @@ class GridFragment() : Fragment(), BetItemListener  {
                     betList.add(f)
                 }
             }
-            Log.d("fromvalue_fr",betList.size.toString())
-            adapter=GridAdapter(betList,requireActivity(),this)
+            for( betitem:BetItem in betList){
+                Log.d("fromvalue_fr",betitem.toString())
+            }
+
+            adapter=GridAdapter(betList,requireActivity(),this,rv)
             rv.adapter=adapter
             adapter.notifyDataSetChanged()
         })
-        rv.setOnTouchListener { v, event ->
+  /*    rv.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     startX = event.x
@@ -202,7 +195,10 @@ class GridFragment() : Fragment(), BetItemListener  {
                 }
                 else -> false
             }
-        }
+        }*/
+
+
+
         commonSharedPrefernces= CommonSharedPrefernces(requireActivity())
         user=commonSharedPrefernces.getuser()!!
         marketid= requireActivity().intent.getStringExtra("marketId").toString()
@@ -266,7 +262,7 @@ class GridFragment() : Fragment(), BetItemListener  {
         var checkmin=viewModel.checkmin(min_bet)
         var checkmax=viewModel.checkmax(max_bet)
 
-            if ((sessionType.equals("open")) || (closeRadioButton.isChecked && sessionType.equals("close"))) {
+        if ((sessionType.equals("open")) || (closeRadioButton.isChecked && sessionType.equals("close"))) {
 
                 var check = true
                 list.forEach { if (it.amount != 0) check = false }
@@ -285,6 +281,9 @@ class GridFragment() : Fragment(), BetItemListener  {
                 } else {
                     list.forEach { betItem ->
                         total_amt = total_amt + betItem.amount as Int
+                        if(betItem.amount!=0) {
+                            Log.d("value_total", "number ${betItem.number} amt ${betItem.amount}")
+                        }
                     }
                     val balance_after = wallet - total_amt;
                     val dialogdata = dialogdata(

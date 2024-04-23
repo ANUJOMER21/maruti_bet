@@ -35,23 +35,20 @@ class ViewmodelGrid1 :ViewModel(){
         return  mes
     }
     fun updateBetItemAtPosition(position: Int, newValue: BetItem) {
-        val currentList = _betList.value ?: return
+
 //        for(item in currentList){
 //            if(item.number.equals(position.toString())){
 //
 //            }
 //        }
-        for(i in 0..currentList.size-1){
-            val item=currentList[i]
+        for(i in 0..<_betList.value!!.size){
+            val item=_betList.value!![i]
             if(item.number.equals(position.toString()))
-            {
-                currentList[i]=newValue
+            {   Log.d("value_total","updated number ${item.number} ${newValue.amount}")
+                _betList.value!![i]=newValue
             }
         }
-       /* if (position in 0 until currentList.size) {
-            currentList[position] = newValue
-            _betList.value = currentList
-        }*/
+
 
     }
     private val _fromtopair = MutableLiveData<Pair<Int,Int>>()
