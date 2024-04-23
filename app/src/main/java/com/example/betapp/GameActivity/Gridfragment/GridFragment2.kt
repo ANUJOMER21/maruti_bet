@@ -192,7 +192,7 @@ class GridFragment2 : Fragment() , BetItemListener{
                 }
             }
             Log.d("fromvalue_fr",betList.size.toString())
-            adapter=GridAdapter(betList,requireActivity(),this)
+            adapter=GridAdapter(betList, requireActivity(), this,rv)
             rv.adapter=adapter
             adapter.notifyDataSetChanged()
         })
