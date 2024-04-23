@@ -1,7 +1,7 @@
 package com.example.betapp.model
 
 data class BetItem (
-    val amount:Number,
+    var amount:Number,
     val number:String
 
 ){

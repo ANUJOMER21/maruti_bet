@@ -356,7 +356,7 @@ class GridFragment() : Fragment(), BetItemListener  {
                         if(jsonObject.get("status").toString().equals("\"success\""))
                         {Toast.makeText(requireActivity(),"Bet submitted",Toast.LENGTH_SHORT).show()
                            viewModel.populateBetList()
-                            adapter.notifyDataSetChanged()
+                            adapter.datareset()
                           //  pointsEditText.setText("")
                             setwallet()
 

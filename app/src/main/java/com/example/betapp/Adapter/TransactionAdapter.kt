@@ -14,8 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.betapp.Activity.TransactionBetHistory
+import com.example.betapp.model.BetItem
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.util.Locale
 
 
@@ -26,7 +29,18 @@ class TransactionAdapter(val context: Context,val list:List<com.example.betapp.m
             LayoutInflater.from(context).inflate(R.layout.transaction_view, parent, false)
         return Vh(view)
     }
+    fun parseJsonToBetList(jsonString: String): List<BetItem> {
+        val gson = Gson()
+        val type = object : TypeToken<List<Map<String, Any>>>() {}.type
+        val betDataList: List<Map<String, Any>> = gson.fromJson(jsonString, type)
 
+        return betDataList.map {
+            BetItem(
+                amount = it["amount"] as Double,  // Assuming "amount" is always present and has a valid Double value
+                number = it["number"].toString() // Assuming "number" is always present and has a valid String value
+            )
+        }
+    }
     override fun onBindViewHolder(holder: TransactionAdapter.Vh, position: Int) {
               val Transaction=list.get(position)
         holder.status.setText(Transaction.status)
@@ -47,20 +61,29 @@ class TransactionAdapter(val context: Context,val list:List<com.example.betapp.m
             holder.marketname.setText("${Transaction.gameSubmission.marketname} ")
             val gname:String?= if( Transaction.gameSubmission.gamename!=null)Transaction.gameSubmission.gamename else ""
             holder.gamename.setText(
-
               "$gname (${Transaction.gameSubmission.session})"
             )
 
-            holder.ll1.setOnClickListener{
-                if(Transaction.gameSubmission.marketId!=null){
-                    val intent:Intent= Intent(context,TransactionBetHistory::class.java)
-                    val gson:Gson=Gson()
-                    val data=gson.toJson(Transaction)
-                    intent.putExtra("data",data)
-                    intent.putExtra("gname",gname)
-                    context.startActivity(intent)
-                }
+
+           val listhm= parseJsonToBetList(
+                Transaction.gameSubmission.gameData
+            )
+            holder.rv.layoutManager= LinearLayoutManager(context)
+            var single=false
+            var full=false
+            var  half=false
+            if(gname.equals("Single Digit",true)){
+                single=true
             }
+            if(gname.equals("Full Sangam",true)){
+                full=true
+            }
+            if(gname.equals("Half Sangam",true)){
+                half=true
+            }
+            val adapter=biddingListAdapter(context, listhm,single,full,half)
+            holder.rv.adapter=adapter
+            adapter.notifyDataSetChanged()
         }
 
 
@@ -90,6 +113,7 @@ class TransactionAdapter(val context: Context,val list:List<com.example.betapp.m
           var ll4:LinearLayout
           var gamename:TextView
           var marketname:TextView
+          val rv:RecyclerView
 
         init {
             // Find views by ID
@@ -105,6 +129,7 @@ class TransactionAdapter(val context: Context,val list:List<com.example.betapp.m
             crdr = itemView.findViewById(R.id.crdr)
             amount = itemView.findViewById(R.id.amount)
             narration = itemView.findViewById(R.id.narration)
+            rv=itemView.findViewById(R.id.rv_amt)
         }
     }
 

@@ -191,6 +191,18 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:id="@+id/marketname"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/teal_200"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll4"
+                android:layout_margin="5dp"
+                android:id="@+id/rv_amt"
+                />
         </LinearLayout>
+
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

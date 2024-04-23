@@ -34,7 +34,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:text=""
-                android:singleLine="true"
+             android:layout_toLeftOf="@id/wallet"
                 android:textColor="@color/white"
                 android:textSize="@dimen/activity_vertical_margin"
                 android:textStyle="bold" />
