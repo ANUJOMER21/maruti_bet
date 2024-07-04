@@ -85,6 +85,9 @@
 
     </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
      android:orientation="vertical"
@@ -104,7 +107,7 @@
       
         android:layout_margin="5dp"
         android:layout_height="wrap_content"
-        android:id="@+id/single_digit_cv">
+        android:id="@+id/single_digit_cv2">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -122,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:layout_margin="5dp"
-                android:text="Single Digit"
+                android:text="Single Digit v2"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
         </LinearLayout>
@@ -134,7 +137,7 @@
         android:layout_weight="1"
         android:layout_margin="5dp"
         android:layout_height="wrap_content"
-        android:id="@+id/double_digit_cv">
+        android:id="@+id/double_digit_cv2">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -152,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:layout_margin="5dp"
-                android:text="Jodi Digit"
+                android:text="Jodi Digit v2"
                 android:textStyle="bold"
                 android:layout_gravity="center"/>
         </LinearLayout>
@@ -201,7 +204,7 @@
                 android:layout_weight="1"
                 android:layout_margin="5dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/double_digit_cv2">
+                android:id="@+id/double_patti_cv2">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -231,7 +234,7 @@
                 android:layout_weight="1"
                 android:layout_margin="5dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/triplePatti_cv">
+                android:id="@+id/triplePatti_cv2">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -250,7 +253,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
                         android:layout_margin="5dp"
-                        android:text="Triple Patti"
+                        android:text="Triple Patti v2"
                         android:textStyle="bold"
                         android:layout_gravity="center"/>
                 </LinearLayout>
@@ -616,23 +619,120 @@
                 app:strokeWidth="2dp"
                 app:strokeColor="@color/teal_200"
                 android:layout_width="match_parent"
-                android:layout_margin="5dp"
                 android:layout_weight="1"
+                android:layout_margin="5dp"
                 android:layout_height="wrap_content"
-             >
+                android:id="@+id/triplePatti_cv">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    >
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/three_cards_svgrepo_com"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_margin="5dp"
+                        android:text="Triple Patti"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
             <com.google.android.material.card.MaterialCardView
                 app:strokeWidth="2dp"
                 app:strokeColor="@color/teal_200"
-                android:layout_width="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-             >
 
+
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/single_digit_cv">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    >
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/single_digit"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_margin="5dp"
+                        android:text="Single Digit"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <com.google.android.material.card.MaterialCardView
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/teal_200"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/double_digit_cv">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    >
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/jodi_digit"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_margin="5dp"
+                        android:text="Jodi Digit"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/teal_200"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.card.MaterialCardView
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/teal_200"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 </LinearLayout>

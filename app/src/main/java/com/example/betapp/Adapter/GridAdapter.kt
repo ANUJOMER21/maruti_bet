@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.betapp.GameActivity.Gridfragment.BetItemListener
 import com.example.betapp.R
 import com.example.betapp.model.BetItem
+import kotlin.math.sin
 
 
 class GridAdapter(
@@ -86,14 +87,28 @@ public fun datareset(){
 
     override fun getItemViewType(position: Int)=position
     override fun getItemId(position: Int)=position.toLong()
+    var single:Boolean=false
+    var triple:Boolean=false
+    fun triple(triple:Boolean)
+    {
+        this.triple=triple
+    }
+    fun single(single:Boolean){
+        this.single= single
+    }
     override fun onBindViewHolder( holder: vh, position: Int) {
         holder.setIsRecyclable(false)
         val betItem=betList.get(position)
          var et=holder.amtbet;
 
         val number = betItem.number.toInt()
-        holder.textBet.text = String.format("%02d", number)
-
+        if(single){
+            holder.textBet.text=number.toString();
+        }
+        else if (triple) holder.textBet.text = String.format("%03d", number)
+        else {
+            holder.textBet.text = String.format("%02d", number)
+        }
         et.setText(if(betItem.amount.toString().equals("0") || betItem.amount.toString().isEmpty() ) "" else betItem.amount.toString())
         et.doAfterTextChanged { s ->
             Log.d("aftertextchanged", s.toString())

@@ -96,7 +96,7 @@
        android:id="@+id/nav_view"
        app:itemBackground="@drawable/nav_item_drawable"
        android:layout_gravity="start"
-style="@style/ThemeOverlay.Material3.NavigationView"
+       style="@style/ThemeOverlay.Material3.NavigationView"
        app:headerLayout="@layout/nav_header"
        app:menu="@menu/main_app_drawer"
       />
