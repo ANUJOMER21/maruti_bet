@@ -79,6 +79,7 @@ android:text="Edit Profile"
 
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:background="@drawable/login_fields"
                 android:layout_width="match_parent"
@@ -180,6 +181,7 @@ android:text="Edit Profile"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:background="@drawable/login_fields"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="wrap_content">
 
                 <ImageView
@@ -192,22 +194,22 @@ android:text="Edit Profile"
                     />
 
                 <EditText
-                    android:cursorVisible="true"
-                    android:textCursorDrawable="@null"
-                    android:textColor="@color/login_txt"
-                    android:textColorHint="@color/login_hint"
-
-                    android:layout_gravity="center"
-                    android:singleLine="true"
-                    android:inputType="text"
-
                     android:id="@+id/upi_id"
-                    android:layout_centerVertical="true"
-                    android:padding="@dimen/activity_margin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:cursorVisible="true"
+
                     android:hint="Upi Id"
-                    android:background="@null"/>
+                    android:inputType="text"
+                    android:padding="@dimen/activity_margin"
+                    android:singleLine="true"
+                    android:textColor="@color/login_txt"
+                    android:textColorHint="@color/login_hint"
+                    android:textCursorDrawable="@null" />
             </LinearLayout>
             <LinearLayout
                 android:layout_marginTop="@dimen/activity_margin"
@@ -280,7 +282,7 @@ android:text="Edit Profile"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="@dimen/padding_twenty"
                 android:background="@drawable/button_gradient"
-                android:text="Send Otp"
+                android:text="Update Detail"
                 android:textColor="@color/button_txt" />
 
 

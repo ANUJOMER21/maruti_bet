@@ -3,6 +3,8 @@ package com.example.betapp.GameActivity.Gridfragment
 import android.animation.ObjectAnimator
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -301,6 +303,7 @@ class GridFragment() : Fragment(), BetItemListener  {
                             }
 
                             override fun onConfirmClicked() {
+
                                 if (balance_after < 0) {
                                     Toast.makeText(
                                         requireActivity(),
@@ -314,10 +317,12 @@ class GridFragment() : Fragment(), BetItemListener  {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } else {
+
                                     callapi(total_amt)
                                 }
                                 total_amt = 0
-                                submitButton.visibility=View.VISIBLE
+                                visblesubmitbtn()
+
                             }
 
                         })
@@ -333,7 +338,17 @@ class GridFragment() : Fragment(), BetItemListener  {
 
 
     }
-    private fun callapi(total_amt: Int) {
+
+    private fun visblesubmitbtn() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Show the button after 10 seconds
+            submitButton.visibility=View.VISIBLE
+        }, 5000)
+
+
+    }
+
+    private fun callapi    (total_amt: Int) {
         val gameDatas= GameDatas(
             marketId =marketid.toInt(),
             gameId = 20,

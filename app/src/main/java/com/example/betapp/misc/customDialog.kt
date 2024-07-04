@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.betapp.R
@@ -48,6 +49,7 @@ class customDialog(context: Context,val Dialogdata: dialogdata,val listener: Cus
         confirmButton.setOnClickListener {
             // Call onConfirmClicked in the main activity
             listener.onConfirmClicked()
+            confirmButton.visibility= View.GONE
             dismiss()
         }
     }

@@ -19,5 +19,8 @@ data class WebsiteSettings(
     val telegram_status: String,
     val upi: String,
     val whatsapp_status: String,
-    val withdrow_timing: String
+    val withdrow_timing: String,
+    val phonepepg:String,
+    val phonepepg2:String?,
+    val sabpaisa:String
 )

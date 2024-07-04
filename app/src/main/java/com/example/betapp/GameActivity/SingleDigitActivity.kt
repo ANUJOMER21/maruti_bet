@@ -4,6 +4,8 @@ import android.animation.ObjectAnimator
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -211,7 +213,7 @@ class SingleDigitActivity : AppCompatActivity() {
                                 callapi(total_amt)
                             }
                             total_amt = 0
-                            submitButton.visibility = View.VISIBLE
+                           visblesubmitbtn()
                         }
                     }
 
@@ -226,6 +228,14 @@ class SingleDigitActivity : AppCompatActivity() {
             val message=if(openRadioButton.isChecked) "Game run in close session" else "Game run in open session"
             Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
         }
+
+    }
+    private fun visblesubmitbtn() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Show the button after 10 seconds
+            submitButton.visibility=View.VISIBLE
+        }, 5000)
+
 
     }
     fun convertListToJson(betItems: List<BetItem>): String {

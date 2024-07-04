@@ -3,6 +3,8 @@ package com.example.betapp.GameActivity.Gridfragment
 import android.animation.ObjectAnimator
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -128,7 +130,14 @@ class GridFragment2 : Fragment() , BetItemListener{
         }
     }
     lateinit var tabLayout:TabLayout
+    private fun visblesubmitbtn() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Show the button after 10 seconds
+            submitButton.visibility=View.VISIBLE
+        }, 5000)
 
+
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -196,7 +205,7 @@ class GridFragment2 : Fragment() , BetItemListener{
             rv.adapter=adapter
             adapter.notifyDataSetChanged()
         })
-        rv.setOnTouchListener { v, event ->
+    /*    rv.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     startX = event.x
@@ -209,7 +218,7 @@ class GridFragment2 : Fragment() , BetItemListener{
                 }
                 else -> false
             }
-        }
+        }*/
         commonSharedPrefernces= CommonSharedPrefernces(requireActivity())
         user=commonSharedPrefernces.getuser()!!
         marketid= requireActivity().intent.getStringExtra("marketId").toString()
@@ -325,7 +334,7 @@ class GridFragment2 : Fragment() , BetItemListener{
                                     callapi(total_amt)
                                 }
                                 total_amt = 0
-                                submitButton.visibility=View.VISIBLE
+                               visblesubmitbtn()
                             }
 
                         })

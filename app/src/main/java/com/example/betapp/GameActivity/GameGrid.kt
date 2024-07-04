@@ -27,11 +27,14 @@ class GameGrid : AppCompatActivity() {
 
     private lateinit var singleDigitCardView: MaterialCardView
     private lateinit var doubleDigitCardView: MaterialCardView
+    private lateinit var singleDigitCardViewv2: MaterialCardView
+    private lateinit var doubleDigitCardViewv2: MaterialCardView
     private lateinit var singlePattiCardView: MaterialCardView
     private lateinit var doublePattiCardView: MaterialCardView
     private lateinit var singlePattiCardViewv2: MaterialCardView
     private lateinit var doublePattiCardViewv2: MaterialCardView
     private lateinit var triplePattiCardView: MaterialCardView
+    private lateinit var triplePattiCardViewv2: MaterialCardView
     private lateinit var halfSangamCardView: MaterialCardView
     private lateinit var fullSangamCardView: MaterialCardView
     private lateinit var spCardView: MaterialCardView
@@ -134,12 +137,15 @@ class GameGrid : AppCompatActivity() {
     private fun gameclick(){
         if(session.isNotEmpty()) {
             singleDigitCardView.setOnClickListener {
-                startCardActivity("SingleDigitActivity")
+                startCardActivity(
+                    //"SingleDigitActivity"
+                    "SingleDigit2"
+                )
             }
 
             doubleDigitCardView.setOnClickListener {
                 if(session.equals("open"))
-                   startCardActivity("DoubleDigit")
+                   startCardActivity("JodiDigit2")
                 else{
                     Toast.makeText(this,"Game is Close.",Toast.LENGTH_SHORT).show()
                 }
@@ -161,7 +167,7 @@ class GameGrid : AppCompatActivity() {
             }
 
             triplePattiCardView.setOnClickListener {
-                startCardActivity("TriplePatti")
+                startCardActivity("TriplePatti2")
             }
 
             halfSangamCardView.setOnClickListener {
@@ -219,6 +225,23 @@ class GameGrid : AppCompatActivity() {
 
             familyPanelCardView.setOnClickListener {
                 startCardActivity("FamilyPannel")
+            }
+            singleDigitCardViewv2.setOnClickListener {
+                startCardActivity(
+                    //"SingleDigitActivity"
+                    "SingleDigitActivity"
+                )
+            }
+            doubleDigitCardViewv2.setOnClickListener{
+                startCardActivity(
+                    //"SingleDigitActivity"
+                    "DoubleDigit"
+                )
+            }
+            triplePattiCardViewv2.setOnClickListener {
+                startCardActivity(
+                    "TriplePatti"
+                )
             }
         }
         else{
@@ -285,13 +308,16 @@ setwallet()
     }
 
     private fun initview() {
-        singleDigitCardView = findViewById(R.id.single_digit_cv)
-        doubleDigitCardView = findViewById(R.id.double_digit_cv)
+        singleDigitCardView = findViewById(R.id.single_digit_cv2)
+        doubleDigitCardView = findViewById(R.id.double_digit_cv2)
+        singleDigitCardViewv2 = findViewById(R.id.single_digit_cv)
+        doubleDigitCardViewv2 = findViewById(R.id.double_digit_cv)
         singlePattiCardView = findViewById(R.id.single_patti_cv)
         doublePattiCardView = findViewById(R.id.double_patti_cv)
         singlePattiCardViewv2 = findViewById(R.id.single_patti_cv2)
-        doublePattiCardViewv2 = findViewById(R.id.double_digit_cv2)
-        triplePattiCardView = findViewById(R.id.triplePatti_cv)
+        doublePattiCardViewv2 = findViewById(R.id.double_patti_cv2)
+        triplePattiCardView = findViewById(R.id.triplePatti_cv2)
+        triplePattiCardViewv2 = findViewById(R.id.triplePatti_cv)
         halfSangamCardView = findViewById(R.id.half_sangam_cv)
         fullSangamCardView = findViewById(R.id.full_sangam_cv)
         spCardView = findViewById(R.id.sp_cv)

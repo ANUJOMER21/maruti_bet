@@ -5,6 +5,8 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -205,7 +207,7 @@ class FamilyJodi : AppCompatActivity() {
                                 } else {
                                     callapi(total_amt)
                                 }
-                                submitButton.visibility=View.VISIBLE
+                                visblesubmitbtn()
                                 total_amt = 0
                             }
 
@@ -224,7 +226,14 @@ class FamilyJodi : AppCompatActivity() {
 
 
     }
+    private fun visblesubmitbtn() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Show the button after 10 seconds
+            submitButton.visibility=View.VISIBLE
+        }, 5000)
 
+
+    }
     private fun callapi(total_amt: Int) {
         val gameDatas= GameDatas(
             marketId =marketid.toInt(),

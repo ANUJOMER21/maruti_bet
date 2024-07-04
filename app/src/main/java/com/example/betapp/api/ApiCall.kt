@@ -165,6 +165,21 @@ class ApiCall {
                         } else {
                             map.put("bhim",false)
                         }
+                        if (webseiteSettings1!!.sabpaisa.equals("enable")) {
+                            map.put("sabpaisa", true)
+                        } else {
+                            map.put("sabpaisa",false)
+                        }
+                        if (webseiteSettings1!!.phonepepg.equals("enable")) {
+                            map.put("phonepepg", true)
+                        } else {
+                            map.put("phonepepg",false)
+                        }
+                       /* if (webseiteSettings1!!.phonepepg2!!.equals("enable")) {
+                            map.put("phonepepg2", true)
+                        } else {
+                            map.put("phonepepg2",false)
+                        }*/
                         callback.onTypeGet(map)
                     }
                     else{

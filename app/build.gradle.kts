@@ -13,7 +13,7 @@ android {
         minSdk = 24
         targetSdk = 33
         versionCode = 1
-        versionName = "1.2"
+        versionName = "1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -45,7 +45,7 @@ dependencies {
     implementation ("com.github.smarteist:autoimageslider:1.4.0")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
     implementation ("dev.shreyaspatil.EasyUpiPayment:EasyUpiPayment:3.0.3")
-    implementation ("com.shreyaspatil:EasyUpiPayment:3.0.1")
+  //  implementation ("com.shreyaspatil:EasyUpiPayment:3.0.1")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.google.code.gson:gson:2.10.1")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")

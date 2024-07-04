@@ -264,6 +264,256 @@
 
 </LinearLayout>
         <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+
+    >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:weightSum="2">
+    <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/margin_fifteen"
+        app:cardCornerRadius="@dimen/five"
+        android:id="@+id/layoutPhonepe2pg"
+        android:visibility="visible"
+        app:cardElevation="@dimen/five"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+
+            android:padding="@dimen/activity_margin"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:layout_gravity="center"
+                android:src="@drawable/payment_gateway_logo" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="PhonePe Gateway 1"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"/> />
+
+                <TextView
+                    android:id="@+id/txt_phonenotepg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/time" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/margin_fifteen"
+        app:cardCornerRadius="@dimen/five"
+        android:id="@+id/layoutPhonepe2pg2"
+        android:visibility="visible"
+        app:cardElevation="@dimen/five"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+
+            android:padding="@dimen/activity_margin"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:layout_gravity="center"
+                android:src="@drawable/payment_gateway_logo" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="PhonePe Gateway 2"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"/> />
+
+                <TextView
+                    android:id="@+id/txt_phonenotepg2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/time" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/margin_fifteen"
+        app:cardCornerRadius="@dimen/five"
+        android:id="@+id/layoutPhonepesd"
+        app:cardElevation="@dimen/five"
+        android:visibility="gone"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+
+            android:padding="@dimen/activity_margin"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/bhimupi"
+                android:layout_gravity="center"
+                />
+
+
+            <LinearLayout
+            android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bhim UPI"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/txt_phonepenotesda"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="@dimen/time"
+                    android:textColor="@color/black"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>        <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+
+    >
+    <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/margin_fifteen"
+        app:cardCornerRadius="@dimen/five"
+        android:id="@+id/sabpaisacv"
+        android:visibility="visible"
+        app:cardElevation="@dimen/five"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+
+            android:padding="@dimen/activity_margin"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+android:paddingStart="40dp"
+                android:paddingEnd="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/sav_paisa" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="SabPaisa Gateway"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"/> />
+
+                <TextView
+                    android:id="@+id/txt_simple"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/time" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+
+</LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

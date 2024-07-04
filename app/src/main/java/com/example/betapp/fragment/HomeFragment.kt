@@ -145,7 +145,7 @@ private  lateinit var ApiCall:ApiCall
 
         })
         Whatsapp.setOnClickListener {
-            sendMessageToWhatsApp("91"+whats, "Hello")
+            sendMessageToWhatsApp("91"+whats, "Ask Admin About ")
 
         }
         ApiCall.youtubesetting(object :ApiCall.WebseiteSetting{
@@ -166,7 +166,7 @@ private  lateinit var ApiCall:ApiCall
 
         })
         Whatsapp.setOnClickListener {
-            sendMessageToWhatsApp("91"+whats, "Hello")
+            sendMessageToWhatsApp("91"+whats, "Ask Admin About")
 
         }
         youtube.setOnClickListener {

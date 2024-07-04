@@ -101,34 +101,61 @@ Log.d("bankdetail",bankdetail.bankacNo)
         val update_profile:AppCompatButton=view.findViewById(R.id.sendOtpRegistration);
         update_profile.setOnClickListener {
             if (email.text.isEmpty() || phonepe.text.isEmpty() ||
-                upiid.text.isEmpty() || bank.text.isEmpty() || ifsc.text.isEmpty()) {
+          /*      upiid.text.isEmpty() ||*/ bank.text.isEmpty() || ifsc.text.isEmpty()) {
                 Toast.makeText(activity, "Please Fill All Field", Toast.LENGTH_SHORT).show()
                 // Handle the case where any of the fields is empty, show an error message or take appropriate action
             }
             else {
-                otpll.visibility=View.VISIBLE
-                profilell.visibility=View.GONE
+                val jsonObject = HashMap<String,String>()
+                jsonObject.put("userId", user.id)
+                jsonObject.put("email", email.text.toString())
+                jsonObject.put("phoneme", phonepe.text.toString())
+                jsonObject.put("upi_id", "")
+                jsonObject.put("acno", bank.text.toString())
+                jsonObject.put("ifsc", ifsc.text.toString())
+                jsonObject.put("Gpay",gpay.text.toString())
+                Log.d("json",jsonObject.toString());
+                // Now you have a JSON object with all the fields and userId
                 val apiCall:ApiCall= ApiCall()
-                val mobile=commonSharedPrefernces.getuser()!!.mobile
-                apiCall.sendotp(mobile,object :ApiCall.otpresponse{
-                    override fun onSiuccess(sessionId: String) {
-                        this@profileFragment.sessionId =sessionId
+                apiCall.updateProfile(jsonObject,object :ApiResponse{
+                    override fun onSuccess(jsonObject: JsonObject) {
+                        if (!jsonObject.isJsonNull) {
+                            if (jsonObject.get("status").toString().equals("\"success\"")) {
+                                val data = jsonObject.getAsJsonObject("data")
 
+                                val bankdetail=bankdetail(
+                                    phonePe = data.get("phoneme").toString().removeSurrounding("\""),
+                                    upiId =data.get("upi_id").toString().removeSurrounding("\""),
+                                    bankacNo = data.get("acno").toString().removeSurrounding("\""),
+                                    gpay=gpay.text.toString(),
+                                    ifsc=data.get("ifsc").toString().removeSurrounding("\"")
 
+                                )
+                                commonSharedPrefernces.savebank(bankdetail)
+                                otpll.visibility=View.GONE
+                                profilell.visibility=View.VISIBLE
+                                Toast.makeText(activity,"Detail Updated",Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(activity,"Error: ${jsonObject.get("status")}",Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        else{
+                            Toast.makeText(activity,"Failed",Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                     override fun onFailure(failure: String) {
-                   Toast.makeText(activity,failure,Toast.LENGTH_SHORT).show()
+                        Toast.makeText(activity,failure,Toast.LENGTH_SHORT).show()
                     }
 
                 })
-
 
                 // All fields are non-empty, create a JSON object
 
                 // Do something with the jsonString, such as sending it to a server or storing it locally
                 // Example: sendJsonToServer(jsonString)
             }
+
         }
         updateprofile.setOnClickListener {
             if(otp.text.toString().isEmpty()){
@@ -139,49 +166,7 @@ Log.d("bankdetail",bankdetail.bankacNo)
                 apiCall.checkotp(sessionId,
                     otp.text.toString(),object :ApiCall.otpresponse{
                         override fun onSiuccess(sessionId: String) {
-                            val jsonObject = HashMap<String,String>()
-                            jsonObject.put("userId", user.id)
-                            jsonObject.put("email", email.text.toString())
-                            jsonObject.put("phoneme", phonepe.text.toString())
-                            jsonObject.put("upi_id", upiid.text.toString())
-                            jsonObject.put("acno", bank.text.toString())
-                            jsonObject.put("ifsc", ifsc.text.toString())
-                            jsonObject.put("Gpay",gpay.text.toString())
-                            Log.d("json",jsonObject.toString());
-                            // Now you have a JSON object with all the fields and userId
-                            val apiCall:ApiCall= ApiCall()
-                            apiCall.updateProfile(jsonObject,object :ApiResponse{
-                                override fun onSuccess(jsonObject: JsonObject) {
-                                    if (!jsonObject.isJsonNull) {
-                                        if (jsonObject.get("status").toString().equals("\"success\"")) {
-                                            val data = jsonObject.getAsJsonObject("data")
 
-                                            val bankdetail=bankdetail(
-                                                phonePe = data.get("phoneme").toString().removeSurrounding("\""),
-                                                upiId =data.get("upi_id").toString().removeSurrounding("\""),
-                                                bankacNo = data.get("acno").toString().removeSurrounding("\""),
-                                                gpay=gpay.text.toString(),
-                                                ifsc=data.get("ifsc").toString().removeSurrounding("\"")
-
-                                            )
-                                            commonSharedPrefernces.savebank(bankdetail)
-                                            otpll.visibility=View.GONE
-                                            profilell.visibility=View.VISIBLE
-                                            Toast.makeText(activity,"Detail Updated",Toast.LENGTH_SHORT).show()
-                                        } else {
-                                            Toast.makeText(activity,"Error: ${jsonObject.get("status")}",Toast.LENGTH_SHORT).show()
-                                        }
-                                    }
-                                    else{
-                                        Toast.makeText(activity,"Failed",Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-
-                                override fun onFailure(failure: String) {
-                                    Toast.makeText(activity,failure,Toast.LENGTH_SHORT).show()
-                                }
-
-                            })
 
 
                         }
