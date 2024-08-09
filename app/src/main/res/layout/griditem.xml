@@ -1,0 +1,46 @@
+<!-- res/layout/item_bet.xml -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    android:layout_height="wrap_content"
+    app:strokeColor="@color/black"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:id="@+id/imageDelete"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_weight="1"
+            android:id="@+id/textBet"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/teal_200"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="01"
+            android:textColor="@color/text_color_other" />
+
+        <EditText
+            android:id="@+id/textAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_jantari_edit"
+            android:gravity="center"
+
+android:inputType="number"
+            android:layout_weight="1"
+
+            android:textSize="18sp"
+            android:textColor="@color/betting_txt"
+            android:padding="10dp"/>
+
+
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

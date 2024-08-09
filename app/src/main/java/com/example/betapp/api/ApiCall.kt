@@ -3,22 +3,14 @@ package com.example.betapp.api
 import RetrofitInstance
 import android.annotation.SuppressLint
 import android.util.Log
-import com.example.betapp.model.BidHistory
-import com.example.betapp.model.Game
 
 import com.example.betapp.model.GameDatas
-import com.example.betapp.model.SliderItem
-import com.example.betapp.model.Transaction
-import com.example.betapp.model.TransactionHistory
-import com.example.betapp.model.UserGameSubmission
 import com.example.betapp.model.WebsiteSettings
 import com.example.betapp.model.WebsiteSettingsResponse
-import com.example.betapp.model.game_amt
-import com.example.betapp.model.market
 import com.example.betapp.model.message
 import com.example.betapp.model.sentotp
+import com.example.betapp.model.timemodel
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,17 +23,18 @@ class ApiCall {
     }
     @SuppressLint("SuspiciousIndentation")
     fun Sliderlist(Lcallback: SLiderCallback){
-        val call:Call<List<SliderItem>> =RetrofitInstance.instance.slider()
-        call.enqueue(object :Callback<List<SliderItem>>{
+        val call:Call<List<com.example.betapp.model.SliderItem>> =RetrofitInstance.instance.slider()
+        call.enqueue(object :Callback<List<com.example.betapp.model.SliderItem>>{
             override fun onResponse(
-                call: Call<List<SliderItem>>,
-                response: Response<List<SliderItem>>
+                call: Call<List<com.example.betapp.model.SliderItem>>,
+                response: Response<List<com.example.betapp.model.SliderItem>>
             ) {
                 if(response.isSuccessful&& response.body()!!.size>0) {
-                  val url= "https://works.diginspire.in/jannat/admin/sliders/"
+                  val url= "https://marutibets.com/admin/sliders/"
                     val listslider: ArrayList<String> = ArrayList()
-                    for (slider: SliderItem in response.body()!!) {
+                    for (slider: com.example.betapp.model.SliderItem in response.body()!!) {
                         listslider.add(url+slider.sliderImage)
+                        Log.d("path",url+slider.sliderImage)
                     }
                     Lcallback.onSlierReceived(listslider)
                 }
@@ -50,7 +43,7 @@ class ApiCall {
                 }
             }
 
-            override fun onFailure(call: Call<List<SliderItem>>, t: Throwable) {
+            override fun onFailure(call: Call<List<com.example.betapp.model.SliderItem>>, t: Throwable) {
        Lcallback.onFailure(
            t.toString()
        )
@@ -120,7 +113,7 @@ class ApiCall {
          })
      }
     interface MarketCallback {
-        fun onMarketsReceived(markets: List<market>)
+        fun onMarketsReceived(markets: List<com.example.betapp.model.market>)
         fun onFailure(error: Throwable)
     }
     interface WebseiteSettingInterface{
@@ -173,6 +166,26 @@ class ApiCall {
                         } else {
                             map.put("bhim",false)
                         }
+                        if (webseiteSettings1!!.sabpaisa.equals("enable")) {
+                            map.put("sabpaisa", true)
+                        } else {
+                            map.put("sabpaisa",false)
+                        }
+                        if (webseiteSettings1!!.phonepepg.equals("enable")) {
+                            map.put("phonepepg", true)
+                        } else {
+                            map.put("phonepepg",false)
+                        }
+                        if (webseiteSettings1!!.phonepepg1!!.equals("enable")) {
+                            map.put("phonepepg2", true)
+                        } else {
+                            map.put("phonepepg2",false)
+                        }
+                        if (webseiteSettings1!!.phonepepg2!!.equals("enable")) {
+                            map.put("phonepepg0", true)
+                        } else {
+                            map.put("phonepepg0",false)
+                        }
                         callback.onTypeGet(map)
                     }
                     else{
@@ -190,6 +203,25 @@ class ApiCall {
 
 
         })
+    }
+
+    fun timecallback(callback:(timemodel:timemodel?,failure:Boolean)->Unit){
+        val call:Call<timemodel> =RetrofitInstance.instance.time()
+        call.enqueue(object :Callback<timemodel>{
+            override fun onResponse(call: Call<timemodel>, response: Response<timemodel>) {
+                if(response.body()!=null){
+                    callback(response.body()!!,false)
+                }
+                else
+                    callback(null,true)
+
+            }
+
+            override fun onFailure(call: Call<timemodel>, t: Throwable) {
+                callback(null,true)
+            }
+        })
+
     }
     fun youtubesetting(callback: WebseiteSetting){
         val call:Call<WebsiteSettingsResponse> =RetrofitInstance.instance.AppConfig()
@@ -411,18 +443,23 @@ callback.onFailure("failed")
     }
 
     fun getMarkets(callback: MarketCallback) {
-        val call: Call<List<market>> = RetrofitInstance.instance.marketApi()
-        call.enqueue(object : Callback<List<market>> {
-            override fun onResponse(call: Call<List<market>>, response: Response<List<market>>) {
+        val call: Call<List<com.example.betapp.model.market>> = RetrofitInstance.instance.marketApi()
+        call.enqueue(object : Callback<List<com.example.betapp.model.market>> {
+            override fun onResponse(call: Call<List<com.example.betapp.model.market>>, response: Response<List<com.example.betapp.model.market>>) {
                 if (response.isSuccessful) {
                     val markets = response.body() ?: emptyList()
-                    callback.onMarketsReceived(markets)
+                    if(markets!=null){
+                        callback.onMarketsReceived(markets)
+                    }
+                    else{
+                        callback.onFailure(Throwable("Request failed with code ${response.code()}"))
+                    }
                 } else {
                     callback.onFailure(Throwable("Request failed with code ${response.code()}"))
                 }
             }
 
-            override fun onFailure(call: Call<List<market>>, t: Throwable) {
+            override fun onFailure(call: Call<List<com.example.betapp.model.market>>, t: Throwable) {
                 callback.onFailure(t)
             }
         })
@@ -508,9 +545,9 @@ callback.onFailure("failed")
     }
 
     fun showgame(callback: game){
-        val call:Call<game_amt> =RetrofitInstance.instance.showgame()
-        call.enqueue(object :Callback<game_amt>{
-            override fun onResponse(call: Call<game_amt>, response: Response<game_amt>) {
+        val call:Call<com.example.betapp.model.game_amt> =RetrofitInstance.instance.showgame()
+        call.enqueue(object :Callback<com.example.betapp.model.game_amt>{
+            override fun onResponse(call: Call<com.example.betapp.model.game_amt>, response: Response<com.example.betapp.model.game_amt>) {
                     if(response.body()!=null){
                         if(response.body()!!.status.equals("success")){
                             val games = response.body()?.games
@@ -525,7 +562,7 @@ callback.onFailure("failed")
                     }
             }
 
-            override fun onFailure(call: Call<game_amt>, t: Throwable) {
+            override fun onFailure(call: Call<com.example.betapp.model.game_amt>, t: Throwable) {
                 TODO("Not yet implemented")
             }
 
@@ -557,6 +594,7 @@ callback.onFailure("failed")
 
         override fun onFailure(call: Call<JsonObject>, t: Throwable) {
          callback.onFailure(t.toString())
+            Log.d("Failed_game",t.toString())
         }
 
     })
@@ -564,9 +602,9 @@ callback.onFailure("failed")
 
 }
     fun bidHist(userId: String,callback:bid){
-    val call:Call<BidHistory> =RetrofitInstance.instance.biddinghistory(userId)
-    call.enqueue(object :Callback<BidHistory>{
-        override fun onResponse(call: Call<BidHistory>, response: Response<BidHistory>) {
+    val call:Call<com.example.betapp.model.BidHistory> =RetrofitInstance.instance.biddinghistory(userId)
+    call.enqueue(object :Callback<com.example.betapp.model.BidHistory>{
+        override fun onResponse(call: Call<com.example.betapp.model.BidHistory>, response: Response<com.example.betapp.model.BidHistory>) {
             if(response.body()!!.status.equals("success"))
             {
                 callback.onSuccess(response.body()!!.userGameSubmissions)
@@ -576,7 +614,7 @@ callback.onFailure("failed")
             }
         }
 
-        override fun onFailure(call: Call<BidHistory>, t: Throwable) {
+        override fun onFailure(call: Call<com.example.betapp.model.BidHistory>, t: Throwable) {
        callback.onFailure(t.toString())
         }
 
@@ -584,11 +622,11 @@ callback.onFailure("failed")
 }
 
     fun deposithist(userId: String,callback:transaction){
-        val call:Call<TransactionHistory> =RetrofitInstance.instance.depositHistory(userId)
-        call.enqueue(object :Callback<TransactionHistory>{
+        val call:Call<com.example.betapp.model.TransactionHistory> =RetrofitInstance.instance.depositHistory(userId)
+        call.enqueue(object :Callback<com.example.betapp.model.TransactionHistory>{
             override fun onResponse(
-                call: Call<TransactionHistory>,
-                response: Response<TransactionHistory>
+                call: Call<com.example.betapp.model.TransactionHistory>,
+                response: Response<com.example.betapp.model.TransactionHistory>
             ) {
                 if(response.body()!!.status.equals("success"))
                 {
@@ -599,7 +637,7 @@ callback.onFailure("failed")
                 }
             }
 
-            override fun onFailure(call: Call<TransactionHistory>, t: Throwable) {
+            override fun onFailure(call: Call<com.example.betapp.model.TransactionHistory>, t: Throwable) {
                 callback.onFailure(t.toString())
             }
 
@@ -607,11 +645,11 @@ callback.onFailure("failed")
     }
 
     fun winhisthist(userId: String,callback:transaction){
-        val call:Call<TransactionHistory> =RetrofitInstance.instance.windataHistory(userId)
-        call.enqueue(object :Callback<TransactionHistory>{
+        val call:Call<com.example.betapp.model.TransactionHistory> =RetrofitInstance.instance.windataHistory(userId)
+        call.enqueue(object :Callback<com.example.betapp.model.TransactionHistory>{
             override fun onResponse(
-                call: Call<TransactionHistory>,
-                response: Response<TransactionHistory>
+                call: Call<com.example.betapp.model.TransactionHistory>,
+                response: Response<com.example.betapp.model.TransactionHistory>
             ) {
                 if(response.body()!!.status.equals("success"))
                 {
@@ -622,18 +660,18 @@ callback.onFailure("failed")
                 }
             }
 
-            override fun onFailure(call: Call<TransactionHistory>, t: Throwable) {
+            override fun onFailure(call: Call<com.example.betapp.model.TransactionHistory>, t: Throwable) {
                 callback.onFailure(t.toString())
             }
 
         })
     }
     fun withhist(userId: String,callback:transaction){
-        val call:Call<TransactionHistory> =RetrofitInstance.instance.withdrawHistory(userId)
-        call.enqueue(object :Callback<TransactionHistory>{
+        val call:Call<com.example.betapp.model.TransactionHistory> =RetrofitInstance.instance.withdrawHistory(userId)
+        call.enqueue(object :Callback<com.example.betapp.model.TransactionHistory>{
             override fun onResponse(
-                call: Call<TransactionHistory>,
-                response: Response<TransactionHistory>
+                call: Call<com.example.betapp.model.TransactionHistory>,
+                response: Response<com.example.betapp.model.TransactionHistory>
             ) {
                 if(response.body()!!.status.equals("success"))
                 {
@@ -644,18 +682,18 @@ callback.onFailure("failed")
                 }
             }
 
-            override fun onFailure(call: Call<TransactionHistory>, t: Throwable) {
+            override fun onFailure(call: Call<com.example.betapp.model.TransactionHistory>, t: Throwable) {
                 callback.onFailure(t.toString())
             }
 
         })
     }
     fun transhist(userId: String,callback:transaction){
-        val call:Call<TransactionHistory> =RetrofitInstance.instance.transactionHistory(userId)
-        call.enqueue(object :Callback<TransactionHistory>{
+        val call:Call<com.example.betapp.model.TransactionHistory> =RetrofitInstance.instance.transactionHistory(userId)
+        call.enqueue(object :Callback<com.example.betapp.model.TransactionHistory>{
             override fun onResponse(
-                call: Call<TransactionHistory>,
-                response: Response<TransactionHistory>
+                call: Call<com.example.betapp.model.TransactionHistory>,
+                response: Response<com.example.betapp.model.TransactionHistory>
             ) {
                 if(response.body()!!.status.equals("success"))
                 {
@@ -666,7 +704,7 @@ callback.onFailure("failed")
                 }
             }
 
-            override fun onFailure(call: Call<TransactionHistory>, t: Throwable) {
+            override fun onFailure(call: Call<com.example.betapp.model.TransactionHistory>, t: Throwable) {
                 callback.onFailure(t.toString())
             }
 
@@ -754,14 +792,14 @@ val call:Call<sentotp> =RetrofitInstance.instance.senotp(Mobile)
 
 }
 interface transaction{
-    fun onSuccess(games: List<Transaction>)
+    fun onSuccess(games: List<com.example.betapp.model.Transaction>)
     fun onFailure(failure:String)
 }
 interface bid{
-    fun onSuccess(games: List<UserGameSubmission>)
+    fun onSuccess(games: List<com.example.betapp.model.UserGameSubmission>)
     fun onFailure(failure:String)
 }
 interface game{
-    fun onSuccess(games: List<Game>)
+    fun onSuccess(games: List<com.example.betapp.model.Game>)
     fun onFailure(failure:String)
 }

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Message
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
@@ -41,6 +40,9 @@ class SignupPage : AppCompatActivity() {
              }
             else if(mobile.text!!.isEmpty()){
                 toast("Please enter Mobile No.")
+             }
+            else if(mobile.text!!.length<10){
+                toast("Please enter correct mobile No.")
              }
             else if(email.text!!.isEmpty()){
                 toast("Please enter Email")

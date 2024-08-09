@@ -1,5 +1,6 @@
 package com.example.betapp.Activity
 
+import RetrofitInstance
 import android.Manifest
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -47,17 +48,18 @@ import com.example.betapp.fragment.WinDataFragment
 import com.example.betapp.fragment.WithdrawRequestFragment
 import com.example.betapp.fragment.bid_historyFragment
 import com.example.betapp.fragment.profileFragment
-import com.example.betapp.fragment.walletFragment
-import com.example.betapp.fragment.walletFragment2
 import com.example.betapp.fragment.withdrawHistfragment
 import com.example.betapp.misc.CommonSharedPrefernces
 import com.example.betapp.misc.ToolbarChangeListener
+import com.example.betapp.model.appversion
 import com.example.betapp.model.user
-import com.google.android.gms.tasks.Task
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.JsonObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() ,NavigationView.OnNavigationItemSelectedListener,ToolbarChangeListener {
     private lateinit var  drawerLayout:DrawerLayout;
@@ -88,10 +90,34 @@ class MainActivity : AppCompatActivity() ,NavigationView.OnNavigationItemSelecte
     }
     private  var autodeposit:Boolean=false;
 private  var whartsapp:String=""
+    val callappversion=object :Callback<appversion>{
+        override fun onResponse(call: Call<appversion>, response: Response<appversion>) {
+            val pInfo = packageManager.getPackageInfo(
+                packageName, 0
+            )
+            val version = pInfo.versionName
+            if(response.isSuccessful){
+                if(!response.body()!!.version.equals(version)){
+                    startActivity(Intent(this@MainActivity,
+                        com.example.betapp.Activity.Appversioncheck::class.java))
+                    finish()
+                }
+            }
+        }
+
+        override fun onFailure(call: Call<appversion>, t: Throwable) {
+
+        }
+
+    }
+    private fun checkversion(){
+       RetrofitInstance.instance.app_version().enqueue(callappversion)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         FirebaseApp.initializeApp(this);
+        checkversion()
         FirebaseMessaging.getInstance().subscribeToTopic("your_topic_name")
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -100,6 +126,7 @@ private  var whartsapp:String=""
                     Log.e("FCM Topic", "Error subscribing to topic: ${task.exception}")
                 }
             }
+
         getFCMRegistrationToken()
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar)
@@ -310,7 +337,7 @@ private  var whartsapp:String=""
     R.id.my_profile->supportFragmentManager.beginTransaction().replace(R.id.fragment_container,profileFragment()).commit()
     R.id.nav_wallet_history-> {if(autodeposit){
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
-            walletFragment2()
+            com.example.betapp.fragment.walletFragment2()
         ).commit()}
     else{
         sendtowhatsapp()

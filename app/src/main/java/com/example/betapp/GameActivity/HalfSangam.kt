@@ -5,6 +5,8 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -17,7 +19,6 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.betapp.Adapter.BetAdapter
 import com.example.betapp.R
@@ -35,7 +36,7 @@ import com.example.betapp.model.user
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import java.util.Collections
+import java.util.Date
 import java.util.Locale
 
 class HalfSangam : AppCompatActivity() {
@@ -66,11 +67,19 @@ class HalfSangam : AppCompatActivity() {
     private fun isTimeBetween(currentTime: String, openTime: String, closeTime: String): Boolean {
         try {
             val parser = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            val currentTimeDate = parser.parse(currentTime)
+            val currentTime = Date()
+
+            // Format the current time using the SimpleDateFormat object
+
+            // Format the current time using the SimpleDateFormat object
+            val formattedTime = parser.format(currentTime)
+            val currentTimeDate = parser.parse(formattedTime)
+            Log.d("currentTimeDate",currentTimeDate.toString())
             val openTimeDate = parser.parse(openTime)
             val closeTimeDate = parser.parse(closeTime)
-            Log.d("time","$openTime , $closeTime ,$currentTime")
+            Log.d("time","$openTime , $closeTime ,$currentTimeDate")
             return currentTimeDate in openTimeDate..closeTimeDate
+
         }
         catch (e:Exception){
             return false
@@ -78,8 +87,7 @@ class HalfSangam : AppCompatActivity() {
 
     }
     private fun getCurrentTime(): String {
-        val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        return dateFormat.format(Calendar.getInstance().time)
+        return ""
     }
 //private var flip:Boolean=true
     private lateinit var user: user
@@ -160,7 +168,10 @@ class HalfSangam : AppCompatActivity() {
             addBet()
         }
         submitButton.setOnClickListener {
+          submitButton.visibility=View.GONE
             submitdata()
+
+
         }
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId){
@@ -180,6 +191,7 @@ class HalfSangam : AppCompatActivity() {
 
 
     }
+
 
     private fun addBet() {
         val opened = openPannaEditText.text.toString()
@@ -250,14 +262,15 @@ class HalfSangam : AppCompatActivity() {
     var total_amt=0
     private lateinit var list:MutableList<BetItem>
     private fun submitdata() {
+
         if((sessionType.equals("open"))||(closeRadioButton.isChecked&&sessionType.equals("close"))) {
+
 
             list = betAdapter.betList;
             if (list.isEmpty()) {
+                submitButton.visibility=View.VISIBLE
                 Toast.makeText(this, "Please make some bet", Toast.LENGTH_SHORT).show()
-            }   else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
-            }else {
+            } else {
                 list.forEach { betItem ->
                     total_amt = total_amt + betItem.amount as Int
                 }
@@ -271,6 +284,7 @@ class HalfSangam : AppCompatActivity() {
                 val customDialog = customDialog(this, dialogdata, object : CustomDialogListener {
                     override fun onCancelClicked() {
                         total_amt = 0
+                        submitButton.visibility=View.VISIBLE
                     }
 
                     override fun onConfirmClicked() {
@@ -280,10 +294,14 @@ class HalfSangam : AppCompatActivity() {
                                 "Insufficient Balance",
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }else {
+                        }  else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
+                            Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
+                        }
+                        else {
                             callapi(total_amt)
                         }
                         total_amt = 0
+                        visblesubmitbtn()
                     }
 
                 })
@@ -293,10 +311,20 @@ class HalfSangam : AppCompatActivity() {
         }
         else
         {
+            submitButton.visibility=View.VISIBLE
             val message=if(openRadioButton.isChecked) "Game run in close session" else "Game run in open session"
             Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
         }
+
        
+    }
+    private fun visblesubmitbtn() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Show the button after 10 seconds
+            submitButton.visibility=View.VISIBLE
+        }, 5000)
+
+
     }
     fun convertListToJson(betItems: List<BetItem>): String {
         val gson = Gson()

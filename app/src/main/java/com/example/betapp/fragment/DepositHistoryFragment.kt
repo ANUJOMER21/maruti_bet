@@ -15,7 +15,6 @@ import com.example.betapp.R
 import com.example.betapp.api.ApiCall
 import com.example.betapp.api.transaction
 import com.example.betapp.misc.CommonSharedPrefernces
-import com.example.betapp.model.Transaction
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,11 +53,11 @@ class DepositHistoryFragment : Fragment() {
         val userid=commonSharedPrefernces.getuser()!!.id
         Log.d("userid",userid)
         ApiCall.deposithist(userid,object : transaction {
-            override fun onSuccess(games: List<Transaction>) {
+            override fun onSuccess(games: List<com.example.betapp.model.Transaction>) {
                 RecyclerView.visibility=View.VISIBLE
                 textview.visibility=View.GONE
                 val TransactionAdapter= TransactionAdapter(
-                    activity as Context,
+                    requireActivity() as Context,
                     games
                 )
                 RecyclerView.adapter=TransactionAdapter

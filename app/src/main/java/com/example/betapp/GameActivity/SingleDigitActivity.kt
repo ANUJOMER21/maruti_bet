@@ -3,24 +3,25 @@ package com.example.betapp.GameActivity
 import android.animation.ObjectAnimator
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
-import com.example.betapp.R
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.betapp.Adapter.BetAdapter
 import com.example.betapp.Adapter.BetAdapter2
+import com.example.betapp.R
 import com.example.betapp.api.ApiCall
 import com.example.betapp.api.ApiResponse
 import com.example.betapp.misc.CommonSharedPrefernces
 import com.example.betapp.misc.CustomDialogListener
 import com.example.betapp.misc.customDialog
 import com.example.betapp.misc.dialogdata
+import com.example.betapp.misc.getCurrentTimeFromInternet
 import com.example.betapp.model.BetItem
 import com.example.betapp.model.GameDatas
 import com.example.betapp.model.WebsiteSettings
@@ -28,6 +29,11 @@ import com.example.betapp.model.user
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Date
 import java.util.Locale
 
 class SingleDigitActivity : AppCompatActivity() {
@@ -50,13 +56,20 @@ class SingleDigitActivity : AppCompatActivity() {
     private  var wallet:Double=0.0
     private var opentime:String=""
     private var closetimw:String=""
-    private fun isTimeBetween(currentTime: String, openTime: String, closeTime: String): Boolean {
+    private fun isTimeBetween( openTime: String, closeTime: String): Boolean {
         try {
             val parser = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            val currentTimeDate = parser.parse(currentTime)
+            val currentTime = Date()
+
+            // Format the current time using the SimpleDateFormat object
+
+            // Format the current time using the SimpleDateFormat object
+            val formattedTime = parser.format(currentTime)
+            val currentTimeDate = parser.parse(formattedTime)
+            Log.d("currentTimeDate",currentTimeDate.toString())
             val openTimeDate = parser.parse(openTime)
             val closeTimeDate = parser.parse(closeTime)
-            Log.d("time","$openTime , $closeTime ,$currentTime")
+            Log.d("time","$openTime , $closeTime ,$currentTimeDate")
             return currentTimeDate in openTimeDate..closeTimeDate
         }
         catch (e:Exception){
@@ -66,10 +79,28 @@ class SingleDigitActivity : AppCompatActivity() {
     }
     private var min_bet:Int=Int.MIN_VALUE
     private var max_bet:Int=Int.MAX_VALUE
-    private fun getCurrentTime(): String {
+    private suspend fun getCurrentTime(): String {
+       /* var currentTime: String = ""
+        // Assuming getCurrentTimeFromInternet is a suspend function
+        getCurrentTimeFromInternet { currentTime=it }
+
+        Log.d("current_time",currentTime)
         val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        return dateFormat.format(Calendar.getInstance().time)
+        return dateFormat.format(currentTime)*/
+        return withContext(Dispatchers.IO){
+            try {
+                var currentTime: String = ""
+               getCurrentTimeFromInternet { currentTime=it }
+                val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                 dateFormat.format(currentTime)
+            }
+            catch (e:Exception){
+                ""
+            }
+        }
     }
+
+
     private var marketid:String=""
     private var sessionType:String="";
     private lateinit var commonSharedPrefernces: CommonSharedPrefernces
@@ -87,7 +118,7 @@ class SingleDigitActivity : AppCompatActivity() {
             }
 
             override fun onFailure(error: String) {
-                TODO("Not yet implemented")
+//
             }
 
         })
@@ -126,21 +157,25 @@ class SingleDigitActivity : AppCompatActivity() {
             addBet()
         }
         submitButton.setOnClickListener {
+            submitButton.visibility=View.GONE
             submitdata()
+
         }
     }
     var total_amt=0
     private lateinit var list:MutableList<BetItem>
+
     private fun submitdata() {
+
         if((sessionType.equals("open"))||(closeRadioButton.isChecked&&sessionType.equals("close")))
         {
 
+
             list = betAdapter.betList;
             if (list.isEmpty()) {
+                submitButton.visibility=View.VISIBLE
                 Toast.makeText(this, "Please make some bet", Toast.LENGTH_SHORT).show()
-            }    else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
-            }else {
+            }   else {
                 list.forEach { betItem ->
                     total_amt = total_amt + betItem.amount as Int
                 }
@@ -154,20 +189,32 @@ class SingleDigitActivity : AppCompatActivity() {
                 val customDialog = customDialog(this, dialogdata, object : CustomDialogListener {
                     override fun onCancelClicked() {
                         total_amt = 0
+                        submitButton.visibility=View.VISIBLE
                     }
 
                     override fun onConfirmClicked() {
-                        if (balance_after < 0) {
-                            Toast.makeText(
-                                this@SingleDigitActivity,
-                                "Insufficient Balance",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        GlobalScope.launch(Dispatchers.Main) {
+
+                            // Use currentTime as needed
+
+                            if (balance_after < 0) {
+                                Toast.makeText(
+                                    this@SingleDigitActivity,
+                                    "Insufficient Balance",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else if (!isTimeBetween( opentime, closetimw)) {
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Game is closed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                callapi(total_amt)
+                            }
+                            total_amt = 0
+                           visblesubmitbtn()
                         }
-                        else {
-                            callapi(total_amt)
-                        }
-                        total_amt = 0
                     }
 
                 })
@@ -177,9 +224,19 @@ class SingleDigitActivity : AppCompatActivity() {
         }
         else
         {
+            submitButton.visibility=View.VISIBLE
             val message=if(openRadioButton.isChecked) "Game run in close session" else "Game run in open session"
             Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
         }
+
+    }
+    private fun visblesubmitbtn() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Show the button after 10 seconds
+            submitButton.visibility=View.VISIBLE
+        }, 5000)
+
+
     }
     fun convertListToJson(betItems: List<BetItem>): String {
         val gson = Gson()

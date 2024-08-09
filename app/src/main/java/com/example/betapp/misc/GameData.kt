@@ -1,7 +1,5 @@
 package com.example.betapp.misc
 
-import com.example.betapp.GameActivity.TriplePatti
-
 class GameData {
    private val spPanas = hashMapOf(
         1 to intArrayOf(128, 137, 146, 290, 236, 245, 380, 470, 489, 560, 678, 579),
@@ -21,7 +19,7 @@ class GameData {
         2 to intArrayOf(110, 200, 228, 255, 336, 499, 660, 688, 778),
         3 to intArrayOf(166, 229, 300, 337, 355, 445, 599, 779, 788),
         4 to intArrayOf(112, 220, 266, 338, 400, 446, 455, 699, 770),
-        5 to intArrayOf(113, 122, 177, 339, 366, 447, 500, 799, 889, 555),
+        5 to intArrayOf(113, 122, 177, 339, 366, 447, 500, 799, 889),
         6 to intArrayOf(600, 114, 277, 330, 448, 466, 556, 880, 899),
         7 to intArrayOf(115, 133, 188, 223, 377, 449, 557, 566, 700),
         8 to intArrayOf(116, 224, 233, 288, 440, 477, 558, 800, 990),
@@ -106,7 +104,7 @@ class GameData {
     private val familyPannel = hashMapOf(
         "111" to listOf(111, 116, 166, 666),
         "112" to listOf(112, 117, 126, 167, 266, 667),
-        "113" to listOf(113,118,145,168,465,668),
+        "113" to listOf(113,118,136,168,366,668),
         "114" to listOf(114, 119, 146, 169, 466, 669),
         "115" to listOf(110, 115, 156, 160, 566, 660),
         "122" to listOf(122, 127, 177, 226, 267, 677),
@@ -156,6 +154,7 @@ class GameData {
     fun cyclepattiList(jodi: String): List<Int> {
         return cyclePatti.get(jodi)!!
     }
+
     fun cyclepattiitem():ArrayList<String>{
         val list:ArrayList<String> =ArrayList()
         for((key,value) in cyclePatti){

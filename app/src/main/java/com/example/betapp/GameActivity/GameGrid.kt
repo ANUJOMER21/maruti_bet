@@ -16,6 +16,7 @@ import com.example.betapp.R
 import com.example.betapp.api.ApiCall
 import com.example.betapp.api.ApiResponse
 import com.example.betapp.misc.CommonSharedPrefernces
+import com.example.betapp.misc.getCurrentTimeFromInternet
 import com.example.betapp.model.user
 import com.google.android.material.card.MaterialCardView
 import com.google.gson.JsonObject
@@ -26,9 +27,14 @@ class GameGrid : AppCompatActivity() {
 
     private lateinit var singleDigitCardView: MaterialCardView
     private lateinit var doubleDigitCardView: MaterialCardView
+    private lateinit var singleDigitCardViewv2: MaterialCardView
+    private lateinit var doubleDigitCardViewv2: MaterialCardView
     private lateinit var singlePattiCardView: MaterialCardView
     private lateinit var doublePattiCardView: MaterialCardView
+    private lateinit var singlePattiCardViewv2: MaterialCardView
+    private lateinit var doublePattiCardViewv2: MaterialCardView
     private lateinit var triplePattiCardView: MaterialCardView
+    private lateinit var triplePattiCardViewv2: MaterialCardView
     private lateinit var halfSangamCardView: MaterialCardView
     private lateinit var fullSangamCardView: MaterialCardView
     private lateinit var spCardView: MaterialCardView
@@ -47,6 +53,7 @@ class GameGrid : AppCompatActivity() {
     private var session:String=""
     private var opentime:String=""
     private var closetime:String=""
+    private var currentTime:String=""
     private lateinit var user: user
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +70,8 @@ class GameGrid : AppCompatActivity() {
         Log.d("Session",session)
         gameclick()
         reload_wallet()
-
+        getCurrentTimeFromInternet { time -> currentTime=time
+        }
 
         val toolbartittle:TextView=findViewById(R.id.toolbarTitle)
         toolbartittle.text= (marketname).toString()
@@ -129,12 +137,15 @@ class GameGrid : AppCompatActivity() {
     private fun gameclick(){
         if(session.isNotEmpty()) {
             singleDigitCardView.setOnClickListener {
-                startCardActivity("SingleDigitActivity")
+                startCardActivity(
+                    //"SingleDigitActivity"
+                    "SingleDigit2"
+                )
             }
 
             doubleDigitCardView.setOnClickListener {
                 if(session.equals("open"))
-                   startCardActivity("DoubleDigit")
+                   startCardActivity("JodiDigit2")
                 else{
                     Toast.makeText(this,"Game is Close.",Toast.LENGTH_SHORT).show()
                 }
@@ -147,9 +158,16 @@ class GameGrid : AppCompatActivity() {
             doublePattiCardView.setOnClickListener {
                 startCardActivity("doublepatti")
             }
+            singlePattiCardViewv2.setOnClickListener {
+                startCardActivity("SinglePatti2")
+            }
+
+            doublePattiCardViewv2.setOnClickListener {
+                startCardActivity("DoublePatti2")
+            }
 
             triplePattiCardView.setOnClickListener {
-                startCardActivity("TriplePatti")
+                startCardActivity("TriplePatti2")
             }
 
             halfSangamCardView.setOnClickListener {
@@ -208,6 +226,23 @@ class GameGrid : AppCompatActivity() {
             familyPanelCardView.setOnClickListener {
                 startCardActivity("FamilyPannel")
             }
+            singleDigitCardViewv2.setOnClickListener {
+                startCardActivity(
+                    //"SingleDigitActivity"
+                    "SingleDigitActivity"
+                )
+            }
+            doubleDigitCardViewv2.setOnClickListener{
+                startCardActivity(
+                    //"SingleDigitActivity"
+                    "DoubleDigit"
+                )
+            }
+            triplePattiCardViewv2.setOnClickListener {
+                startCardActivity(
+                    "TriplePatti"
+                )
+            }
         }
         else{
 
@@ -219,19 +254,23 @@ class GameGrid : AppCompatActivity() {
         super.onResume()
 setwallet()
     }
-    private fun isTimeBetween(currentTime: String, openTime: String, closeTime: String): Boolean {
+    private fun isTimeBetween(openTime: String, closeTime: String): Boolean {
         try {
             val parser = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            val currentTimeDate = parser.parse(currentTime)
+            val parser1 = SimpleDateFormat("hh:mm a", Locale.getDefault())
+
+            val currentTimeString = currentTime
+            // val currentTimeString =getCurrentTimeFromInternet()
+            val currentTimeDate = parser1.parse(currentTimeString)
+
             val openTimeDate = parser.parse(openTime)
             val closeTimeDate = parser.parse(closeTime)
-            Log.d("time","$openTime , $closeTime ,$currentTime")
+            Log.d("time","$openTime | $closeTime | $currentTime")
             return currentTimeDate in openTimeDate..closeTimeDate
-        }
-        catch (e:Exception){
+        } catch (e: Exception) {
+            e.printStackTrace()
             return false
         }
-
     }
     private fun getCurrentTime(): String {
         val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
@@ -242,7 +281,7 @@ setwallet()
             if(marketid.equals("0")){
                 showToast("Error")
             }
-            else if(!isTimeBetween(getCurrentTime(),opentime,closetime)){
+            else if(!isTimeBetween(opentime,closetime)){
                 showToast("Game is closed")
             }
             else {
@@ -269,11 +308,16 @@ setwallet()
     }
 
     private fun initview() {
-        singleDigitCardView = findViewById(R.id.single_digit_cv)
-        doubleDigitCardView = findViewById(R.id.double_digit_cv)
+        singleDigitCardView = findViewById(R.id.single_digit_cv2)
+        doubleDigitCardView = findViewById(R.id.double_digit_cv2)
+        singleDigitCardViewv2 = findViewById(R.id.single_digit_cv)
+        doubleDigitCardViewv2 = findViewById(R.id.double_digit_cv)
         singlePattiCardView = findViewById(R.id.single_patti_cv)
         doublePattiCardView = findViewById(R.id.double_patti_cv)
-        triplePattiCardView = findViewById(R.id.triplePatti_cv)
+        singlePattiCardViewv2 = findViewById(R.id.single_patti_cv2)
+        doublePattiCardViewv2 = findViewById(R.id.double_patti_cv2)
+        triplePattiCardView = findViewById(R.id.triplePatti_cv2)
+        triplePattiCardViewv2 = findViewById(R.id.triplePatti_cv)
         halfSangamCardView = findViewById(R.id.half_sangam_cv)
         fullSangamCardView = findViewById(R.id.full_sangam_cv)
         spCardView = findViewById(R.id.sp_cv)

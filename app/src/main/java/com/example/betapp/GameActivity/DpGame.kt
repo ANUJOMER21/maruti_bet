@@ -5,6 +5,8 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -31,6 +33,7 @@ import com.example.betapp.model.user
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import java.util.Date
 import java.util.Locale
 
 class DpGame : AppCompatActivity() {
@@ -58,11 +61,19 @@ class DpGame : AppCompatActivity() {
     private fun isTimeBetween(currentTime: String, openTime: String, closeTime: String): Boolean {
         try {
             val parser = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            val currentTimeDate = parser.parse(currentTime)
+            val currentTime = Date()
+
+            // Format the current time using the SimpleDateFormat object
+
+            // Format the current time using the SimpleDateFormat object
+            val formattedTime = parser.format(currentTime)
+            val currentTimeDate = parser.parse(formattedTime)
+            Log.d("currentTimeDate",currentTimeDate.toString())
             val openTimeDate = parser.parse(openTime)
             val closeTimeDate = parser.parse(closeTime)
-            Log.d("time","$openTime , $closeTime ,$currentTime")
+            Log.d("time","$openTime , $closeTime ,$currentTimeDate")
             return currentTimeDate in openTimeDate..closeTimeDate
+
         }
         catch (e:Exception){
             return false
@@ -70,8 +81,7 @@ class DpGame : AppCompatActivity() {
 
     }
     private fun getCurrentTime(): String {
-        val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        return dateFormat.format(Calendar.getInstance().time)
+        return ""
     }
     lateinit var valueList:MutableList<Int>
     private var min_bet:Int=Int.MIN_VALUE
@@ -121,24 +131,27 @@ openRadioButton.isChecked=true
         currentDate.setText(cd)
         setupspinner()
         submitButton.setOnClickListener {
+            submitButton.visibility=View.GONE
             submitdata()
+
         }
     }
     var total_amt=0
     private lateinit var list:MutableList<BetItem>
     private fun submitdata() {
+
         if((sessionType.equals("open"))||(closeRadioButton.isChecked&&sessionType.equals("close"))) {
 
             list = ArrayList()
             if (pointsEditText.text.toString().isEmpty()) {
+                submitButton.visibility=View.VISIBLE
                 Toast.makeText(this, "Please Enter points", Toast.LENGTH_SHORT).show()
             } else if (valueList.isEmpty()) {
+                submitButton.visibility=View.VISIBLE
                 Toast.makeText(this, "Please select bet", Toast.LENGTH_SHORT).show()
 
             }
-            else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
-            }
+
             else {
                 total_amt = valueList.size * (pointsEditText.text.toString().toInt())
                 for (value in valueList) {
@@ -155,6 +168,7 @@ openRadioButton.isChecked=true
                 val customDialog = customDialog(this, dialogdata, object : CustomDialogListener {
                     override fun onCancelClicked() {
                         total_amt = 0
+                        submitButton.visibility=View.VISIBLE
                     }
 
                     override fun onConfirmClicked() {
@@ -168,6 +182,9 @@ openRadioButton.isChecked=true
                             Toast.makeText(applicationContext,"Maximum Bet amount is $max_bet",Toast.LENGTH_SHORT).show()
 
                         }
+                        else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
+                            Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
+                        }
                         else if(pointsEditText.text.toString().toInt()<=min_bet){
                             Toast.makeText(applicationContext,"Minimum Bet amount is $min_bet",Toast.LENGTH_SHORT).show()
 
@@ -176,6 +193,7 @@ openRadioButton.isChecked=true
                             callapi(total_amt)
                         }
                         total_amt = 0
+                       visblesubmitbtn()
                     }
 
                 })
@@ -184,10 +202,19 @@ openRadioButton.isChecked=true
             }
         }
         else
-        {
+        { submitButton.visibility=View.VISIBLE
             val message=if(openRadioButton.isChecked) "Game run in close session" else "Game run in open session"
             Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
         }
+
+
+
+    }
+    private fun visblesubmitbtn() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Show the button after 10 seconds
+            submitButton.visibility=View.VISIBLE
+        }, 5000)
 
 
     }

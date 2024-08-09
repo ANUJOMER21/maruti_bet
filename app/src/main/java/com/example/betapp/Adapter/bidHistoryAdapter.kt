@@ -2,27 +2,21 @@ package com.example.betapp.Adapter
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.betapp.Activity.bettingdata
 import com.example.betapp.R
-import com.example.betapp.api.bid
 import com.example.betapp.model.BetItem
-import com.example.betapp.model.UserGameSubmission
-import com.example.betapp.model.user
 import com.google.android.material.card.MaterialCardView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.io.Serializable
-import java.text.NumberFormat
-import java.util.Locale
 
-class bidHistoryAdapter(private val context: Context,private  val bidList: List<UserGameSubmission>): RecyclerView.Adapter<bidHistoryAdapter.Vh>() {
+class bidHistoryAdapter(private val context: Context,private  val bidList: List<com.example.betapp.model.UserGameSubmission>): RecyclerView.Adapter<bidHistoryAdapter.Vh>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): bidHistoryAdapter.Vh {
         val view =
@@ -38,14 +32,30 @@ class bidHistoryAdapter(private val context: Context,private  val bidList: List<
         var list_hm=parseJsonToBetList(userGameSubmission.gameData)
         val gamename=userGameSubmission.gameName
         Log.d("list_hm",list_hm.toString())
-        holder.bidCardView.setOnClickListener {
+       /* holder.bidCardView.setOnClickListener {
             val intent=Intent(context,bettingdata::class.java)
             val Gson =Gson()
             val data=Gson.toJson(list_hm)
             intent.putExtra("gamename",gamename)
             intent.putExtra("listOfMaps", data)
             context.startActivity(intent)
+        }*/
+        holder.rv.layoutManager=LinearLayoutManager(context)
+        var single=false
+        var full=false
+        var  half=false
+        if(gamename.equals("Single Digit",true)){
+            single=true
         }
+        if(gamename.equals("Full Sangam",true)){
+            full=true
+        }
+        if(gamename.equals("Half Sangam",true)){
+            half=true
+        }
+        val adapter=biddingListAdapter(context,list_hm,single,full,half)
+        holder.rv.adapter=adapter
+        adapter.notifyDataSetChanged()
 
     }
 
@@ -69,6 +79,12 @@ class bidHistoryAdapter(private val context: Context,private  val bidList: List<
         val marketNameTextView: TextView = itemView.findViewById(R.id.market_name)
         val gameNameTextView: TextView = itemView.findViewById(R.id.game_name)
         val amountTextView: TextView = itemView.findViewById(R.id.amount)
+        val rv:RecyclerView=itemView.findViewById(R.id.rv_amt);
 
+         init{
+
+
+
+         }
     }
 }

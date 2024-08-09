@@ -5,6 +5,8 @@ import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -31,6 +33,7 @@ import com.example.betapp.model.user
 import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import java.util.Date
 import java.util.Locale
 
 class FamilyJodi : AppCompatActivity() {
@@ -54,11 +57,19 @@ class FamilyJodi : AppCompatActivity() {
     private fun isTimeBetween(currentTime: String, openTime: String, closeTime: String): Boolean {
         try {
             val parser = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            val currentTimeDate = parser.parse(currentTime)
+            val currentTime = Date()
+
+            // Format the current time using the SimpleDateFormat object
+
+            // Format the current time using the SimpleDateFormat object
+            val formattedTime = parser.format(currentTime)
+            val currentTimeDate = parser.parse(formattedTime)
+            Log.d("currentTimeDate",currentTimeDate.toString())
             val openTimeDate = parser.parse(openTime)
             val closeTimeDate = parser.parse(closeTime)
-            Log.d("time","$openTime , $closeTime ,$currentTime")
+            Log.d("time","$openTime , $closeTime ,$currentTimeDate")
             return currentTimeDate in openTimeDate..closeTimeDate
+
         }
         catch (e:Exception){
             return false
@@ -66,8 +77,7 @@ class FamilyJodi : AppCompatActivity() {
 
     }
     private fun getCurrentTime(): String {
-        val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        return dateFormat.format(Calendar.getInstance().time)
+        return ""
     }
 
     private lateinit var commonSharedPrefernces: CommonSharedPrefernces
@@ -121,75 +131,109 @@ class FamilyJodi : AppCompatActivity() {
         currentDate.setText(cd)
         setupspinner()
         submitButton.setOnClickListener {
+            submitButton.visibility=View.GONE
             submitdata()
+
         }
 
     }
     var total_amt=0
     private lateinit var list:MutableList<BetItem>
-    private fun submitdata() {
-        if((sessionType.equals("open"))||(closeRadioButton.isChecked&&sessionType.equals("close"))) {
-            list = ArrayList()
-            if (pointsEditText.text.toString().isEmpty()) {
-                Toast.makeText(this, "Please Enter points", Toast.LENGTH_SHORT).show()
-            } else if (valueList.isEmpty()) {
-                Toast.makeText(this, "Please select bet", Toast.LENGTH_SHORT).show()
 
-            }    else if(!isTimeBetween(getCurrentTime(),opentime,closetimw)){
-                Toast.makeText(applicationContext,"Game is closed",Toast.LENGTH_SHORT).show()
-            }
-            else {
-                total_amt = valueList.size * (pointsEditText.text.toString().toInt())
-                for (value in valueList) {
-                    list.add(BetItem(pointsEditText.text.toString().toInt(), value.toString()))
+    private fun submitdata() {
+
+            if ((sessionType.equals("open")) || (closeRadioButton.isChecked && sessionType.equals("close"))) {
+                list = ArrayList()
+
+                               if (pointsEditText.text.toString().isEmpty()) {
+                                   submitButton.visibility=View.VISIBLE
+                    Toast.makeText(this, "Please Enter points", Toast.LENGTH_SHORT).show()
+                } else if (valueList.isEmpty()) {
+                                   submitButton.visibility=View.VISIBLE
+                    Toast.makeText(this, "Please select bet", Toast.LENGTH_SHORT).show()
+
+                } else {
+                    total_amt = valueList.size * (pointsEditText.text.toString().toInt())
+                    for (value in valueList) {
+                        list.add(
+                            BetItem(
+                                pointsEditText.text.toString().toInt(),
+                                String.format("%02d", value)
+                            )
+                        )
+
+                    }
+                    val balance_after = wallet - total_amt;
+                    val dialogdata = dialogdata(
+                        "Family Jodi",
+                        "$total_amt",
+                        "$wallet",
+                        "$balance_after"
+                    )
+                    val customDialog =
+                        customDialog(this, dialogdata, object : CustomDialogListener {
+                            override fun onCancelClicked() {
+                                total_amt = 0
+                                submitButton.visibility=View.VISIBLE
+                            }
+
+                            override fun onConfirmClicked() {
+                                if (balance_after < 0) {
+                                    Toast.makeText(
+                                        this@FamilyJodi,
+                                        "Insufficient Balance",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else if (pointsEditText.text.toString().toInt() >= max_bet) {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Maximum Bet amount is $max_bet",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                } else if (!isTimeBetween(getCurrentTime(), opentime, closetimw)) {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Game is closed",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else if (pointsEditText.text.toString().toInt() <= min_bet) {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Minimum Bet amount is $min_bet",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+
+                                } else {
+                                    callapi(total_amt)
+                                }
+                                visblesubmitbtn()
+                                total_amt = 0
+                            }
+
+                        })
+                    customDialog.show()
 
                 }
-                val balance_after = wallet - total_amt;
-                val dialogdata = dialogdata(
-                    "Family Jodi",
-                    "$total_amt",
-                    "$wallet",
-                    "$balance_after"
-                )
-                val customDialog = customDialog(this, dialogdata, object : CustomDialogListener {
-                    override fun onCancelClicked() {
-                        total_amt = 0
-                    }
 
-                    override fun onConfirmClicked() {
-                        if (balance_after < 0) {
-                            Toast.makeText(
-                                this@FamilyJodi,
-                                "Insufficient Balance",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else if(pointsEditText.text.toString().toInt()>=max_bet){
-                            Toast.makeText(applicationContext,"Maximum Bet amount is $max_bet",Toast.LENGTH_SHORT).show()
-
-                        }
-                        else if(pointsEditText.text.toString().toInt()<=min_bet){
-                            Toast.makeText(applicationContext,"Minimum Bet amount is $min_bet",Toast.LENGTH_SHORT).show()
-
-                        }else {
-                            callapi(total_amt)
-                        }
-                        total_amt = 0
-                    }
-
-                })
-                customDialog.show()
-
+            } else {
+                val message =
+                    if (openRadioButton.isChecked) "Game run in close session" else "Game run in open session"
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                submitButton.visibility=View.VISIBLE
             }
 
-        }
-        else
-        {
-            val message=if(openRadioButton.isChecked) "Game run in close session" else "Game run in open session"
-            Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
-        }
+
 
     }
+    private fun visblesubmitbtn() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            // Show the button after 10 seconds
+            submitButton.visibility=View.VISIBLE
+        }, 5000)
 
+
+    }
     private fun callapi(total_amt: Int) {
         val gameDatas= GameDatas(
             marketId =marketid.toInt(),

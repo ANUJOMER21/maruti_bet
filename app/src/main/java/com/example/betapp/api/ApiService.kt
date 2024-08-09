@@ -1,23 +1,21 @@
 package com.example.betapp.api
 
-import com.example.betapp.model.BidHistory
-import com.example.betapp.model.SliderItem
-import com.example.betapp.model.TransactionHistory
 import com.example.betapp.model.WebsiteSettingsResponse
-import com.example.betapp.model.game_amt
-import com.example.betapp.model.market
+import com.example.betapp.model.appversion
 import com.example.betapp.model.message
 import com.example.betapp.model.sentotp
+import com.example.betapp.model.timemodel
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
     @POST("SliderApi.php")
-    fun slider():Call<List<SliderItem>>
+    fun slider():Call<List<com.example.betapp.model.SliderItem>>
     @POST("LoginApi.php")
     fun Login(@Body jsonObject: HashMap<String,String>) :Call<JsonObject>
     @POST("RegisterApi.php")
@@ -25,12 +23,18 @@ interface ApiService {
     @POST("ChangePassword.php")
     fun changepass(@Body jsonObject: HashMap<String, String>):Call<JsonObject>
     @POST("MarketApi.php")
-    fun marketApi():Call<List<market>>
+    fun marketApi():Call<List<com.example.betapp.model.market>>
+    @GET("app_version.php")
+    fun app_version():Call<appversion>
 @POST("WalletApi.php")
 @FormUrlEncoded
 fun walletApi(@Field("userId") userId:String):Call<JsonObject>
 @POST("AppConfig.php")
 fun AppConfig():Call<WebsiteSettingsResponse>
+
+@GET("date.php")
+fun time():Call<timemodel>
+
 @POST("UpdateProfile.php")
 fun updateProfile(@Body jsonObject: HashMap<String, String>):Call<JsonObject>
 @POST("DepositApi.php")
@@ -45,7 +49,7 @@ fun depositApi(
 @FormUrlEncoded
 fun withdrawApi(@Field("userId") userid:String,@Field("amount")amount:String):Call<JsonObject>
 @POST("ShowGameApi.php")
-fun showgame():Call<game_amt>
+fun showgame():Call<com.example.betapp.model.game_amt>
 @POST("SubmitGameData.php")
 @FormUrlEncoded
 fun submitgamedata(
@@ -61,19 +65,19 @@ fun submitgamedata(
 ):Call<JsonObject>
 @POST("BiddingHistoryApi.php")
 @FormUrlEncoded
-fun  biddinghistory(@Field("userId")userid: String):Call<BidHistory>
+fun  biddinghistory(@Field("userId")userid: String):Call<com.example.betapp.model.BidHistory>
     @POST("TransactionsApi.php")
     @FormUrlEncoded
-    fun  transactionHistory(@Field("userId")userid: String):Call<TransactionHistory>
+    fun  transactionHistory(@Field("userId")userid: String):Call<com.example.betapp.model.TransactionHistory>
   @POST("DepositData.php")
     @FormUrlEncoded
-    fun  depositHistory(@Field("userId")userid: String):Call<TransactionHistory>
+    fun  depositHistory(@Field("userId")userid: String):Call<com.example.betapp.model.TransactionHistory>
   @POST("WithdrawData.php")
     @FormUrlEncoded
-    fun  withdrawHistory(@Field("userId")userid: String):Call<TransactionHistory>
+    fun  withdrawHistory(@Field("userId")userid: String):Call<com.example.betapp.model.TransactionHistory>
   @POST("WinData.php")
     @FormUrlEncoded
-    fun  windataHistory(@Field("userId")userid: String):Call<TransactionHistory>
+    fun  windataHistory(@Field("userId")userid: String):Call<com.example.betapp.model.TransactionHistory>
     @POST("forgetpasswordApi.php")
     @FormUrlEncoded
     fun forget(@Field("phone")mobile:String,@Field("password")password:String):Call<message>

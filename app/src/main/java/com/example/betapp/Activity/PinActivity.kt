@@ -14,7 +14,6 @@ import com.example.betapp.misc.CommonSharedPrefernces
 import com.example.betapp.model.bankdetail
 import com.example.betapp.model.user
 import com.google.gson.JsonObject
-import kotlin.math.log
 
 class PinActivity : AppCompatActivity() {
 private lateinit var ApiCall:ApiCall
@@ -27,6 +26,7 @@ private lateinit var ApiCall:ApiCall
         val  mobile:String?=intent.getStringExtra("mobile")
         val pass:String?=intent.getStringExtra("pass")
         val sessionId:String?=intent.getStringExtra("sessionId")
+        Log.d("sessionId",sessionId.toString())
         button.setOnClickListener{
             if(pinView.text.toString().isEmpty()){
                 Toast.makeText(this@PinActivity,"Please enter Otp",Toast.LENGTH_SHORT).show()
@@ -38,7 +38,7 @@ private lateinit var ApiCall:ApiCall
                    pinView.text.toString(),
                    object :ApiCall.otpresponse{
                        override fun onSiuccess(sessionId: String) {
-                           Toast.makeText(applicationContext,sessionId,Toast.LENGTH_SHORT).show()
+                            Toast.makeText(applicationContext,sessionId,Toast.LENGTH_SHORT).show()
                            login(mobile!!,pass!!)
                        }
 

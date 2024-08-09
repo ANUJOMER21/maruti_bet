@@ -10,7 +10,6 @@ import com.example.betapp.R
 import com.example.betapp.model.BetItem
 import java.text.NumberFormat
 import java.util.Locale
-import kotlin.math.sin
 
 class biddingListAdapter(private val context: Context, private val list: List<BetItem> ,private val singledigit:Boolean,private val fullsangam:Boolean,private val HalfSangam:Boolean): RecyclerView.Adapter<biddingListAdapter.Vh>() {
     fun formatNumberWithZero(number: Int): String {

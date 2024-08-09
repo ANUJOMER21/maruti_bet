@@ -19,22 +19,23 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.example.betapp.R;
 import com.example.betapp.api.ApiCall;
 import com.example.betapp.api.ApiResponse;
 import com.example.betapp.misc.CommonSharedPrefernces;
 import com.example.betapp.model.WebsiteSettings;
 import com.example.betapp.model.user;
+import com.example.betapp.R;
 import com.google.gson.JsonObject;
-import com.shreyaspatil.easyupipayment.EasyUpiPayment;
-import com.shreyaspatil.easyupipayment.listener.PaymentStatusListener;
 
-import com.shreyaspatil.easyupipayment.model.PaymentApp;
-import com.shreyaspatil.easyupipayment.model.TransactionDetails;
 
 
 import java.util.HashMap;
 import java.util.Random;
+
+import dev.shreyaspatil.easyupipayment.EasyUpiPayment;
+import dev.shreyaspatil.easyupipayment.listener.PaymentStatusListener;
+import dev.shreyaspatil.easyupipayment.model.PaymentApp;
+import dev.shreyaspatil.easyupipayment.model.TransactionDetails;
 
 public class walletFragment2 extends Fragment implements PaymentStatusListener {
     private String param1;
@@ -59,9 +60,13 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
     private CardView layoutPaytm;
     private TextView txtPaytmNote;
     private CardView layoutOther;
+    private CardView sabpaisa;
+    private CardView phonepepg0;
+    private CardView phonepepg;
+    private CardView phonepepg2;
     private TextView txtOtherNote;
 
-    private ApiCall ApiCall;
+    private com.example.betapp.api.ApiCall ApiCall;
     private user userId;
     private int min_Deposit = Integer.MIN_VALUE;
     private String upi = "";
@@ -83,8 +88,84 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
         initview(view);
         ApiCall = new ApiCall();
         updateWallet();
+        sabpaisa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            String id=new CommonSharedPrefernces(requireActivity()).getuser().getId();
+                if (walletAmountAdd.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Enter amount to deposit", Toast.LENGTH_SHORT).show();
+                } else {
+                    String amount = walletAmountAdd.getText().toString();
+                    if (Integer.parseInt(amount) < min_Deposit) {
+                        Toast.makeText(getActivity(), "Minimum Deposit is " + min_Deposit, Toast.LENGTH_SHORT).show();
+                    } else {
+                        String amt = walletAmountAdd.getText().toString();
+                        String url = "https://abenterprisesgoa.com/sabpaisa?amount=" + amt + "&user=" + id;
+                        Intent intent = new Intent(requireContext(), PaymentWebviewActivity.class);
+                        intent.putExtra("url", url);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+        phonepepg0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id=new CommonSharedPrefernces(requireActivity()).getuser().getId();
+                if (walletAmountAdd.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Enter amount to deposit", Toast.LENGTH_SHORT).show();
+                } else {
+                    String amt=walletAmountAdd.getText().toString();
+                    if (Integer.parseInt(amt) < min_Deposit) {
+                        Toast.makeText(getActivity(), "Minimum Deposit is " + min_Deposit, Toast.LENGTH_SHORT).show();
+                    } else {
+                        String url = "https://mishramarketingcompany.com/phonepe?amount=" + amt + "&user=" + id;
+                        Intent intent = new Intent(requireContext(), PaymentWebviewActivity.class);
+                        intent.putExtra("url", url);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
+       phonepepg.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               String id=new CommonSharedPrefernces(requireActivity()).getuser().getId();
+               if (walletAmountAdd.getText().toString().isEmpty()) {
+                   Toast.makeText(getActivity(), "Enter amount to deposit", Toast.LENGTH_SHORT).show();
+               } else {
+                   String amt=walletAmountAdd.getText().toString();
+                   if (Integer.parseInt(amt) < min_Deposit) {
+                       Toast.makeText(getActivity(), "Minimum Deposit is " + min_Deposit, Toast.LENGTH_SHORT).show();
+                   } else {
+                       String url = "https://abenterprisesgoa.com/phonepe?amount=" + amt + "&user=" + id;
+                       Intent intent = new Intent(requireContext(), PaymentWebviewActivity.class);
+                       intent.putExtra("url", url);
+                       startActivity(intent);
+                   }
+               }
 
+           }
+       }); phonepepg2.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               String id=new CommonSharedPrefernces(requireActivity()).getuser().getId();
+               if (walletAmountAdd.getText().toString().isEmpty()) {
+                   Toast.makeText(getActivity(), "Enter amount to deposit", Toast.LENGTH_SHORT).show();
+               } else {
+                   String amt=walletAmountAdd.getText().toString();
+                   if (Integer.parseInt(amt) < min_Deposit) {
+                       Toast.makeText(getActivity(), "Minimum Deposit is " + min_Deposit, Toast.LENGTH_SHORT).show();
+                   } else {
+                       String url = "https://growmysales.in/phonepe?amount=" + amt + "&user=" + id;
+                       Intent intent = new Intent(requireContext(), PaymentWebviewActivity.class);
+                       intent.putExtra("url", url);
+                       startActivity(intent);
+                   }
+               }
 
+           }
+       });
         ApiCall.getupiId(new ApiCall.WebseiteSetting() {
             @Override
             public void onWebsiteSettingReceived(String wh) {
@@ -138,6 +219,29 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
                     layoutPhonepe.setVisibility(View.VISIBLE);
                 } else {
                     layoutPhonepe.setVisibility(View.GONE);
+                }
+                if (map.get("phonepepg") == Boolean.TRUE) {
+                    phonepepg.setVisibility(View.VISIBLE);
+                }
+                else {
+                    phonepepg.setVisibility(View.GONE);
+                }
+                if (map.get("phonepepg2") == Boolean.TRUE) {
+                    phonepepg2.setVisibility(View.VISIBLE);
+                }
+                else {
+                    phonepepg2.setVisibility(View.GONE);
+                }
+                if (map.get("phonepepg0") == Boolean.TRUE) {
+                    phonepepg0.setVisibility(View.VISIBLE);
+                }
+                else {
+                    phonepepg0.setVisibility(View.GONE);
+                }
+                if (map.get("sabpaisa") == Boolean.TRUE) {
+                    sabpaisa.setVisibility(View.VISIBLE);
+                } else {
+                    sabpaisa.setVisibility(View.GONE);
                 }
             }
 
@@ -211,10 +315,12 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
 
     private String amt = "0";
     private PaymentApp pt;
+    private String time="0";
 
     private void payment(PaymentApp paymenttype, String amount) {
         amt = amount;
         pt = paymenttype;
+        time=String.valueOf(System.nanoTime());
         if (Integer.parseInt(amount) < min_Deposit) {
             Toast.makeText(getActivity(), "Minimum Deposit is " + min_Deposit, Toast.LENGTH_SHORT).show();
         } else {
@@ -226,10 +332,10 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
                         .with(paymenttype)
                         .setPayeeVpa(upi)
                         .setPayeeName(getResources().getString(R.string.app_name))
-                        .setTransactionId(String.valueOf(System.nanoTime()))
+                        .setTransactionId(time)
                         .setTransactionRefId(random10DigitNumber)
                         .setPayeeMerchantCode("5200")
-                        .setDescription(String.valueOf(System.nanoTime()))
+                        .setDescription(time)
                         .setAmount(String.valueOf(amt));
                 EasyUpiPayment easyUpiPayment = eupi.build();
                 easyUpiPayment.setPaymentStatusListener(this);
@@ -241,9 +347,9 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
     }
 
     @SuppressLint("SuspiciousIndentation")
-    private void addmoney(String amount, PaymentApp paymenttype, String transactionId) {
+    private void  addmoney(String amount, PaymentApp paymenttype, String transactionId) {
         Random random = new Random();
-        String random10DigitNumber = userId + "_" + System.nanoTime();
+        String random10DigitNumber = time;
 
         ApiCall.depositApi(userId.getId(), amount, paymenttype.name(), random10DigitNumber, new ApiResponse() {
             @Override
@@ -253,6 +359,9 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
                     CustomDialogFragment customDialogFragment = new CustomDialogFragment();
                     customDialogFragment.show(getChildFragmentManager(), "CustomDialogFragment");
                     updateWallet();
+                }
+                else {
+                    Toast.makeText(getActivity(), "Failed to deposit", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -284,6 +393,10 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
             txtPaytmNote = view.findViewById(R.id.txt_paytmnote);
             layoutOther = view.findViewById(R.id.layoutOther);
             txtOtherNote = view.findViewById(R.id.txt_othernote);
+            sabpaisa=view.findViewById(R.id.sabpaisacv);
+            phonepepg=view.findViewById(R.id.layoutPhonepe2pg);
+            phonepepg2=view.findViewById(R.id.layoutPhonepe2pg2);
+            phonepepg0=view.findViewById(R.id.layoutPhonepe2pg0);
         }
         successAddMoneyBtn.setOnClickListener(new View.OnClickListener() {
             @Override

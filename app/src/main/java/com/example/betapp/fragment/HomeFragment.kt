@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -15,13 +17,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.betapp.Adapter.MarketAdapter
-import com.example.betapp.Adapter.SliderAdapter
 import com.example.betapp.R
 import com.example.betapp.api.ApiCall
+
 import com.example.betapp.misc.ToolbarChangeListener
-import com.example.betapp.model.market
+
+import com.example.betapp.misc.getCurrentTimeFromInternet
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.smarteist.autoimageslider.SliderView
+import org.json.JSONObject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,7 +42,7 @@ class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+private lateinit var progressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -74,13 +79,14 @@ private  lateinit var ApiCall:ApiCall
         rv =view.findViewById(R.id.recyclerView)
         val layoutManager = LinearLayoutManager(activity)
         val sliderView:SliderView=view.findViewById(R.id.slider)
-
-
+       progressBar=view.findViewById(R.id.progress)
+      rv.visibility=View.GONE
+        progressBar.visibility=View.VISIBLE
         ApiCall.Sliderlist(object : ApiCall.SLiderCallback {
             override fun onSlierReceived(sliders: List<String>) {
                 val sliderImage: List<String> =sliders
                 if (sliderImage.size > 0) {
-                    val adapter = SliderAdapter(sliderImage)
+                    val adapter = com.example.betapp.Adapter.SliderAdapter(sliderImage)
 
                     // below method is used to set auto cycle direction in left to
                     // right direction you can change according to requirement.
@@ -122,7 +128,7 @@ private  lateinit var ApiCall:ApiCall
         layoutManager.orientation = LinearLayoutManager.VERTICAL
 
         rv.layoutManager = layoutManager
- getmarket()
+        getmarket()
         val Whatsapp:FloatingActionButton=view.findViewById(R.id.whatsapp_number)
         var whats=""
         val youtube:FloatingActionButton=view.findViewById(R.id.youtube)
@@ -139,7 +145,7 @@ private  lateinit var ApiCall:ApiCall
 
         })
         Whatsapp.setOnClickListener {
-            sendMessageToWhatsApp("91"+whats, "Hello")
+            sendMessageToWhatsApp("91"+whats, "Ask Admin About ")
 
         }
         ApiCall.youtubesetting(object :ApiCall.WebseiteSetting{
@@ -160,7 +166,7 @@ private  lateinit var ApiCall:ApiCall
 
         })
         Whatsapp.setOnClickListener {
-            sendMessageToWhatsApp("91"+whats, "Hello")
+            sendMessageToWhatsApp("91"+whats, "Ask Admin About")
 
         }
         youtube.setOnClickListener {
@@ -217,7 +223,7 @@ ApiCall.autodeposit(object :ApiCall.WebseiteSetting{
 })
 Deposit.setOnClickListener {
     if(auto) {
-        replaceFragment(walletFragment2())
+        replaceFragment(com.example.betapp.fragment.walletFragment2())
     }
     else{
         sendMessageToWhatsApp(whats,"I want to deposit/withdraw manually")
@@ -238,21 +244,117 @@ val swipeRefreshLayout:SwipeRefreshLayout=view.findViewById(R.id.swipeRefresh)
         }
         return view;
     }
-    private fun getmarket(){
-        ApiCall.getMarkets( object :ApiCall.MarketCallback{
+    fun parseTimeFromJson(json: String?): String {
+        if (json.isNullOrEmpty()) return "Unknown"
 
-            override fun onMarketsReceived(markets: List<market>) {
-                val mainMarkerAdapter= MarketAdapter(activity!!,markets)
-                rv.adapter=mainMarkerAdapter
-                mainMarkerAdapter.notifyDataSetChanged()
-            }
-
-            override fun onFailure(error: Throwable) {
-                Toast.makeText(activity,error.toString(),Toast.LENGTH_SHORT).show()
-            }
-
-        })
+        val jsonObject = JSONObject(json)
+        return jsonObject.getString("datetime")
     }
+
+/*    private fun getmarket(){
+        val client = OkHttpClient()
+
+        val request = Request.Builder()
+            .url("http://worldtimeapi.org/api/timezone/Asia/Kolkata")
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onResponse(call: Call, response: Response) {
+                if (!response.isSuccessful) {
+                    println("Unexpected code $response")
+                    return
+                }
+
+                val body = response.body?.string()
+                val currentTime = parseTimeFromJson(body)
+                ApiCall.getMarkets( object :ApiCall.MarketCallback{
+
+                    override fun onMarketsReceived(markets: List<market>) {
+                        val mainMarkerAdapter= MarketAdapter(currentTime,activity!!,markets)
+                        rv.adapter=mainMarkerAdapter
+                        mainMarkerAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onFailure(error: Throwable) {
+                        Toast.makeText(activity,error.toString(),Toast.LENGTH_SHORT).show()
+                    }
+
+                })
+            }
+
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+        })
+
+        // For simplicity, return a placeholder time
+
+
+    }*/
+private fun getmarket() {
+getCurrentTimeFromInternet { time->
+    ApiCall.getMarkets(object : ApiCall.MarketCallback {
+        override fun onMarketsReceived(markets: List<com.example.betapp.model.market>) {
+            rv.visibility=View.VISIBLE
+            progressBar.visibility=View.GONE
+
+            Log.d("time_ntp", time)
+            val mainMarkerAdapter = MarketAdapter( time, requireActivity()!!, markets)
+            rv.adapter = mainMarkerAdapter
+            mainMarkerAdapter.notifyDataSetChanged()
+        }
+
+        override fun onFailure(error: Throwable) {
+            rv.visibility=View.GONE
+            progressBar.visibility=View.VISIBLE
+            Toast.makeText(activity, error.toString(), Toast.LENGTH_SHORT).show()
+        }
+    })
+}
+
+
+}
+
+/*    private fun getmarket() {
+    val client = OkHttpClient()
+
+    val request = Request.Builder()
+        .url("http://worldtimeapi.org/api/timezone/Asia/Kolkata")
+        .build()
+
+    client.newCall(request).enqueue(object : Callback {
+        override fun onResponse(call: Call, response: Response) {
+            if (!response.isSuccessful) {
+                println("Unexpected code $response")
+                return
+            }
+
+            val body = response.body
+            if (body != null) {
+                val responseBody = body.string()
+                val currentTime = parseTimeFromJson(responseBody)
+                ApiCall.getMarkets(object : ApiCall.MarketCallback {
+                    override fun onMarketsReceived(markets: List<market>) {
+                        val mainMarkerAdapter = MarketAdapter(currentTime, activity!!, markets)
+                        rv.adapter = mainMarkerAdapter
+                        mainMarkerAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onFailure(error: Throwable) {
+                        Toast.makeText(activity, error.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                })
+            } else {
+                // Handle the case when response body is null
+            }
+        }
+
+        override fun onFailure(call: Call, e: IOException) {
+            e.printStackTrace()
+        }
+    })
+}*/
+
     private fun sendMessageToWhatsApp(phoneNumber: String, message: String?) {
         val i = Intent(Intent.ACTION_VIEW)
         try {

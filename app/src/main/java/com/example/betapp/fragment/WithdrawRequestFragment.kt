@@ -50,7 +50,19 @@ private lateinit var notice:TextView;
     private lateinit var txt_minamount:TextView
     private  var min_withdraw:Int= Int.MIN_VALUE;
     private var max_withdraw:Int=Int.MAX_VALUE;
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = requireActivity().supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
 
+        // Replace the existing fragment with the new fragment
+        transaction.replace(R.id.fragment_container, fragment)
+
+        // Optional: Add the transaction to the back stack
+        transaction.addToBackStack(null)
+
+        // Commit the transaction
+        transaction.commit()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,6 +73,10 @@ private lateinit var notice:TextView;
         commonSharedPrefernces= CommonSharedPrefernces(activity as Context)
         val userid=commonSharedPrefernces.getuser()!!.id
         withdrawEt=view.findViewById(R.id.edt_withdrawPoints);
+        val addbank=view.findViewById<TextView>(R.id.addbank);
+        addbank.setOnClickListener {
+            replaceFragment(profileFragment())
+        }
         withdrawBtn=view.findViewById(R.id.withdrawBtn)
         notice=view.findViewById(R.id.notice);
         txt_minamount=view.findViewById(R.id.txt_minamount);
@@ -89,13 +105,16 @@ private lateinit var notice:TextView;
 
         })
         withdrawBtn.setOnClickListener {
+            withdrawBtn.visibility=View.GONE
             if(withtime.isNotEmpty()&&isWithinWithdrawTiming(withtime)){
 
           if(withdrawEt.text.isNotEmpty()){
               if(withdrawEt.text.toString().toInt()<min_withdraw){
+                  withdrawBtn.visibility=View.VISIBLE
                   Toast.makeText(activity,"Minimum withdraw is $min_withdraw",Toast.LENGTH_SHORT).show()
               }
               else if(withdrawEt.text.toString().toInt()>max_withdraw){
+                  withdrawBtn.visibility=View.VISIBLE
                   Toast.makeText(activity,"Maximum withdraw is $max_withdraw",Toast.LENGTH_SHORT).show()
               }
               else {
@@ -106,6 +125,7 @@ private lateinit var notice:TextView;
                       object : ApiResponse {
                           override fun onSuccess(jsonObject: JsonObject) {
                               if (jsonObject.get("status").toString().equals("\"success\"")) {
+                                  withdrawBtn.visibility=View.VISIBLE
                                   Toast.makeText(
                                       activity,
                                       jsonObject.get("message").toString(),
@@ -118,6 +138,7 @@ private lateinit var notice:TextView;
                                       )
 
                               } else {
+                                  withdrawBtn.visibility=View.VISIBLE
                                   Toast.makeText(
                                       activity,
                                       jsonObject.get("message").toString(),

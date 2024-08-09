@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.betapp.R
@@ -28,7 +29,7 @@ class customDialog(context: Context,val Dialogdata: dialogdata,val listener: Cus
         val view = inflater.inflate(R.layout.game_dialog_item, null)
         setContentView(view)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
+        setCancelable(false)
         Log.d("game_dialog",Dialogdata.gamename)
         val gameNameTextView = view.findViewById<TextView>(R.id.game_name)
         val totalAmtTextView = view.findViewById<TextView>(R.id.total_amt)
@@ -48,6 +49,7 @@ class customDialog(context: Context,val Dialogdata: dialogdata,val listener: Cus
         confirmButton.setOnClickListener {
             // Call onConfirmClicked in the main activity
             listener.onConfirmClicked()
+            confirmButton.visibility= View.GONE
             dismiss()
         }
     }

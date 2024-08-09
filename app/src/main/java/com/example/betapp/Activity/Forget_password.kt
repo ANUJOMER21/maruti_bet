@@ -1,9 +1,7 @@
 package com.example.betapp.Activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Message
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -13,10 +11,7 @@ import androidx.appcompat.widget.AppCompatButton
 import com.chaos.view.PinView
 import com.example.betapp.R
 import com.example.betapp.api.ApiCall
-import com.example.betapp.api.ApiResponse
-import com.example.betapp.model.message
 import com.google.android.material.textfield.TextInputEditText
-import com.google.gson.JsonObject
 
 class Forget_password : AppCompatActivity() {
     private lateinit var imgLogo: ImageView
