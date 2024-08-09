@@ -7,7 +7,10 @@ plugins {
 android {
     namespace = "com.example.betapp"
     compileSdk = 34
-
+    lintOptions {
+        // Disable specific lint checks
+        disable
+    }
     defaultConfig {
         applicationId = "com.example.betapp"
         minSdk = 24
