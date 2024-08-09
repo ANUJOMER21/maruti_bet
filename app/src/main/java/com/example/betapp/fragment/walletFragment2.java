@@ -61,6 +61,7 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
     private TextView txtPaytmNote;
     private CardView layoutOther;
     private CardView sabpaisa;
+    private CardView phonepepg0;
     private CardView phonepepg;
     private CardView phonepepg2;
     private TextView txtOtherNote;
@@ -107,6 +108,25 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
                 }
             }
         });
+        phonepepg0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id=new CommonSharedPrefernces(requireActivity()).getuser().getId();
+                if (walletAmountAdd.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Enter amount to deposit", Toast.LENGTH_SHORT).show();
+                } else {
+                    String amt=walletAmountAdd.getText().toString();
+                    if (Integer.parseInt(amt) < min_Deposit) {
+                        Toast.makeText(getActivity(), "Minimum Deposit is " + min_Deposit, Toast.LENGTH_SHORT).show();
+                    } else {
+                        String url = "https://mishramarketingcompany.com/phonepe?amount=" + amt + "&user=" + id;
+                        Intent intent = new Intent(requireContext(), PaymentWebviewActivity.class);
+                        intent.putExtra("url", url);
+                        startActivity(intent);
+                    }
+                }
+            }
+        });
        phonepepg.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -118,7 +138,7 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
                    if (Integer.parseInt(amt) < min_Deposit) {
                        Toast.makeText(getActivity(), "Minimum Deposit is " + min_Deposit, Toast.LENGTH_SHORT).show();
                    } else {
-                       String url = "https://mishramarketingcompany.com/phonepe?amount=" + amt + "&user=" + id;
+                       String url = "https://abenterprisesgoa.com/phonepe?amount=" + amt + "&user=" + id;
                        Intent intent = new Intent(requireContext(), PaymentWebviewActivity.class);
                        intent.putExtra("url", url);
                        startActivity(intent);
@@ -206,12 +226,18 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
                 else {
                     phonepepg.setVisibility(View.GONE);
                 }
-               /* if (map.get("phonepepg2") == Boolean.TRUE) {
+                if (map.get("phonepepg2") == Boolean.TRUE) {
                     phonepepg2.setVisibility(View.VISIBLE);
                 }
                 else {
                     phonepepg2.setVisibility(View.GONE);
-                }*/
+                }
+                if (map.get("phonepepg0") == Boolean.TRUE) {
+                    phonepepg0.setVisibility(View.VISIBLE);
+                }
+                else {
+                    phonepepg0.setVisibility(View.GONE);
+                }
                 if (map.get("sabpaisa") == Boolean.TRUE) {
                     sabpaisa.setVisibility(View.VISIBLE);
                 } else {
@@ -370,6 +396,7 @@ public class walletFragment2 extends Fragment implements PaymentStatusListener {
             sabpaisa=view.findViewById(R.id.sabpaisacv);
             phonepepg=view.findViewById(R.id.layoutPhonepe2pg);
             phonepepg2=view.findViewById(R.id.layoutPhonepe2pg2);
+            phonepepg0=view.findViewById(R.id.layoutPhonepe2pg0);
         }
         successAddMoneyBtn.setOnClickListener(new View.OnClickListener() {
             @Override

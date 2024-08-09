@@ -9,6 +9,7 @@ import com.example.betapp.model.WebsiteSettings
 import com.example.betapp.model.WebsiteSettingsResponse
 import com.example.betapp.model.message
 import com.example.betapp.model.sentotp
+import com.example.betapp.model.timemodel
 import com.google.gson.JsonObject
 
 import retrofit2.Call
@@ -175,11 +176,16 @@ class ApiCall {
                         } else {
                             map.put("phonepepg",false)
                         }
-                       /* if (webseiteSettings1!!.phonepepg2!!.equals("enable")) {
+                        if (webseiteSettings1!!.phonepepg1!!.equals("enable")) {
                             map.put("phonepepg2", true)
                         } else {
                             map.put("phonepepg2",false)
-                        }*/
+                        }
+                        if (webseiteSettings1!!.phonepepg2!!.equals("enable")) {
+                            map.put("phonepepg0", true)
+                        } else {
+                            map.put("phonepepg0",false)
+                        }
                         callback.onTypeGet(map)
                     }
                     else{
@@ -197,6 +203,25 @@ class ApiCall {
 
 
         })
+    }
+
+    fun timecallback(callback:(timemodel:timemodel?,failure:Boolean)->Unit){
+        val call:Call<timemodel> =RetrofitInstance.instance.time()
+        call.enqueue(object :Callback<timemodel>{
+            override fun onResponse(call: Call<timemodel>, response: Response<timemodel>) {
+                if(response.body()!=null){
+                    callback(response.body()!!,false)
+                }
+                else
+                    callback(null,true)
+
+            }
+
+            override fun onFailure(call: Call<timemodel>, t: Throwable) {
+                callback(null,true)
+            }
+        })
+
     }
     fun youtubesetting(callback: WebseiteSetting){
         val call:Call<WebsiteSettingsResponse> =RetrofitInstance.instance.AppConfig()
