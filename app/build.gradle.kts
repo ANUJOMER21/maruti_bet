@@ -1,3 +1,6 @@
+import com.android.build.api.dsl.Lint
+import com.android.build.api.dsl.LintOptions
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -7,7 +10,8 @@ plugins {
 android {
     namespace = "com.example.betapp"
     compileSdk = 34
-    lintOptions {
+    // Disable specific lint checks
+    fun Lint.() {
         // Disable specific lint checks
         disable
     }
