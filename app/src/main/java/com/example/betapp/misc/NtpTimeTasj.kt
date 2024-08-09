@@ -1,5 +1,6 @@
 package com.example.betapp.misc
 
+import com.example.betapp.api.ApiCall
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -65,9 +66,23 @@ import java.net.URL
     }
 }*/
 
+fun getCurrentTimeFromApi(callback: (String) -> Unit){
 
+}
 fun getCurrentTimeFromInternet(callback: (String) -> Unit) {
-    GlobalScope.launch(Dispatchers.IO) {
+    ApiCall().timecallback { timemodel, failure ->
+        if(failure){
+            callback("")
+        }else{
+            if(timemodel!=null){
+                callback(parseTimeFromApiResponse(timemodel.currentDateTime))
+            }
+            else {
+                callback("")
+            }
+        }
+    }
+/*    GlobalScope.launch(Dispatchers.IO) {
         try {
             val url = URL("https://worldtimeapi.org/api/ip")
             val connection = url.openConnection() as HttpURLConnection
@@ -94,22 +109,22 @@ fun getCurrentTimeFromInternet(callback: (String) -> Unit) {
             e.printStackTrace()
             callback("") // If an error occurs, return empty string
         }
-    }
+    }*/
 }
 
-fun parseTimeFromApiResponse(response: String): String {
-    // Sample JSON response: {"datetime":"2024-03-12T14:31:23.905202+05:30","timezone":"Asia/Kolkata","utc_offset":"+05:30"}
-    val jsonObject = JSONObject(response)
-    val dateTimeString = jsonObject.optString("datetime")
 
-    // Parse datetime string
-    val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-    val date = parser.parse(dateTimeString)
+
+fun parseTimeFromApiResponse(response: String): String {
+    // Sample input: "2024-08-07 21:38:41"
+    // Parse the input date string
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    val date = inputFormat.parse(response)
 
     // Convert date to desired format
     val outputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
     return outputFormat.format(date)
 }
+
 
 // Usage example
 

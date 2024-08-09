@@ -4,6 +4,7 @@ import com.example.betapp.model.WebsiteSettingsResponse
 import com.example.betapp.model.appversion
 import com.example.betapp.model.message
 import com.example.betapp.model.sentotp
+import com.example.betapp.model.timemodel
 import com.google.gson.JsonObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -30,6 +31,10 @@ interface ApiService {
 fun walletApi(@Field("userId") userId:String):Call<JsonObject>
 @POST("AppConfig.php")
 fun AppConfig():Call<WebsiteSettingsResponse>
+
+@GET("date.php")
+fun time():Call<timemodel>
+
 @POST("UpdateProfile.php")
 fun updateProfile(@Body jsonObject: HashMap<String, String>):Call<JsonObject>
 @POST("DepositApi.php")

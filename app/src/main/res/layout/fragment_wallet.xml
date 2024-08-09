@@ -279,6 +279,63 @@
         android:layout_margin="@dimen/activity_margin"
         android:layout_marginTop="@dimen/margin_fifteen"
         app:cardCornerRadius="@dimen/five"
+        android:id="@+id/layoutPhonepe2pg0"
+        android:visibility="visible"
+        app:cardElevation="@dimen/five"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+
+            android:padding="@dimen/activity_margin"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:layout_gravity="center"
+                android:src="@drawable/paylogo" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Automatic Payment "
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"/> />
+
+                <TextView
+                    android:id="@+id/txt_phonenotepg0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/time" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/margin_fifteen"
+        app:cardCornerRadius="@dimen/five"
         android:id="@+id/layoutPhonepe2pg"
         android:visibility="visible"
         app:cardElevation="@dimen/five"
@@ -299,7 +356,7 @@
                 android:layout_height="50dp"
 
                 android:layout_gravity="center"
-                android:src="@drawable/payment_gateway_logo" />
+                android:src="@drawable/paylogo" />
 
 
             <LinearLayout
@@ -312,7 +369,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="PhonePe Gateway 1"
+                    android:text="Automatic Payment"
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:textSize="18sp"
@@ -356,7 +413,7 @@
                 android:layout_height="50dp"
 
                 android:layout_gravity="center"
-                android:src="@drawable/payment_gateway_logo" />
+                android:src="@drawable/paylogo" />
 
 
             <LinearLayout
@@ -369,7 +426,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="PhonePe Gateway 2"
+                    android:text="Automatic Payment"
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:textSize="18sp"
