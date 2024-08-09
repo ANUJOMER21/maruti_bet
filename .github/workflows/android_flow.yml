@@ -28,6 +28,7 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew assembleDebug -x lintDebug --parallel --warning-mode all --stacktrace
 
+
       - name: Upload Debug APK
         uses: actions/upload-artifact@v3
         with:
