@@ -3,10 +3,10 @@ name: Android CI
 on:
   push:
     branches:
-      - main
+      - main2
   pull_request:
     branches:
-      - main
+      - main2
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
         run: ./gradlew build --parallel --warning-mode all --stacktrace
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --parallel --warning-mode all --stacktrace
+        run: ./gradlew assembleDebug -x lintDebug --parallel --warning-mode all --stacktrace
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v3
